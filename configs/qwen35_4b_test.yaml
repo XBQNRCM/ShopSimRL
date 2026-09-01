@@ -1,0 +1,45 @@
+experiment:
+  name: qwen35-4b-test-0830
+  output_dir: ../runs
+  dotenv: ../.env
+  seed: 20260830
+  concurrency: 4
+  resume: true
+
+tasks:
+  split_file: ../ShopSimulator/shop_env/configs/persona_splits.v1.json
+  split: test
+  sample_size: null
+  repeats: 1
+
+environment:
+  base_url: http://127.0.0.1:5700
+  timeout: 30
+  persona: null
+
+runtime:
+  max_steps: 30
+
+prompt:
+  system_prompt_file: prompts/persona_single_turn.txt
+
+skills:
+  path: null
+  max_skills: 4
+
+model:
+  id: qwen35-4b
+  name: Qwen/Qwen3.5-4B
+  base_url: https://api.siliconflow.cn/v1
+  api_key_env: SILICONFLOW_API_KEY
+  temperature: 0.6
+  top_p: 0.95
+  max_tokens: 2048
+  timeout: 180
+  max_retries: 8
+  trust_env: true
+  send_seed: false
+  tool_choice: auto
+  extra_body:
+    enable_thinking: true
+    top_k: 20

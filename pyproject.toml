@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shopsimrl"
+version = "0.1.0"
+description = "Reusable ShopSimulator agent runtime and evaluation pipeline"
+requires-python = ">=3.10"
+dependencies = [
+  "PyYAML>=6.0,<7",
+  "requests>=2.28,<3",
+]
+
+[project.scripts]
+shopsimrl = "shopsimrl.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["shopsimrl*"]

@@ -1,0 +1,55 @@
+experiment:
+  traces: ../runs/qwen35-4b-train-0830/traces.jsonl
+  output_dir: ../runs/qwen35-4b-train-0830/trace2skill-cold-start
+  dotenv: ../.env
+  expected_trajectories: 400
+  seed: 20260831
+  concurrency: 2
+  resume: true
+
+environment:
+  base_url: http://127.0.0.1:5700
+  timeout: 30
+  persona: true
+
+analysis:
+  max_failure_steps: 20
+  max_cards_per_trajectory: 2
+
+compilation:
+  batch_size: 40
+  validation_dimension_cap: 16
+  active_skill_budget: 10
+
+analyst_model:
+  name: qwen3.5-plus
+  base_url: https://ws-3q7tqrm02fce5vf8.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+  api_key_env: BAILIAN_API_KEY
+  temperature: 0.6
+  top_p: 0.95
+  max_tokens: 4096
+  timeout: 300
+  max_retries: 8
+  retry_backoff_seconds: 1
+  trust_env: true
+  send_seed: false
+  tool_choice: auto
+  extra_body:
+    enable_thinking: true
+
+compiler_model:
+  name: qwen3.5-plus
+  base_url: https://ws-3q7tqrm02fce5vf8.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+  api_key_env: BAILIAN_API_KEY
+  temperature: 0.6
+  top_p: 0.95
+  max_tokens: 8192
+  timeout: 300
+  max_retries: 8
+  retry_backoff_seconds: 1
+  trust_env: true
+  stream: true
+  send_seed: false
+  tool_choice: auto
+  extra_body:
+    enable_thinking: true

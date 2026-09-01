@@ -4,3 +4,12 @@ shopping-grpo-longhorizon/
 SkillZero/
 tmp/
 WebShop/
+Trace2Skill/
+__pycache__/
+*.py[cod]
+*.jsonl
+.pytest_cache/
+.env
+runs/
+*.log
+*.pdf

@@ -48,8 +48,13 @@ class OpenAICompatibleConfig:
     send_seed: bool = True
     tool_choice: str = "auto"
     extra_body: dict[str, Any] = field(default_factory=dict)
+    checkpoint_id: str | None = None
 
     def __post_init__(self) -> None:
+        if self.checkpoint_id is not None and (
+            not isinstance(self.checkpoint_id, str) or not self.checkpoint_id.strip()
+        ):
+            raise ValueError("model.checkpoint_id must be a non-empty string when set")
         if not self.model.strip() or not self.base_url.strip():
             raise ValueError("model and base_url must be non-empty")
         if self.max_tokens < 1:
@@ -71,6 +76,7 @@ class OpenAICompatibleConfig:
         # switching between equivalent streaming and non-streaming delivery.
         return {
             "provider": "openai_compatible_http",
+            **({"checkpoint_id": self.checkpoint_id} if self.checkpoint_id is not None else {}),
             "model": self.model,
             "base_url": self.base_url.rstrip("/"),
             "transport": {

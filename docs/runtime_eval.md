@@ -61,6 +61,12 @@ frozen task split ──> deterministic jobs ──> Evaluator / resume / concur
 
 每个 `AgentRuntime` 只负责一个 episode，并拥有一个 model client 和一个 environment lease。`Evaluator` 只负责 job 调度、并发、断点续跑和落盘，不参与 Agent 决策。这样可以单测状态机，也可以独立替换模型或环境 adapter。
 
+### Bare validation traces 的复用
+
+Cold-start Gate A 与训练 online gate 统一采用 \(R_i-B_i=C_i^\top\beta+\epsilon_i\) 的无截距 OLS。通用 evaluator 在 `skills.path: null` 时产生的完整 bare val run，可通过 gate 的 `bare_run_dir` 复用；其 summary 继续报告原始 skill-free validation score，gate 只增加 masked rollouts，差值只用于回归。
+
+普通模型配置新增可选 `model.checkpoint_id`，进入 provenance/fingerprint 而不发送给 API；训练 online gate 要求显式设置它，以免同一服务地址换权重后误用旧基线。详细配对检查和输出约定见 [paired_validation.md](./paired_validation.md)。
+
 ## 4. 目录规划
 
 ```text
@@ -74,6 +80,7 @@ shopsimrl/
   tasks.py         # 显式 task ID / legacy range split 加载
   store.py         # atomic JSON、run manifest、trace store 和 resume
   evaluation.py    # 固定采样、并发执行、聚合指标
+  paired_validation.py # cold-start/online 共用的 bare 配对校验与逐任务 delta
   config.py        # YAML 实验配置与路径解析
   cli.py           # plan / run / summarize
 

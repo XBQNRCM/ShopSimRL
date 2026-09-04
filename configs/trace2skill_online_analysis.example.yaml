@@ -1,0 +1,14 @@
+online_analysis:
+  name: round-000
+  training_round_dir: ../runs/slime-training/round-000
+  current_skillbank_path: ../runs/qwen35-4b-train-0830/trace2skill-cold-start/paired-delta-recovered/selected_skillbank.json
+  output_dir: ../runs/round-000-online-analysis
+  # From the previous online gate; uncomment after the first online round.
+  # proposal_ledger_history_path: ../runs/round-000-online-gate/proposal_ledger.jsonl
+  proposal_checkpoint: qwen35-4b-round-000
+  max_candidates: 6
+  resume: true
+
+  # Reuse the frozen analyst/compiler/environment transport settings. The cold
+  # start trace/output fields in this file are ignored by online analysis.
+  trace2skill_config: trace2skill_cold_start.yaml

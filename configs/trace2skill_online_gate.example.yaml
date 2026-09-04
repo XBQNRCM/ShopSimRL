@@ -1,0 +1,9 @@
+online_gate:
+  name: round-000-online-gate
+  output_dir: ../runs/round-000-online-gate
+  experiment_config: qwen35_4b_val_slime.yaml
+  # Same frozen checkpoint's reported bare validation run, not the previous round's.
+  bare_run_dir: ../runs/round-000-bare-val
+  candidate_pool_path: ../runs/round-000-online-analysis/candidate_pool.json
+  mask_seed: 20260901
+  active_skill_budget: 10

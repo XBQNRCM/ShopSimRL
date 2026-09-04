@@ -4,10 +4,16 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 from typing import Any, Sequence
 
 from .config import ExperimentSpec, ModelSpec, load_experiment_config
+from .curriculum import (
+    build_curriculum_state,
+    write_curriculum_state,
+    write_slime_task_data,
+)
 from .environment import ShopSimulatorConfig, ShopSimulatorHTTPEnvironment
 from .evaluation import EvaluationPlan, Evaluator, build_jobs, summarize_traces
 from .model import OpenAICompatibleChatModel
@@ -28,6 +34,15 @@ from .trace2skill_evaluation import (
     run_gate_a,
 )
 from .trace2skill_evaluation_config import load_trace2skill_evaluation_config
+from .online_validation import (
+    load_online_gate_config,
+    online_gate_plan,
+    run_online_gate,
+)
+from .training_analysis import (
+    analyze_training_failures,
+    load_online_analysis_config,
+)
 
 
 def _resolve_persona(spec: ExperimentSpec, task_split: TaskSplit) -> bool:
@@ -230,6 +245,68 @@ def command_trace2skill(action: str, config_path: str) -> int:
     return 0
 
 
+def command_training(args: argparse.Namespace) -> int:
+    if args.action == "check":
+        from .training_preflight import check_training_inputs
+
+        payload = check_training_inputs(args.config, args.task_data, args.split_file)
+    elif args.action == "prepare-data":
+        payload = write_slime_task_data(args.split_file, args.split, args.output)
+    elif args.action == "build-curriculum":
+        payload = build_curriculum_state(
+            args.skillbank,
+            round_id=args.round_id,
+            seed=args.seed,
+            skill_free_probability=args.skill_free_probability,
+            rho_min=args.rho_min,
+            rho_max=args.rho_max,
+            contribution_scale=args.contribution_scale,
+        )
+        write_curriculum_state(args.output, payload)
+    elif args.action == "analyze":
+        spec = load_online_analysis_config(args.config)
+        payload = analyze_training_failures(spec)
+        if args.wandb:
+            from .wandb_reporting import report_round_to_wandb
+
+            report_round_to_wandb(
+                stage="analysis",
+                name=spec.name,
+                output_dir=spec.output_dir,
+                payload=payload,
+                project=args.wandb_project,
+                entity=args.wandb_entity,
+                group=args.wandb_group,
+                mode=args.wandb_mode,
+                directory=args.wandb_dir,
+            )
+    elif args.action in {"online-gate-plan", "online-gate"}:
+        spec = load_online_gate_config(args.config)
+        payload = (
+            online_gate_plan(spec)
+            if args.action == "online-gate-plan"
+            else run_online_gate(spec, progress=_progress)
+        )
+        if args.action == "online-gate" and args.wandb:
+            from .wandb_reporting import report_round_to_wandb
+
+            report_round_to_wandb(
+                stage="gate",
+                name=spec.name,
+                output_dir=spec.output_dir,
+                payload=payload,
+                project=args.wandb_project,
+                entity=args.wandb_entity,
+                group=args.wandb_group,
+                mode=args.wandb_mode,
+                directory=args.wandb_dir,
+            )
+    else:  # pragma: no cover - argparse owns this boundary
+        raise AssertionError(args.action)
+    print(json.dumps(payload, ensure_ascii=False, indent=2, default=str))
+    return int(payload.get("status") == "incomplete")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="shopsimrl")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -255,7 +332,63 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     trace2skill.add_argument("config")
+    training = subparsers.add_parser(
+        "training", help="prepare and operate the slime co-evolution loop"
+    )
+    training_subparsers = training.add_subparsers(dest="action", required=True)
+    check = training_subparsers.add_parser("check", help="check frozen training inputs without GPU or API calls")
+    check.add_argument("config")
+    check.add_argument("--task-data", default="data/shopsim_train.jsonl")
+    check.add_argument("--split-file")
+    prepare = training_subparsers.add_parser(
+        "prepare-data", help="materialize a frozen task split for slime"
+    )
+    prepare.add_argument("split_file")
+    prepare.add_argument("split")
+    prepare.add_argument("output")
+    curriculum = training_subparsers.add_parser(
+        "build-curriculum", help="freeze q/rho scheduling from a validated SkillBank"
+    )
+    curriculum.add_argument("skillbank")
+    curriculum.add_argument("output")
+    curriculum.add_argument("--round-id", required=True)
+    curriculum.add_argument("--seed", type=int, default=20260901)
+    curriculum.add_argument("--skill-free-probability", type=float, required=True)
+    curriculum.add_argument("--rho-min", type=float, required=True)
+    curriculum.add_argument("--rho-max", type=float, required=True)
+    curriculum.add_argument("--contribution-scale", type=float)
+    analyze = training_subparsers.add_parser(
+        "analyze", help="analyze failed full-skill retry trajectories"
+    )
+    analyze.add_argument("config")
+    _add_wandb_report_arguments(analyze)
+    online_plan = training_subparsers.add_parser(
+        "online-gate-plan", help="validate an online randomized intervention plan"
+    )
+    online_plan.add_argument("config")
+    online_gate = training_subparsers.add_parser(
+        "online-gate", help="run online masked validation and update the active skill"
+    )
+    online_gate.add_argument("config")
+    _add_wandb_report_arguments(online_gate)
     return parser
+
+
+def _add_wandb_report_arguments(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--wandb", action="store_true", help="publish this completed stage to W&B"
+    )
+    parser.add_argument(
+        "--wandb-project", default=os.environ.get("WANDB_PROJECT", "shopsimrl")
+    )
+    parser.add_argument("--wandb-entity", default=os.environ.get("WANDB_ENTITY"))
+    parser.add_argument("--wandb-group", default=os.environ.get("WANDB_GROUP"))
+    parser.add_argument(
+        "--wandb-mode",
+        choices=("online", "offline", "disabled"),
+        default=os.environ.get("WANDB_MODE", "online"),
+    )
+    parser.add_argument("--wandb-dir", default=os.environ.get("WANDB_DIR"))
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -268,6 +401,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return command_summarize(args.run_dir, args.requested)
     if args.command == "trace2skill":
         return command_trace2skill(args.action, args.config)
+    if args.command == "training":
+        return command_training(args)
     raise AssertionError(args.command)
 
 

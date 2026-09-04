@@ -561,7 +561,12 @@ def _failure_card(
     model_factory: ModelFactory,
     environment_factory: EnvironmentFactory,
     spec: Trace2SkillSpec,
+    current_skill: Sequence[dict[str, Any]] | None = None,
+    stage: str = "cold_start",
+    allowed_rewrite_targets: set[str] | None = None,
 ) -> dict[str, Any]:
+    if stage not in {"cold_start", "online"}:
+        raise ValueError(f"unsupported failure-analysis stage: {stage!r}")
     model = model_factory(spec.analyst_model)
     environment = environment_factory()
     grounded_actions = 0
@@ -575,8 +580,8 @@ def _failure_card(
         state = reset["observation_state"]
         context = {
             "analysis_contract": {
-                "current_skill": None,
-                "stage": "cold_start",
+                "current_skill": list(current_skill or ()),
+                "stage": stage,
                 "max_live_actions": spec.max_failure_analysis_steps - 1,
             },
             "failed_trace_and_privileged_gold": compact_trace(
@@ -754,8 +759,17 @@ def _failure_card(
         forced_reason = "proposal_without_grounded_live_action"
     if status != "NO_PROPOSAL" and not successful_trials:
         forced_reason = "proposal_without_successful_counterfactual"
-    if status == "PROPOSE_REWRITE":
+    if status == "PROPOSE_REWRITE" and stage == "cold_start":
         forced_reason = "cold_start_has_no_rewrite_target"
+    if status == "PROPOSE_REWRITE" and stage == "online":
+        target = deployable.get("target_chunk_id")
+        if (
+            not isinstance(target, str)
+            or not target
+            or allowed_rewrite_targets is None
+            or target not in allowed_rewrite_targets
+        ):
+            forced_reason = "invalid_rewrite_target"
     if findings:
         forced_reason = "gold_firewall_violation"
     if forced_reason is not None:
@@ -775,6 +789,7 @@ def _failure_card(
         "card_id": f"failure-{trace['episode_id']}-01",
         "source_trajectory_id": trace["episode_id"],
         "channel": "failure",
+        "stage": stage,
         "status": status,
         "privileged_audit": privileged,
         "deployable_abstraction": deployable,
@@ -788,6 +803,33 @@ def _failure_card(
         "eligible_for_consolidation": status != "NO_PROPOSAL" and not findings,
         "created_at": utc_now(),
     }
+
+
+def analyze_failure_trace(
+    trace: dict[str, Any],
+    *,
+    model_factory: ModelFactory,
+    environment_factory: EnvironmentFactory,
+    spec: Trace2SkillSpec,
+    current_skill: Sequence[dict[str, Any]],
+    allowed_rewrite_targets: set[str],
+) -> dict[str, Any]:
+    """Analyze an online full-skill retry failure.
+
+    This public boundary preserves the cold-start implementation's live replay,
+    successful-counterfactual requirement, and gold firewall while enabling
+    REWRITE only against a currently active logical chunk.
+    """
+
+    return _failure_card(
+        trace,
+        model_factory=model_factory,
+        environment_factory=environment_factory,
+        spec=spec,
+        current_skill=current_skill,
+        stage="online",
+        allowed_rewrite_targets=set(allowed_rewrite_targets),
+    )
 
 
 def analyze_trajectories(

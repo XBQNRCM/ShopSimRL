@@ -75,7 +75,7 @@ Shopping Skill
 |---|---|---|
 | Agent policy | \(\pi_{\theta_t}\) | 当前模型 checkpoint |
 | Skill contents | \(S_t\) | 当前保留的 chunks 及其文本 |
-| Chunk contribution | \(\alpha_{t,j}\) | chunk \(j\) 对当前模型的验证集边际贡献 |
+| Chunk contribution | \(\alpha_{t,j}\) | chunk \(j\) 对当前模型的 paired-delta 加性贡献估计 |
 | Skill-free probability | \(q_t\) | 一个训练 group 完全不提供 skill 的概率，即全局内化压力 |
 | Assisted inclusion | \(\rho_{t,j}\) | 在 assisted group 内提供 chunk \(j\) 的概率 |
 
@@ -109,7 +109,7 @@ Shopping Skill
         规范化为可独立 mask 的 skill chunks
                     │
                     ▼
-      固定 skill-validation split 随机化评估，得到初始贡献 α₀
+      同 checkpoint bare val + 随机 masked val，配对估计初始贡献 α₀
                     │
                     ▼
       初始化全局 skill-free 概率 q₀ 与 assisted 分配 ρ₀
@@ -139,7 +139,7 @@ Shopping Skill
                                              调整 q / ρ，不新增      Trace2Skill candidates
                                                     └─────────┬─────────┘
                                                               ▼
-                                      当前 chunks + candidates 联合随机化评估
+                                      复用当前 checkpoint bare val，联合随机化配对评估
                                                               │
                                                               ▼
                                        更新 αₜ₊₁、Sₜ₊₁、qₜ₊₁ 与 ρₜ₊₁
@@ -298,57 +298,51 @@ ShopSimulator 的 reward 还包含连续的严格奖励与细分分量。更一�
 \widetilde S_t = S_t \cup \Delta S_t.
 \]
 
-在专用且固定的 skill-validation split 上冻结当前模型 checkpoint。每个验证任务只运行一次，并对 \(\widetilde S_t\) 中每个 chunk 施加外生随机 mask：
+在专用且固定的 skill-validation split 上冻结当前模型 checkpoint。先取得该 checkpoint 完全不带 skill 的逐任务 bare validation reward \(B_i\)，复用这批对外报告 skill-free validation score 的 traces；然后每个任务另运行一条 masked rollout，并对 \(\widetilde S_t\) 中普通 chunk 施加外生随机 mask：
 
 \[
 C_{i,j}\sim\mathrm{Bernoulli}(0.5),
 \]
 
-其中 \(i\) 表示验证任务，\(j\) 表示 chunk。Mask 由评估器按固定 seed 独立产生；每个任务得到一个联合 chunk mask 和一条 rollout。Chunk treatment 与任务难度完全外生，因此任务间差异进入回归残差，不影响 contribution coefficient 的识别。
+其中 \(i\) 表示验证任务，\(j\) 表示 chunk。Mask 由评估器按固定 seed 外生生成；每个任务得到一个联合 mask、一条 masked rollout，以及一条同任务 bare 对照。逐任务相减用于控制任务难度；基线采样噪声仍保留在残差中。
 
 当前 chunks 与 candidates 必须在同一轮、同一 checkpoint、同一验证分布和同一随机化机制下比较。否则，新候选的分数与旧 chunk 的历史分数不在同一个能力基线上，无法直接用于接纳或淘汰。
 
 对于不同 edit 类型：新增内容直接作为新 intervention factor；删除建议通过原 chunk 的低或负贡献体现；替换建议应把 old/new 视为互斥版本进行比较，避免冲突版本在同一 prompt 中同时出现。
 
-### 7.2 贡献度的因果含义
+### 7.2 逐任务 paired-delta 贡献估计
 
-对 chunk \(j\)，最直接的目标量是其在当前 masking distribution 下的平均边际贡献：
-
-\[
-\alpha_{t,j}
-=
-\mathbb E\!\left[R\mid do(C_j=1)\right]
--
-\mathbb E\!\left[R\mid do(C_j=0)\right],
-\]
-
-其中期望同时覆盖验证任务、policy sampling 随机性和其他 chunks 的随机状态。它回答的是：**对当前 checkpoint，在其他 skill 内容按既定分布变化时，额外提供 chunk \(j\) 平均能带来多少回报提升？**
-
-如果某个 chunk 明确只适用于任务族中的一个条件子区域，例如“任务确实包含 persona 线索”或“商品存在可选 variant”，则贡献应在预先定义的 eligible validation slice 上解释。这个适用范围必须由公开任务属性在观察 reward 之前固定，不能由模型按预期成败动态选择；否则稀有但关键的条件策略会被全局平均稀释，随机化的因果解释也会重新受到 selection bias 影响。
-
-Chunk contribution 使用带截距的 naive OLS 估计：
+Cold-start 与训练阶段采用完全相同的估计式：
 
 \[
-R_i
-=
-\beta_0
-+
-\sum_j \alpha_{t,j}C_{i,j}
-+
-\varepsilon_i,
+R_i-B_i=C_i^\top\beta_t+\varepsilon_i,
+\qquad
+\hat\beta_t=\arg\min_{\beta_t}\sum_i(R_i-B_i-C_i^\top\beta_t)^2.
 \]
 
-其中 \(\beta_0\) 是截距，\(R_i\) 是任务 \(i\) 的 rollout reward。由于各列 \(C_{i,j}\) 独立随机，\(\alpha_{t,j}\) 估计 chunk \(j\) 在其他 chunks 按同一 masking distribution 随机出现时的平均边际 reward contribution。任务固有难度与 treatment 独立，只增加残差方差。
+\(B_i\) 是当前冻结 checkpoint 在同一个 validation task 上完全不带 skill 的实测 reward，\(R_i\) 是随机 mask 下的 reward。训练本来就需要报告 bare validation score，因此直接复用产生该分数的逐任务 traces；同 checkpoint 的已有完整 bare run 不需要重复采样。换 checkpoint 后必须使用新 checkpoint 对应的 baseline，不能沿用旧模型的 \(B_i\)。
 
-第一版回归只包含 chunk main effects。Initial Skill Compiler 已把必须共同执行的步骤编译为一个复合原子 chunk，并把可独立生效的程序性机制拆成不同 chunks，因此每个回归变量对应一个独立的最小干预单元。
+回归不加截距、不减全局 bare 均值，只拟合 chunk/version main effects。主因变量是 `reward`/`r_strict` 的逐任务差值；每个辅助 `r_*` 分量分别减去自身的 bare 分量。后文用于选择和 curriculum 的 \(\alpha_{t,j}\) 统一记为 \(\hat\beta_{t,j}\)，即当前 checkpoint 的估计贡献分数。
+
+我们关心的因果目标仍可写为当前 mask 分布下的平均边际贡献：
+
+\[
+\tau_{t,j}=\mathbb E[R\mid do(C_j=1)]-\mathbb E[R\mid do(C_j=0)].
+\]
+
+但这里的无截距 main-effect 系数是相对于 bare 的加性近似；存在 chunk 交互、异质性或模型失配时，不能仅凭外生随机 mask 就断言 \(\hat\beta_{t,j}\) 等于 \(\tau_{t,j}\)。符号不是“有益/有害”的充分证据，排序价值需要独立验证。
+
+Initial Skill Compiler 将必须共同执行的步骤合并为复合原子 chunk，以改善 main-effect 近似。逐任务相减有望削弱任务难度差异，但 \(B_i\) 也是一次带噪声的观测，是否实际降方差取决于两组 reward 的协方差，不能保证。若做 eligible-slice 分析，必须在观察 reward 前按公开任务属性固定 slice，并保留对应 bare/masked pairs。
+
+实现、配对校验、断点恢复及输出口径见 [paired_validation.md](./paired_validation.md)。两阶段都要求完整同任务配对、同模型/采样/prompt/环境协议；标准 gate 不接受用 test 分数或 summary 均值代替逐任务 baseline。
 
 ### 7.3 Contribution gate
 
 贡献度对应三类决定：
 
-- \(\alpha_{t,j}<0\)：该 chunk 对当前模型平均有害、存在冲突或诱发错误迁移，应拒绝或删除；
-- \(\alpha_{t,j}\approx 0\)：该 chunk 已被模型内化、与其他内容重复，或本身没有有效信息，可降低权重并逐步退出；
-- \(\alpha_{t,j}>0\)：该 chunk 仍能改善当前模型，应保留；高贡献候选可以进入 active skill。
+- \(\alpha_{t,j}<0\)：当前估计为负，按暂定规则拒绝或退休，但不能仅凭符号断言有害；
+- \(\alpha_{t,j}\approx 0\)：当前估计增益小，可降低曝光；可能是内化、冗余或估计噪声，不能仅凭系数确定原因；
+- \(\alpha_{t,j}>0\)：进入按有符号系数降序的 top-K 候选池；正值本身不等于显著改善。
 
 从课程控制角度看，不必强行区分“低贡献是因为已经内化”还是“低贡献是因为质量差”：二者都意味着当前 policy 不再需要频繁看到它。为了审计 skill 的知识演化，两种原因可以在文本分析层面保留不同标签，但训练控制使用的是可验证的当前效用。
 
@@ -436,7 +430,7 @@ chunk 的增量贡献下降
 3. 从 rollout 中识别低回报、低组内差异的 failure frontier；
 4. 用完整 current skill 对 frontier 样本进行复核，将其分为 model/internalization deficit、skill coverage deficit 与 environment/data issue；
 5. 只针对 skill coverage deficit 调用 failure-focused Trace2Skill，形成新增、改写或合并 candidates；
-6. 在专用 skill-validation split 上，对当前 chunks 与 candidates 进行联合随机化 masking，估计 checkpoint-relative contributions \(\alpha_{t+1}\)；
+6. 冻结当前 checkpoint，复用用于报告 bare validation score 的逐任务 traces；在相同 skill-validation split 上对 current chunks 与 candidates 联合随机 masking，用 \(R_i-B_i=C_i^\top\beta+\epsilon_i\) 无截距回归估计 \(\alpha_{t+1}\)；
 7. 接纳正贡献 candidates，退休有害、冗余或已内化 chunks，得到 \(S_{t+1}\)；
 8. 分别更新 assisted curriculum 内的 \(\rho_{t+1,j}\) 与全局 skill-free pressure \(q_{t+1}\)，进入下一轮。
 
@@ -518,7 +512,7 @@ G_T = R_{\mathrm{pair}}-R_{\mathrm{free}}.
 
 ### 12.3 Chunk 原子性与 main-effect contribution
 
-Validation-ready chunks 是彼此独立的最小原子干预单元。不可分的强耦合步骤在 compilation 阶段合并为一个复合 chunk；可独立生效的程序性机制分别成为不同 chunks。随机化验证使用 naive OLS main effects，\(\alpha_j\) 表示当前其他-mask 分布下的平均边际贡献。
+Validation-ready chunks 是彼此独立的最小原子干预单元。不可分的强耦合步骤在 compilation 阶段合并为一个复合 chunk；可独立生效的程序性机制分别成为不同 chunks。随机化验证统一使用逐任务 paired-delta 无截距 OLS main effects，\(\alpha_j\) 是相对于同 checkpoint bare validation 的加性贡献估计；交互存在时不能直接等同于平均边际因果效应。
 
 ### 12.4 Skill evolution 与 policy update 使用不同数据角色
 
@@ -602,7 +596,7 @@ R_{i,g}=\mu(x_i,m_{i,g})+\varepsilon_{i,g},
 
 Trace2Skill 证明了广泛的成功/失败轨迹可以被 many-to-one 地压缩为一个可迁移 skill，并且局部 patches 经过合并后常形成稳定 SoP。它非常适合两个环节：冷启动统一 skill，以及从新失败前沿提出 edit candidates。
 
-Trace2Skill 生成结果先经过 many-to-one compilation，把不可分的局部 patches 合并为复合原子 chunk，再进入联合随机 mask。现有 chunks 与 candidates 由同一个 randomized validation experiment 和 naive OLS 统一估计平均边际贡献。
+Trace2Skill 生成结果先经过 many-to-one compilation，把不可分的局部 patches 合并为复合原子 chunk，再进入联合随机 mask。现有 chunks 与 candidates 由同一个 randomized validation experiment 和 paired-delta 无截距 OLS 统一估计贡献，复用同 checkpoint 的 bare validation traces。
 
 ## 14. 潜在创新点
 

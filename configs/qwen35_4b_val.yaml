@@ -25,7 +25,8 @@ prompt:
 
 skills:
   path: null
-  # Gate A supplies a per-episode randomized subset of all draft chunks.
+  # Generic run reports bare val; Gate A reuses its traces via bare_run_dir.
+  # Gate A supplies the full per-episode mask; never truncate it with max_skills.
   max_skills: null
 
 model:

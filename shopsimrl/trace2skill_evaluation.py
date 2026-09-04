@@ -16,27 +16,32 @@ from .config import ExperimentSpec
 from .environment import ShopSimulatorConfig, ShopSimulatorHTTPEnvironment
 from .evaluation import EvaluationPlan, Evaluator, build_jobs
 from .model import OpenAICompatibleChatModel
+from .paired_validation import (
+    GateEvaluationError,
+    PAIRED_ESTIMATOR,
+    PAIRED_FORMULA,
+    load_bare_validation,
+    outcome_means,
+    paired_observations,
+    read_validation_traces,
+)
 from .prompts import DEFAULT_SYSTEM_PROMPT, ShoppingPromptBuilder
 from .runtime import ACTION_PROTOCOL_VERSION, AgentRuntime, RuntimeConfig
-from .schemas import TRACE_SCHEMA_VERSION, EpisodeJob, fingerprint, utc_now
+from .schemas import EpisodeJob, fingerprint, utc_now
 from .skills import AssignedSkillProvider, JsonSkillBank, SkillProvider
 from .store import RunStore, atomic_write_json
 from .tasks import TaskSplit, load_task_split
 from .trace2skill_evaluation_config import GateASpec
 
 
-GATE_A_SCHEMA_VERSION = "shopsimrl-trace2skill-gate-a-v1"
+GATE_A_SCHEMA_VERSION = "shopsimrl-trace2skill-gate-a-v2"
 MASK_ASSIGNMENT_SCHEMA_VERSION = "shopsimrl-chunk-mask-assignments-v1"
-CONTRIBUTION_SCHEMA_VERSION = "shopsimrl-chunk-contributions-v1"
-SELECTED_SKILLBANK_VERSION = "cold-start-gate-a-selected-v1"
+CONTRIBUTION_SCHEMA_VERSION = "shopsimrl-chunk-contributions-v2"
+SELECTED_SKILLBANK_VERSION = "cold-start-gate-a-selected-v2"
 NUMERICAL_ZERO_TOLERANCE = 1e-12
 
 Progress = Callable[[int, int, EpisodeJob, dict[str, Any]], None]
 RuntimeFactory = Callable[[SkillProvider], AgentRuntime]
-
-
-class GateEvaluationError(RuntimeError):
-    pass
 
 
 def _atomic_write_text(path: Path, text: str) -> None:
@@ -50,15 +55,6 @@ def _atomic_write_text(path: Path, text: str) -> None:
 
 def _is_number(value: Any) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool)
-
-
-def _is_completed(trace: dict[str, Any]) -> bool:
-    return bool(
-        trace.get("schema_version") == TRACE_SCHEMA_VERSION
-        and trace.get("status") == "completed"
-        and isinstance(trace.get("final"), dict)
-        and trace["final"].get("done") is True
-    )
 
 
 def _observed_provenance(traces: Iterable[dict[str, Any]]) -> dict[str, Any]:
@@ -105,9 +101,9 @@ def _prepare_experiment(
             f"expected {required_split!r} experiment split, got {spec.split!r}"
         )
     if spec.repeats != 1:
-        raise GateEvaluationError("cold-start gates require exactly one rollout per task")
+        raise GateEvaluationError("skill-validation gates require exactly one rollout per task")
     if spec.sample_size is not None:
-        raise GateEvaluationError("cold-start gates require the complete frozen split")
+        raise GateEvaluationError("skill-validation gates require the complete frozen split")
     if spec.skillbank_path is not None:
         raise GateEvaluationError(
             "referenced experiment config must be bare; gates own skill injection"
@@ -350,10 +346,14 @@ def _solve_linear_system(matrix: list[list[float]], rhs: list[float]) -> list[fl
     return [augmented[index][-1] for index in range(size)]
 
 
-def fit_main_effect_ols(
+def fit_paired_delta_ols(
     masks: Sequence[Sequence[int]], values: Sequence[float]
 ) -> tuple[float, tuple[float, ...]]:
-    """Fit an intercept plus mask main effects without optional dependencies."""
+    """Fit task-paired reward deltas on masks, with intercept fixed to zero.
+
+    The returned zero is metadata, not a fitted parameter. Callers must supply
+    R_i - B_i, never raw rewards or rewards minus a global baseline mean.
+    """
 
     if not masks or len(masks) != len(values):
         raise ValueError("masks and values must have equal non-zero length")
@@ -366,14 +366,14 @@ def fit_main_effect_ols(
     for row in masks:
         if any(value not in (0, 1) for value in row):
             raise ValueError("mask values must be binary")
-        design.append([1.0, *(float(value) for value in row)])
+        design.append([float(value) for value in row])
     numeric_values = []
     for value in values:
         if not _is_number(value) or not math.isfinite(float(value)):
             raise ValueError("OLS outcomes must be finite numbers")
         numeric_values.append(float(value))
 
-    columns = width + 1
+    columns = width
     xtx = [[0.0 for _ in range(columns)] for _ in range(columns)]
     xty = [0.0 for _ in range(columns)]
     for row, outcome in zip(design, numeric_values):
@@ -386,96 +386,14 @@ def fit_main_effect_ols(
         0.0 if abs(value) <= NUMERICAL_ZERO_TOLERANCE else value
         for value in coefficients
     ]
-    return coefficients[0], tuple(coefficients[1:])
+    return 0.0, tuple(coefficients)
 
 
 def _validate_mask_design(assignments: dict[str, Any]) -> None:
     masks = [record["mask"] for record in assignments["assignments"]]
-    fit_main_effect_ols(masks, [0.0] * len(masks))
+    fit_paired_delta_ols(masks, [0.0] * len(masks))
 
 
-def _assignment_trace_observations(
-    assignments: dict[str, Any], traces: Iterable[dict[str, Any]]
-) -> tuple[list[list[int]], dict[str, list[float]], list[dict[str, Any]]]:
-    trace_map = {trace.get("episode_id"): trace for trace in traces}
-    expected_ids = {record["episode_id"] for record in assignments["assignments"]}
-    if set(trace_map) != expected_ids:
-        missing = sorted(expected_ids - set(trace_map))
-        extra = sorted(set(trace_map) - expected_ids)
-        raise GateEvaluationError(
-            f"Gate A trace coverage mismatch; missing={missing[:5]} extra={extra[:5]}"
-        )
-
-    masks: list[list[int]] = []
-    rows: list[dict[str, Any]] = []
-    reward_details: list[dict[str, Any]] = []
-    rewards: list[float] = []
-    for assignment in assignments["assignments"]:
-        trace = trace_map[assignment["episode_id"]]
-        if not _is_completed(trace):
-            raise GateEvaluationError(
-                f"Gate A trace {assignment['episode_id']} is not completed"
-            )
-        selected_ids = [item.get("skill_id") for item in trace.get("selected_skills", [])]
-        if selected_ids != assignment["included_chunk_ids"]:
-            raise GateEvaluationError(
-                f"Gate A trace {assignment['episode_id']} treatment does not match "
-                "the frozen mask assignment"
-            )
-        final = trace["final"]
-        reward = final.get("reward")
-        if not _is_number(reward):
-            raise GateEvaluationError(
-                f"Gate A trace {assignment['episode_id']} has no numeric reward"
-            )
-        detail = final.get("reward_detail")
-        if not isinstance(detail, dict):
-            raise GateEvaluationError(
-                f"Gate A trace {assignment['episode_id']} has no reward_detail"
-            )
-        for required in ("r_strict", "r_success"):
-            if not _is_number(detail.get(required)):
-                raise GateEvaluationError(
-                    f"Gate A trace {assignment['episode_id']} has no numeric {required}"
-                )
-        if not math.isclose(
-            float(reward), float(detail["r_strict"]), rel_tol=0.0, abs_tol=1e-12
-        ):
-            raise GateEvaluationError(
-                f"Gate A trace {assignment['episode_id']} reward != r_strict"
-            )
-        masks.append(list(assignment["mask"]))
-        rewards.append(float(reward))
-        reward_details.append(detail)
-        rows.append(
-            {
-                "episode_id": assignment["episode_id"],
-                "task_id": assignment["task_id"],
-                "sample_id": assignment["sample_id"],
-                "mask": list(assignment["mask"]),
-                "included_chunk_ids": list(assignment["included_chunk_ids"]),
-                "reward": float(reward),
-                "reward_detail": {
-                    key: float(value)
-                    for key, value in sorted(detail.items())
-                    if key.startswith("r_") and _is_number(value)
-                },
-            }
-        )
-
-    component_names = sorted(
-        {
-            key
-            for detail in reward_details
-            for key, value in detail.items()
-            if key.startswith("r_") and _is_number(value)
-        }
-    )
-    outcomes: dict[str, list[float]] = {"reward": rewards}
-    for name in component_names:
-        if all(_is_number(detail.get(name)) for detail in reward_details):
-            outcomes[name] = [float(detail[name]) for detail in reward_details]
-    return masks, outcomes, rows
 
 
 def estimate_gate_a_contributions(
@@ -483,19 +401,21 @@ def estimate_gate_a_contributions(
     draft: dict[str, Any],
     assignments: dict[str, Any],
     traces: Iterable[dict[str, Any]],
+    bare_traces: Iterable[dict[str, Any]],
     active_skill_budget: int,
 ) -> dict[str, Any]:
     chunk_ids = tuple(assignments["chunk_ids"])
-    masks, outcomes, observation_rows = _assignment_trace_observations(
-        assignments, traces
+    masks, outcomes, observation_rows = paired_observations(
+        assignments, traces, bare_traces
     )
     estimates: dict[str, dict[str, Any]] = {}
     for metric, values in outcomes.items():
-        intercept, coefficients = fit_main_effect_ols(masks, values)
+        intercept, coefficients = fit_paired_delta_ols(masks, values)
         estimates[metric] = {
             "intercept": intercept,
             "coefficients": dict(zip(chunk_ids, coefficients)),
             "observations": len(values),
+            **outcome_means(observation_rows, metric),
         }
 
     primary = estimates["reward"]["coefficients"]
@@ -535,7 +455,10 @@ def estimate_gate_a_contributions(
         "schema_version": CONTRIBUTION_SCHEMA_VERSION,
         "created_at": utc_now(),
         "estimator": {
-            "name": "naive_ols_main_effects_with_intercept",
+            "name": PAIRED_ESTIMATOR,
+            "formula": PAIRED_FORMULA,
+            "fit_intercept": False,
+            "baseline": "same_task_bare_validation",
             "primary_outcome": "reward",
             "selection_rule": "strictly_positive_top_k",
             "numerical_zero_tolerance": NUMERICAL_ZERO_TOLERANCE,
@@ -644,6 +567,7 @@ def _selected_skillbank(
             "selected_chunk_ids": list(contributions["selected_chunk_ids"]),
             "injection_order": "canonical_draft_order",
             "estimator": contributions["estimator"],
+            "bare_baseline": contributions.get("bare_baseline"),
         },
         "skills": records,
     }
@@ -699,10 +623,28 @@ def _write_gate_a_ledger(
                 "validation_assignment_sha256": contributions[
                     "assignment_sha256"
                 ],
+                "validation_estimator": contributions["estimator"]["name"],
+                "bare_validation_observations_sha256": contributions.get("bare_baseline", {}).get("observations_sha256"),
             }
         )
         lines.append(json.dumps(record, ensure_ascii=False, allow_nan=False))
     _atomic_write_text(output_path, "\n".join(lines) + "\n")
+
+
+def _gate_a_protocol(
+    spec: GateASpec, assignments: dict[str, Any], budget: int,
+    baseline: dict[str, Any],
+) -> dict[str, Any]:
+    return {
+        "estimator": PAIRED_ESTIMATOR,
+        "bare_baseline": baseline,
+        "gate": "A",
+        "draft_sha256": assignments["draft_sha256"],
+        "assignment_sha256": assignments["assignment_sha256"],
+        "mask_seed": spec.mask_seed,
+        "mask_probability": spec.mask_probability,
+        "active_skill_budget": budget,
+    }
 
 
 def gate_a_plan(spec: GateASpec) -> dict[str, Any]:
@@ -735,8 +677,12 @@ def gate_a_plan(spec: GateASpec) -> dict[str, Any]:
         prompt_builder=prompt_builder,
         skill_provider=provider,
     )
+    _, baseline = load_bare_validation(spec.bare_run_dir, semantic_plan)
+    semantic_plan["trace2skill_gate"] = _gate_a_protocol(spec, assignments, budget, baseline)
     return {
         "gate": "A",
+        "estimator": PAIRED_ESTIMATOR,
+        "bare_baseline": baseline,
         "output_dir": str(spec.output_dir),
         "draft_path": str(spec.draft_path),
         "draft_sha256": draft_sha256,
@@ -763,6 +709,7 @@ def _gate_a_manifest(
     assignments: dict[str, Any],
     summary: dict[str, Any],
     observed_provenance: dict[str, Any],
+    bare_baseline: dict[str, Any],
     contributions: dict[str, Any] | None = None,
     selected_bank: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
@@ -773,10 +720,12 @@ def _gate_a_manifest(
         "config": json.loads(json.dumps(asdict(spec), default=str)),
         "protocol": {
             "split": "val",
-            "one_rollout_per_task": True,
+            "masked_rollouts_per_task": 1,
+            "reused_bare_rollouts_per_task": 1,
             "mask_probability": spec.mask_probability,
             "mask_seed": spec.mask_seed,
-            "estimator": "naive_ols_main_effects_with_intercept",
+            "estimator": PAIRED_ESTIMATOR,
+            "formula": PAIRED_FORMULA,
             "selection": "strictly_positive_top_k",
         },
         "input": {
@@ -791,6 +740,7 @@ def _gate_a_manifest(
                 "persona": spec.experiment.environment_persona,
             },
             "observed_provenance": observed_provenance,
+            "bare_baseline": bare_baseline,
         },
         "summary": summary,
         "output": {
@@ -837,15 +787,10 @@ def run_gate_a(
         prompt_builder=prompt_builder,
         skill_provider=provider,
     )
-    semantic_plan["trace2skill_gate"] = {
-        "gate": "A",
-        "draft_sha256": draft_sha256,
-        "assignment_sha256": assignments["assignment_sha256"],
-        "mask_seed": spec.mask_seed,
-        "mask_probability": spec.mask_probability,
-        "active_skill_budget": budget,
-    }
+    bare_traces, baseline = load_bare_validation(spec.bare_run_dir, semantic_plan)
+    semantic_plan["trace2skill_gate"] = _gate_a_protocol(spec, assignments, budget, baseline)
     store = RunStore(spec.output_dir)
+    read_validation_traces(store.traces_path, resume=spec.experiment.resume)
     store.initialize(semantic_plan)
     atomic_write_json(spec.output_dir / "mask_assignments.json", assignments)
 
@@ -864,7 +809,7 @@ def run_gate_a(
         max_workers=spec.experiment.concurrency,
         progress=progress,
     ).run(jobs, resume=spec.experiment.resume)
-    trace_records = list(store.iter_traces())
+    trace_records = read_validation_traces(store.traces_path)
     observed_provenance = _observed_provenance(trace_records)
     if summary["counts"]["failed"] or summary["counts"]["coverage"] != 1.0:
         manifest = _gate_a_manifest(
@@ -874,6 +819,7 @@ def run_gate_a(
             assignments=assignments,
             summary=summary,
             observed_provenance=observed_provenance,
+            bare_baseline=baseline,
         )
         atomic_write_json(spec.output_dir / "gate_a_manifest.json", manifest)
         return manifest
@@ -882,8 +828,10 @@ def run_gate_a(
         draft=draft,
         assignments=assignments,
         traces=trace_records,
+        bare_traces=bare_traces,
         active_skill_budget=budget,
     )
+    contributions["bare_baseline"] = baseline
     selected_bank = _selected_skillbank(
         draft=draft,
         draft_bank=bank,
@@ -907,6 +855,7 @@ def run_gate_a(
         assignments=assignments,
         summary=summary,
         observed_provenance=observed_provenance,
+        bare_baseline=baseline,
         contributions=contributions,
         selected_bank=selected_bank,
     )

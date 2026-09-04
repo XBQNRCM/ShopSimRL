@@ -171,6 +171,7 @@ def load_experiment_config(path: str | Path) -> ExperimentSpec:
             send_seed=send_seed,
             tool_choice=str(record.get("tool_choice", "auto")),
             extra_body=dict(extra_body),
+            checkpoint_id=record.get("checkpoint_id"),
         ),
     )
 

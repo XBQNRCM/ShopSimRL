@@ -27,7 +27,7 @@ python scripts\run_shopsimrl.py trace2skill compile configs\trace2skill_cold_sta
 
 推荐第一次使用拆分命令：先让 `analyze` 跑完并确认 `analysis_summary.json` 中 `error_count` 为 0，再执行 `compile`。`cold-start` 只是依次执行这两个阶段的便捷入口。
 
-当前 `compile` 内部依次执行 consolidation 和 global compile；consolidation batch 可按 fingerprint 断点复用。Gate A 是独立的 randomized-validation 命令：它在 val set 上对全部 16 个 draft chunks 做联合 masking，用 naive OLS 估计贡献并执行 positive top-`K` selection。Gate B 的 equipped rollout 不需要专用执行链，直接使用项目原有的 `plan` / `run` 评测接口；两个已完成 run 的对齐检查和统计报告由 `scripts/compare_shopsimrl_runs.py` 离线完成。
+当前 `compile` 内部依次执行 consolidation 和 global compile；consolidation batch 可按 fingerprint 断点复用。Gate A 是独立的 randomized-validation 命令：它在 val set 上对全部 16 个 draft chunks 做联合 masking，复用同 checkpoint 的 bare val traces，用 paired-delta 无截距 OLS 估计贡献并执行 positive top-`K` selection。Gate B 的 equipped rollout 不需要专用执行链，直接使用项目原有的 `plan` / `run` 评测接口；两个已完成 run 的对齐检查和统计报告由 `scripts/compare_shopsimrl_runs.py` 离线完成。
 
 `resume: true` 会按 trajectory 内容、分析模型和关键分析参数的 fingerprint 复用已完成分析；consolidation batch 同样只在输入和 compiler 模型均未变化时复用。
 
@@ -35,9 +35,11 @@ python scripts\run_shopsimrl.py trace2skill compile configs\trace2skill_cold_sta
 
 当前实验固定使用 `runs/qwen35-4b-train-0830/trace2skill-cold-start/initial_skill_draft.json` 中的 16 个 chunks，配置中的 active skill budget 为 `K_init=10`。
 
-先执行 Gate A，再用通用 evaluator 运行 equipped test，最后离线比较 equipped 与已有 bare run：
+先完成或复用同 checkpoint 的 bare val，再执行 Gate A，随后用通用 evaluator 运行 equipped test，最后离线比较 equipped 与已有 bare test run：
 
 ```powershell
+python scripts\run_shopsimrl.py run configs\qwen35_4b_val.yaml
+# 已有匹配且完整的 bare val 时跳过上一条，将 bare_run_dir 指向该 run。
 python scripts\run_shopsimrl.py trace2skill gate-a-plan configs\trace2skill_gate_a.yaml
 python scripts\run_shopsimrl.py trace2skill gate-a configs\trace2skill_gate_a.yaml
 
@@ -46,12 +48,12 @@ python scripts\run_shopsimrl.py run configs\qwen35_4b_test_trace2skill_equipped.
 
 python scripts\compare_shopsimrl_runs.py `
   runs\qwen35-4b-test-0830 `
-  runs\qwen35-4b-test-0830-trace2skill-equipped
+  runs\qwen35-4b-test-trace2skill-paired-equipped
 ```
 
 Equipped YAML 依赖 Gate A 已经生成 `selected_skillbank.json`，因此其 `plan` / `run` 不能在 Gate A 之前执行。Gate A 和通用 evaluator 都使用 append-only traces 与 `resume` 语义；Gate A 未达到 100% coverage 时状态为 `incomplete`，不会冻结 selection。
 
-需要过夜串行时可直接运行：
+确认 `bare_run_dir` 中的 bare val 已完整后，需要过夜串行时可运行（脚本不另跑 bare）：
 
 ```powershell
 python scripts\run_trace2skill_overnight.py
@@ -62,9 +64,9 @@ python scripts\run_trace2skill_overnight.py
 ### Gate A：val contribution 与 selected skill
 
 - 数据只使用冻结的 400-task val split，模型 checkpoint 固定为生成裸基线时使用的 Qwen3.5-4B；
-- 每个 val task 运行一次，并对 16 个 chunks 独立采样 `Bernoulli(0.5)` treatment，形成一个 16 位联合 mask；mask seed、task IDs、draft hash、模型和环境版本写入 manifest；
-- 使用带截距的 naive OLS：\(R_i=\beta_0+\sum_{j=1}^{16}\alpha_jC_{i,j}+\varepsilon_i\)。主因变量为 `reward`/`r_strict`，回归只包含 16 个 chunk main effects；
-- 16 个 chunks 无论是否入选都输出 OLS coefficient、rank 和 status；`r_success` 及其他 `r_*` 分量作为辅助贡献报告；
+- 每个 val task 复用一条 bare rollout，再运行一条 masked rollout；对 16 个 chunks 独立采样 `Bernoulli(0.5)` treatment，形成一个 16 位联合 mask；mask seed、task IDs、draft hash、模型和环境版本写入 manifest；
+- 使用 paired-delta 无截距 OLS：\(R_i-B_i=\sum_{j=1}^{16}\beta_jC_{i,j}+\varepsilon_i\)。\(B_i\) 是同 task 的 bare reward，不是全局均值。后续选择记号 \(\alpha_j=\hat\beta_j\)，只包含 16 个 chunk main effects；
+- 16 个 chunks 无论是否入选都输出 OLS coefficient、rank 和 status；`r_success` 及其他 `r_*` 分量分别减去对应 bare 分量后，作为辅助贡献报告；
 - 先过滤 \(\alpha_j\le 0\)，再在剩余 chunks 中按 \(\alpha_j\) 降序取前 10 个。正贡献不足 10 个时不补齐；同分时以稳定的 `chunk_id` 顺序打破平局；
 - 选择完成后生成只包含 selected chunks 的 active SkillBank，并冻结 chunk 内容、顺序、`K_init`、估计器和所有运行配置。
 
@@ -74,10 +76,12 @@ Gate A 至少产出 mask assignment、原始 val traces、16-chunk contribution 
 
 - `mask_assignments.json`：运行前冻结的 task-level 联合 mask、mask seed、draft hash 和 assignment hash；
 - `traces.jsonl` / `summary.json` / `manifest.json`：通用 evaluator 的原始结果、聚合结果与语义计划；
-- `contributions.json` / `contributions.csv`：主 reward 及所有完整 `r_*` 分量的带截距 main-effect OLS 结果、rank 和 status；
+- `contributions.json` / `contributions.csv`：paired-delta 无截距 OLS 系数、rank 和 status；JSON 另存 bare 来源/hash、逐任务 raw/bare/delta 与三者均值；
 - `selected_skillbank.json` / `selected_skill.md`：按 canonical draft order 注入的 positive top-`K_init` active skill；
 - `proposal_ledger.jsonl`：写入 `selected`、`non_positive` 或 `budget_excluded` 结果的 Gate A ledger 快照；
 - `gate_a_manifest.json`：冻结输入、mask、估计器、模型/环境配置和产物 hash。
+
+方法及校验细节见 [paired_validation.md](./paired_validation.md)。`gate_a.bare_run_dir` 必填；当前新产物写入 `gate-a-paired`，equipped 配置也使用新 run 名，避免覆盖旧带截距实验。缺失/未完成/错配 baseline 会在模型调用前报错；gate 不会回退到旧估计器。训练阶段使用同一实现，复用该 checkpoint 已报告 bare score 的 traces。
 
 Mask 使用固定 seed 对 `(split, task_id, sample_id, chunk_id)` 做独立伪随机 Bernoulli 分配，因而并发完成顺序和断点续跑不会改变 treatment。分析前还会逐条核验 trace 中实际 `selected_skills` 与冻结 assignment 一致，并要求 `reward == r_strict`。
 

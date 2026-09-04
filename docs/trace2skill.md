@@ -150,19 +150,17 @@ C_{i,j}\sim\operatorname{Bernoulli}(0.5),
 S_i=\{c_j:C_{i,j}=1\}.
 \]
 
-400 个 val tasks 各运行一次。评估器按固定 seed 为每个 task 独立生成一个 16 位联合 mask，共得到 400 条 treatment-reward observations。Chunk contribution 使用带截距的 naive OLS 估计：
+400 个 val tasks 各取得一条完全不带 skill 的 bare rollout 和一条 masked rollout。已有同 checkpoint、同协议的完整 bare val run 时直接复用。评估器按固定 seed 为每个 task 生成一个 16 位联合 mask，共得到 400 对 observations。Cold-start 与 online gate 统一使用 paired-delta 无截距 OLS：
 
 \[
-R_i
-=
-\beta_0
-+
-\sum_{j=1}^{M_{\mathrm{init}}}\alpha_{0,j}C_{i,j}
-+
-\varepsilon_i.
+R_i-B_i=C_i^\top\beta+\varepsilon_i.
 \]
 
-16 个 chunks 是彼此独立的最小原子干预单元，回归只包含 main effects。各列 \(C_{i,j}\) 完全外生，任务间难度差异进入 \(\varepsilon_i\)。\(\alpha_{0,j}\) 表示其他 chunks 按联合 masking distribution 随机出现时，chunk \(j\) 对 reward 的平均边际贡献。主排序指标使用项目主 reward（当前等同 `r_strict`），`r_success` 与其他 reward components 作为辅助结果一并报告。Validation 只接收 canonical chunks。
+\(B_i\) 为同 task 的 bare reward，不是全局 baseline 均值，整个模型没有常数项。后续选择中的 \(\alpha_{0,j}=\hat\beta_j\)，表示 cold-start checkpoint 的估计系数。
+
+16 个 chunks 为最小原子干预单元，回归只包含 main effects。任务差异通过配对相减控制，基线噪声仍在残差中；系数是相对于 bare 的加性贡献估计，有交互时不自动等于平均边际因果效应。主排序指标用 `reward`（当前等同 `r_strict`）的逐任务差值，`r_success` 与其他 reward components 各自计算对应差值并回归。Validation 只接收 canonical chunks。
+
+训练时复用该 checkpoint 已用于报告 skill-free validation score 的同批 traces；换 checkpoint 后不得沿用上轮 baseline。数据契约与运行方法见 [paired_validation.md](./paired_validation.md)。
 
 Gate A 使用统一的 positive top-\(K\) 规则。先取所有 OLS coefficient 为正的 chunks：
 
@@ -460,33 +458,20 @@ Validation 时 old/new 版本必须互斥，不能同时出现在同一个 promp
 V_j\in\{\varnothing,\mathrm{old},\mathrm{new}\}.
 \]
 
-Old/new 分别相对于“不提供这个逻辑 slot”的共同基线估计贡献：
+Online gate 与 cold-start 使用同一套 paired-delta 估计。\(B_i\) 是同 checkpoint、同 task **全部 skill 关闭**的 bare reward；\(C_i\) 包含全部 current/ADD/rewrite version dummy columns。同一 slot 的 absent 为所有该 slot dummy 都是 0，不能再加入一个 absent dummy 或截距：
 
 \[
-\alpha_{t,j}^{\mathrm{old}}
-=
-\mathbb E[R\mid do(V_j=\mathrm{old})]
--
-\mathbb E[R\mid do(V_j=\varnothing)],
+R_i-B_i=C_i^\top\beta_t+\varepsilon_i.
 \]
+
+Old/new 系数是这一共同加性模型的版本贡献估计，后续选择中记为 \(\alpha_{t,j}^{v}=\hat\beta_{t,j}^{v}\)。两者都相对于同一逻辑 slot 的 absent 编码；不要把 slot-absent 的 reward 与全 bare 的 \(B_i\) 混为一谈。替换增益的加性估计为：
 
 \[
-\alpha_{t,j}^{\mathrm{new}}
-=
-\mathbb E[R\mid do(V_j=\mathrm{new})]
--
-\mathbb E[R\mid do(V_j=\varnothing)].
+\widehat\Delta_{\mathrm{rewrite}}
+=\hat\beta_{t,j}^{\mathrm{new}}-\hat\beta_{t,j}^{\mathrm{old}}.
 \]
 
-因此 Rewrite effect 等价于：
-
-\[
-\Delta_{\mathrm{rewrite}}
-=
-\alpha_{t,j}^{\mathrm{new}}
--
-\alpha_{t,j}^{\mathrm{old}}.
-\]
+存在交互或模型失配时，这个差值不是无条件保证的因果效应。
 
 每个 rewrite pair 必须先在 pair 内完成一次 winner selection：
 
@@ -504,23 +489,20 @@ Pair 内的 loser 不再参与任何全局排名。只有 winner \(c_{t,j}^{\sta
 
 ### 6.3 为什么不需要 DELETE proposal
 
-当前 chunk \(c_j\) 已经在 validation gate 中接受随机 present/absent intervention，其边际贡献为：
+当前 chunk \(c_j\) 已经在 validation gate 中接受随机 present/absent intervention；其选择分数来自与其他 factors 一起拟合的 paired-delta 模型：
 
 \[
-\alpha_{t,j}
-=
-\mathbb E[R\mid do(C_j=1)]
--
-\mathbb E[R\mid do(C_j=0)].
+R_i-B_i=C_i^\top\beta_t+\varepsilon_i,
+\qquad \alpha_{t,j}=\hat\beta_{t,j}.
 \]
 
 因此，显式 `DELETE` proposal 与 validation gate 的职责重复：
 
-- \(\alpha_{t,j}<0\)：chunk 平均有害，应自动退休；
-- \(\alpha_{t,j}\approx 0\)：chunk 已内化、冗余或无效，应降低曝光并退出 active skill；
-- \(\alpha_{t,j}>0\)：chunk 对当前 checkpoint 仍有帮助，应继续保留。
+- \(\alpha_{t,j}<0\)：当前加性贡献估计为负，按暂定选择规则退休，不直接宣判有害；
+- \(\alpha_{t,j}\approx 0\)：当前估计增益小，可降低曝光；不能仅据此认定已内化；
+- \(\alpha_{t,j}>0\)：进入全局 positive top-K 候选池，并非自动或显著有效。
 
-即使 Failure Analyst 怀疑某个 chunk 有害，也不提出 DELETE。它可以在 privileged audit 中记录怀疑，由 randomized validation 根据真实 present/absent effect 决定是否删除。
+即使 Failure Analyst 怀疑某个 chunk 有害，也不提出 DELETE。它可以在 privileged audit 中记录怀疑，由 paired-delta randomized validation 的估计与统一选择规则决定是否退休。
 
 同理，`MERGE` 和 `SPLIT` 不作为外部 operation 暴露：必要的结构调整通过一个 `REWRITE` 加零个或多个 `ADD` 表达，最终仍由 validation gate 决定。
 
@@ -566,8 +548,8 @@ initial_skill_draft
 
 Cold-start evaluation 按固定顺序执行：
 
-1. Gate A 在固定 val set 上让 400 个 tasks 各运行一次，对最多 16 个 canonical chunks 做联合 randomized masking；
-2. 使用带截距的 naive OLS 估计全部 chunk contributions，丢弃 \(\alpha\le 0\) 的 chunks，对 \(\alpha>0\) 的 chunks 按贡献降序取 top-\(K_{\mathrm{init}}\)，并冻结 selected skill；
+1. Gate A 复用同 checkpoint 的完整 bare val traces，再在固定 val set 上让 400 个 tasks 各运行一条 masked rollout，对最多 16 个 canonical chunks 做联合 randomized masking；
+2. 使用逐任务 paired-delta 无截距 OLS 估计全部 chunk contributions，丢弃 \(\alpha\le 0\) 的 chunks，对 \(\alpha>0\) 的 chunks 按贡献降序取 top-\(K_{\mathrm{init}}\)，并冻结 selected skill；
 3. Gate B 在 held-out test set 上始终注入完整 selected skill，与同口径裸 Qwen3.5-4B 结果比较；test 不参与 selection。
 
 Online Trace2Skill 输出：
@@ -667,9 +649,9 @@ Ledger 不进入 policy prompt，也不是推理时 memory。
 11. Per-trajectory card 不能直接作为 validation regression factor。
 12. Cold start 必须先完成 train-only many-to-one consolidation，再进入 validation。
 13. 第一版 initial compiler 不得输出超过 16 个 validation factors，active skill budget \(K_{\mathrm{init}}\) 建议设为 8--12。
-14. Cold-start initialization 在 val set 上让每个 task 运行一次，并对全部 canonical chunks 做联合 randomized masking。
+14. Cold-start 和 online validation 均复用同 checkpoint、同 task 的 bare val trace，并为每个 task 运行一次联合 randomized masking rollout。
 15. Gate A 的 val 结果是 cold-start chunk 与 \(K_{\mathrm{init}}\) 的最后一次选择依据；Gate B 的 test 结果不得反馈到 skill selection。
-16. Cold-start Gate A 使用带截距的 naive OLS，只拟合 chunk main effects。
+16. Cold-start Gate A 与 online gate 均拟合 \(R_i-B_i=C_i^\top\beta+\epsilon_i\)，只含 chunk/version main effects，不设截距、不减全局均值。
 17. Validation 统一按贡献降序选取 \(\alpha>0\) 的 top-\(K_t\)，不足 \(K_t\) 时不以非正贡献 chunk 补齐。
 18. 每个 REWRITE pair/family 必须先保留贡献最高的唯一版本，其他版本在全局排名前立即废弃。
 19. Rewrite winner 只获得参与全局 positive top-\(K_t\) 的资格，不保证进入下一轮 active skill。

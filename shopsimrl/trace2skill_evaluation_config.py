@@ -17,6 +17,7 @@ class GateASpec:
     name: str
     output_dir: Path
     experiment: ExperimentSpec
+    bare_run_dir: Path
     draft_path: Path
     draft_skillbank_path: Path
     mask_seed: int
@@ -81,6 +82,7 @@ def load_trace2skill_evaluation_config(
             gate_a_record, "output_dir", base=base, name="gate_a"
         ),
         experiment=load_experiment_config(gate_a_experiment_path),
+        bare_run_dir=_required_path(gate_a_record, "bare_run_dir", base=base, name="gate_a"),
         draft_path=draft_path,
         draft_skillbank_path=draft_skillbank_path,
         mask_seed=int(gate_a_record.get("mask_seed", 20260901)),

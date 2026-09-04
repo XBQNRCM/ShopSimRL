@@ -90,6 +90,7 @@ class ModelTest(unittest.TestCase):
             max_retries=2,
             retry_backoff_seconds=0,
             extra_body={"enable_thinking": True},
+            checkpoint_id="weights-1",
         )
         model = OpenAICompatibleChatModel(config)
         with patch.object(
@@ -116,6 +117,8 @@ class ModelTest(unittest.TestCase):
         self.assertEqual(output.tool_calls[0].arguments, {"query": "x"})
         self.assertEqual(post.call_count, 2)
         payload = post.call_args.kwargs["json"]
+        self.assertEqual(model.identity()["checkpoint_id"], "weights-1")
+        self.assertNotIn("checkpoint_id", payload)
         self.assertEqual(payload["seed"], 9)
         self.assertTrue(payload["enable_thinking"])
         self.assertEqual(payload["tool_choice"], "auto")

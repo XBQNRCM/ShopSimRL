@@ -1,7 +1,10 @@
 gate_a:
-  name: qwen35-4b-trace2skill-gate-a-val
-  output_dir: ../runs/qwen35-4b-train-0830/trace2skill-cold-start/gate-a
+  name: qwen35-4b-trace2skill-gate-a-paired-val
+  # New estimator => new run directory; do not overwrite the historical gate-a.
+  output_dir: ../runs/qwen35-4b-train-0830/trace2skill-cold-start/gate-a-paired
   experiment_config: qwen35_4b_val.yaml
+  # Run the bare experiment_config via the generic evaluator first (or reuse a matching completed run).
+  bare_run_dir: ../runs/qwen35-4b-val-thinking-tools-v1
   draft_path: ../runs/qwen35-4b-train-0830/trace2skill-cold-start/initial_skill_draft.json
   draft_skillbank_path: ../runs/qwen35-4b-train-0830/trace2skill-cold-start/initial_skillbank.json
   mask_seed: 20260901

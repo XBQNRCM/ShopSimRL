@@ -4,13 +4,20 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import Mock
+from dataclasses import replace
 
 from shopsimrl.config import ExperimentSpec, ModelSpec
 from shopsimrl.model import OpenAICompatibleConfig
 from shopsimrl.schemas import TRACE_SCHEMA_VERSION, EpisodeJob
+from shopsimrl.skills import NoSkills
+from shopsimrl.store import RunStore
+from shopsimrl.paired_validation import GateEvaluationError
 from shopsimrl.trace2skill_evaluation import (
+    _prepare_experiment,
+    _semantic_plan,
     build_mask_assignments,
-    fit_main_effect_ols,
+    fit_paired_delta_ols,
     run_gate_a,
 )
 from shopsimrl.trace2skill_evaluation_config import GateASpec
@@ -51,6 +58,7 @@ def _experiment(root: Path, task_ids: list[int]) -> ExperimentSpec:
                 model="fake",
                 base_url="http://model/v1",
                 api_key_env=None,
+                checkpoint_id="checkpoint-0",
             ),
         ),
     )
@@ -96,8 +104,9 @@ def _write_draft(root: Path) -> tuple[Path, Path]:
 
 
 class _EffectRuntime:
-    def __init__(self, provider):
+    def __init__(self, provider, plan):
         self.provider = provider
+        self.plan = plan
 
     def run(self, job: EpisodeJob):
         skills = tuple(
@@ -110,7 +119,8 @@ class _EffectRuntime:
             )
         )
         ids = {skill.skill_id for skill in skills}
-        reward = 0.4
+        # Deliberately heterogeneous task difficulty, reused in the bare rollout.
+        reward = 0.2 + (job.task_id % 7) * 0.04
         reward += 0.3 if "chunk-positive" in ids else 0.0
         reward -= 0.2 if "chunk-negative" in ids else 0.0
         return {
@@ -118,7 +128,11 @@ class _EffectRuntime:
             "episode_id": job.episode_id,
             "status": "completed",
             "job": job.to_dict(),
-            "provenance": {},
+            "provenance": {
+                **{key: self.plan[key] for key in ("model", "environment", "prompt")},
+                "runtime": {key: value for key, value in self.plan["runtime"].items() if key != "concurrency"},
+                "skills": self.provider.identity(),
+            },
             "duration_ms": 1.0,
             "selected_skills": [skill.to_dict() for skill in skills],
             "steps": [],
@@ -133,6 +147,20 @@ class _EffectRuntime:
             },
             "error": None,
         }
+
+
+def _write_bare(spec):
+    task_split, jobs, persona, prompt = _prepare_experiment(spec.experiment, required_split="val")
+    plan = _semantic_plan(
+        experiment_name=spec.experiment.name, spec=spec.experiment,
+        task_split=task_split, jobs=jobs, persona=persona,
+        prompt_builder=prompt, skill_provider=NoSkills(),
+    )
+    store = RunStore(spec.bare_run_dir)
+    store.initialize(plan)
+    for job in jobs:
+        store.save_trace(_EffectRuntime(NoSkills(), plan).run(job))
+    return plan
 
 
 class Trace2SkillEvaluationTest(unittest.TestCase):
@@ -155,7 +183,7 @@ class Trace2SkillEvaluationTest(unittest.TestCase):
             len({tuple(record["mask"]) for record in first["assignments"]}), 1
         )
 
-    def test_main_effect_ols_recovers_intercept_and_coefficients(self):
+    def test_paired_delta_ols_recovers_coefficients_without_intercept(self):
         masks = [
             [0, 0],
             [0, 1],
@@ -164,9 +192,9 @@ class Trace2SkillEvaluationTest(unittest.TestCase):
             [0, 0],
             [1, 1],
         ]
-        values = [0.4 + 0.3 * row[0] - 0.2 * row[1] for row in masks]
-        intercept, coefficients = fit_main_effect_ols(masks, values)
-        self.assertAlmostEqual(intercept, 0.4)
+        values = [0.3 * row[0] - 0.2 * row[1] for row in masks]
+        intercept, coefficients = fit_paired_delta_ols(masks, values)
+        self.assertEqual(intercept, 0.0)
         self.assertAlmostEqual(coefficients[0], 0.3)
         self.assertAlmostEqual(coefficients[1], -0.2)
 
@@ -178,15 +206,22 @@ class Trace2SkillEvaluationTest(unittest.TestCase):
                 name="gate-a",
                 output_dir=root / "gate-a",
                 experiment=_experiment(root, list(range(40))),
+                bare_run_dir=root / "bare-val",
                 draft_path=draft_path,
                 draft_skillbank_path=bank_path,
                 mask_seed=19,
                 mask_probability=0.5,
                 active_skill_budget=1,
             )
+            never_called = Mock()
+            with self.assertRaisesRegex(GateEvaluationError, "bare validation run missing"):
+                run_gate_a(spec, runtime_factory=never_called)
+            never_called.assert_not_called()
+            plan = _write_bare(spec)
+            baseline_bytes = (spec.bare_run_dir / "traces.jsonl").read_bytes()
             manifest = run_gate_a(
                 spec,
-                runtime_factory=lambda provider: _EffectRuntime(provider),
+                runtime_factory=lambda provider: _EffectRuntime(provider, plan),
             )
             self.assertEqual(manifest["status"], "complete")
             selected = json.loads(
@@ -211,6 +246,24 @@ class Trace2SkillEvaluationTest(unittest.TestCase):
             self.assertEqual(by_id["chunk-negative"]["status"], "non_positive")
             self.assertTrue((spec.output_dir / "mask_assignments.json").is_file())
             self.assertTrue((spec.output_dir / "traces.jsonl").is_file())
+            self.assertEqual(contributions["estimates"]["reward"]["intercept"], 0)
+            self.assertFalse(contributions["estimator"]["fit_intercept"])
+            self.assertEqual(len(contributions["observations_table"]), 40)
+            self.assertEqual((spec.bare_run_dir / "traces.jsonl").read_bytes(), baseline_bytes)
+            # Resume performs no more model calls and never reruns bare validation.
+            run_gate_a(spec, runtime_factory=never_called)
+            never_called.assert_not_called()
+            with self.assertRaisesRegex(GateEvaluationError, "use resume or a new run"):
+                run_gate_a(replace(spec, experiment=replace(spec.experiment, resume=False)), runtime_factory=never_called)
+            # Mutating a baseline invalidates the frozen gate's semantic plan.
+            lines = (spec.bare_run_dir / "traces.jsonl").read_text().splitlines()
+            first = json.loads(lines[0])
+            first["final"]["reward"] += 0.01
+            first["final"]["reward_detail"]["r_strict"] += 0.01
+            lines[0] = json.dumps(first)
+            (spec.bare_run_dir / "traces.jsonl").write_text("\n".join(lines) + "\n")
+            with self.assertRaisesRegex(ValueError, "different semantic plan"):
+                run_gate_a(spec, runtime_factory=never_called)
 
 
 

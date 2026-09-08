@@ -1,9 +1,9 @@
 experiment:
-  name: qwen35-4b-test-0830
+  name: qwen35-4b-test-base-free
   output_dir: ../runs
   dotenv: ../.env
   seed: 20260830
-  concurrency: 4
+  concurrency: 32
   resume: true
 
 tasks:
@@ -25,21 +25,21 @@ prompt:
 
 skills:
   path: null
-  max_skills: 4
+  max_skills: null
 
 model:
   id: qwen35-4b
+  checkpoint_id: qwen35-4b-base-hf
   name: Qwen/Qwen3.5-4B
-  base_url: https://api.siliconflow.cn/v1
-  api_key_env: SILICONFLOW_API_KEY
+  base_url: http://127.0.0.1:30000/v1
+  api_key_env: null
   temperature: 0.6
-  top_p: 0.95
-  max_tokens: 2048
+  top_p: 1.0
+  max_tokens: 4096
   timeout: 180
-  max_retries: 8
-  trust_env: true
+  max_retries: 3
+  trust_env: false
   send_seed: false
   tool_choice: auto
   extra_body:
     enable_thinking: true
-    top_k: 20

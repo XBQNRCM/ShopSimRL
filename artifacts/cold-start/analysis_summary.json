@@ -1,0 +1,14 @@
+{
+  "schema_version": "shopsimrl-trace2skill-cold-start-v3",
+  "created_at": "2026-09-01T03:14:55.003347+00:00",
+  "input": {
+    "failure": 198,
+    "success": 202,
+    "total": 400
+  },
+  "unique_analyzed": 400,
+  "evidence_cards": 602,
+  "missing": [],
+  "error_count": 0,
+  "cards_path": "C:\\project\\ShopSimRL\\runs\\qwen35-4b-train-0830\\trace2skill-cold-start\\evidence_cards.jsonl"
+}

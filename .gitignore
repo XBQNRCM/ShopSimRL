@@ -1,15 +1,22 @@
+# Local data and full experiment dumps (checkpoints, traces, wandb)
 data/
-*.json
+runs/
+.env
+*.log
+*.pdf
+
+# Nested / historical checkouts
 shopping-grpo-longhorizon/
 SkillZero/
 tmp/
 WebShop/
 Trace2Skill/
+
+# Python
 __pycache__/
 *.py[cod]
-*.jsonl
 .pytest_cache/
-.env
-runs/
-*.log
-*.pdf
+
+# Released excerpts must be trackable
+!artifacts/
+!artifacts/**

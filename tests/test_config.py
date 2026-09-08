@@ -18,7 +18,6 @@ ROOT = Path(__file__).resolve().parents[1]
 class ConfigTest(unittest.TestCase):
     def test_qwen_configs_are_single_model_runs_with_aligned_prompt(self):
         expected = {
-            "train": (3726, 0.6, "auto"),
             "val": (400, 0.6, "auto"),
             "test": (400, 0.6, "auto"),
         }
@@ -35,16 +34,19 @@ class ConfigTest(unittest.TestCase):
             self.assertEqual(spec.split, split)
             self.assertEqual(spec.model.model_id, "qwen35-4b")
             self.assertEqual(spec.model.config.model, "Qwen/Qwen3.5-4B")
-            self.assertEqual(spec.model.config.api_key_env, "SILICONFLOW_API_KEY")
             self.assertEqual(spec.model.config.temperature, temperature)
             self.assertEqual(spec.model.config.tool_choice, tool_choice)
-            self.assertEqual(spec.model.config.max_tokens, 2048)
             self.assertTrue(spec.model.config.extra_body["enable_thinking"])
             self.assertNotIn("thinking_budget", spec.model.config.extra_body)
             self.assertEqual(spec.system_prompt.strip(), DEFAULT_SYSTEM_PROMPT.strip())
             self.assertEqual(
                 len(load_task_split(spec.split_file, split).task_ids), task_count
             )
+            self.assertIsNone(spec.model.config.api_key_env)
+            self.assertEqual(spec.model.config.max_tokens, 4096)
+            self.assertEqual(spec.model.config.top_p, 1.0)
+            self.assertFalse(spec.model.config.trust_env)
+            self.assertEqual(spec.model.config.checkpoint_id, "qwen35-4b-base-hf")
 
     def test_config_loads_dotenv_without_overwriting_process_environment(self):
         with tempfile.TemporaryDirectory() as directory:

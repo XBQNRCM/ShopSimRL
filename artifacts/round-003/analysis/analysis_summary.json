@@ -1,0 +1,16 @@
+{
+  "schema_version": "shopsimrl-online-failure-analysis-v1",
+  "created_at": "2026-09-07T11:36:36.519649+00:00",
+  "triage_groups": 39,
+  "analyzed_cards": 39,
+  "eligible_cards": 11,
+  "candidates": 4,
+  "proposal_history_records": 18,
+  "evidence_only_card_ids": [
+    "failure-train-group-000001945-sample-000015568-full-skill-retry-01",
+    "failure-train-group-000002215-sample-000017728-full-skill-retry-01"
+  ],
+  "candidate_pool_path": "/root/autodl-tmp/ShopSimRL/runs/round-003-online-analysis/candidate_pool.json",
+  "current_skillbank_sha256": "e85e947b1f6b6aae434da8f4a04405d41b6ee73cb91627afe7bd4e77213f811a",
+  "compilation_input_sha256": "c560490192ea61cd283de4290d3bdbb1fb749ac76f8780ead66c68008ae26b39"
+}

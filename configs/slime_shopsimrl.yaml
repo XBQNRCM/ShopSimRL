@@ -1,7 +1,7 @@
 # Loaded by slime --custom-config-path. Relative paths are resolved against the
 # SHOPSIMRL_PROJECT_ROOT exported by scripts/run_shopsimrl_slime.sh.
-shopsim_skillbank_path: runs/qwen35-4b-train-0830/trace2skill-cold-start/paired-delta-recovered/selected_skillbank.json
-shopsim_curriculum_path: runs/qwen35-4b-train-0830/trace2skill-cold-start/paired-delta-recovered/curriculum.json
+shopsim_skillbank_path: artifacts/cold-start/selected_skillbank.json
+shopsim_curriculum_path: artifacts/cold-start/curriculum.json
 shopsim_training_output_dir: runs/slime-training
 shopsim_system_prompt_file: configs/prompts/persona_single_turn.txt
 
@@ -11,7 +11,7 @@ shopsim_environment_persona: true
 shopsim_environment_trust_env: false
 
 # Per rollout worker; do not exceed its allocated environment slots.
-shopsim_episode_concurrency: 16
+shopsim_episode_concurrency: 32
 shopsim_max_steps: 30
 shopsim_full_skill_retry: true
 shopsim_max_consecutive_failed_groups: 8

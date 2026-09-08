@@ -1,0 +1,230 @@
+{
+  "schema_version": "shopsimrl-skillbank-v1",
+  "bank_version": "online-round-002-selected-v1",
+  "metadata": {
+    "round_id": "round-002",
+    "proposal_checkpoint": "qwen35-4b-round-002",
+    "pool_sha256": "3a7ea9ae2650b10cfe62c255b22b0884934f3521cc3d8966d37981cf681bc35b",
+    "assignment_sha256": "b3e740e122374803eb7209002f0f268f89ae6a5b0f5099de01b826de11f7628f",
+    "active_skill_budget": 10,
+    "selected_count": 8,
+    "selected_intervention_ids": [
+      "chunk-a9e98e128a35",
+      "chunk-c83ed5ae8b70",
+      "online-5592406a6a90ea8f",
+      "online-8e3e179b9270814a",
+      "online-214dfd1028dc4157",
+      "online-3297dc4c0f4f6109",
+      "online-3d2cdd6a2aac9717",
+      "online-ea5dd903b14ec0fc"
+    ],
+    "estimator": {
+      "name": "paired_delta_ols_main_effects_no_intercept",
+      "formula": "R_i - B_i = C_i^T beta + epsilon_i",
+      "fit_intercept": false,
+      "baseline": "same_task_bare_validation",
+      "primary_outcome": "reward",
+      "rewrite_rule": "mutually_exclusive_family_argmax_old_on_tie",
+      "selection_rule": "rewrite_winners_then_strictly_positive_top_k"
+    },
+    "bare_baseline": {
+      "run_dir": "/root/autodl-tmp/ShopSimRL/runs/round-002-bare-val",
+      "plan_fingerprint": "496f890f2dede52595455c4ec29259b5ec5b90372e1d3788a3b8f7850b92a201",
+      "observations_sha256": "29b4297c900fded239a7ee8c09e475780d551782888f119a8e368113e273779c",
+      "observations": 400,
+      "requested_observations": 400,
+      "dropped_observations": 0,
+      "checkpoint_id": "round-002-checkpoint",
+      "mean_outcomes": {
+        "r_att": 0.9435138888888889,
+        "r_loose": 0.9285269660894662,
+        "r_option": 0.89625,
+        "r_price": 0.93,
+        "r_strict": 0.8601190476190476,
+        "r_success": 0.8475,
+        "r_type": 0.97,
+        "reward": 0.8601190476190476
+      }
+    }
+  },
+  "skills": [
+    {
+      "skill_id": "chunk-a9e98e128a35",
+      "version": "candidate",
+      "enabled": true,
+      "content": "### 搜索查询构建 - 画像证据完整融合\n\n- Applies when: 任务有约束且用户画像提供品牌偏好、历史搜索线索时\n- Procedure:\n  1. 从用户画像'最近 14 天搜索关键词'中提取所有属性要素（季节、材质、功能、风格、规格数值等）\n  2. 将提取的全部属性词与任务指令中的显式约束组合为复合搜索查询\n  3. 品牌偏好不直接融入搜索词，仅用于搜索结果出现多个匹配候选时的优先级排序\n  4. 仅当任务指令明确要求某品牌时，才将品牌名称融入搜索查询\n- Verify: 验证搜索结果首页是否出现同时匹配任务约束和用户搜索历史关键词的商品，且搜索查询词仅包含任务指令明确提及的属性\n- Avoid: 仅提取部分搜索历史关键词遗漏关键属性，或将任务未明确要求的品牌偏好强行融入搜索词",
+      "metadata": {
+        "title": "搜索查询构建 - 画像证据完整融合",
+        "failure_mechanism": "搜索查询构建时未充分提取用户最近搜索历史中的全部属性关键词（功能、规格、季节等），或过度融合任务未明确要求的品牌偏好",
+        "evidence_card_ids": [
+          "failure-train-group-000000759-sample-000006080-full-skill-retry-01",
+          "failure-train-group-000000783-sample-000006272-full-skill-retry-01",
+          "failure-train-group-000000960-sample-000007688-full-skill-retry-01",
+          "failure-train-group-000001008-sample-000008072-full-skill-retry-01"
+        ],
+        "consolidation_cluster_id": "cluster-6219af890a10d20b",
+        "proposal_checkpoint": "qwen35-4b-round-001",
+        "operation": "REWRITE",
+        "target_chunk_id": "chunk-a9e98e128a35",
+        "validation_result": "selected",
+        "estimated_effect": 0.03454176640368547,
+        "contribution_rank": 2,
+        "selected_intervention_id": "chunk-a9e98e128a35"
+      }
+    },
+    {
+      "skill_id": "chunk-c83ed5ae8b70",
+      "version": "candidate",
+      "enabled": true,
+      "content": "### 购买决策 - 价格与定制约束协同验证\n\n- Applies when: 任务包含明确价格上限约束且商品存在多个规格选项导致价格差异时，或任务指令包含'定制'需求且有明确预算约束且商品规格选项中存在含'定制'关键词的选项时\n- Procedure:\n  1. 识别所有与任务需求相关的规格选项\n  2. 逐一检查各规格选项对应的具体价格\n  3. 筛选出价格满足预算约束的选项\n  4. 若任务包含定制需求，在商品规格选项中查找包含'定制'关键词的选项并优先选择\n  5. 验证所选规格的价格是否在预算范围内\n- Verify: 确认所选规格选项的价格严格小于任务指定的价格上限，且若任务含定制需求则规格名称包含'定制'关键词\n- Avoid: 未验证规格价格即选择导致选择超出预算的规格选项，或仅关注功能属性匹配而忽略规格选项中的'定制'关键词",
+      "metadata": {
+        "title": "购买决策 - 价格与定制约束协同验证",
+        "failure_mechanism": "商品存在多个规格选项时未验证各规格对应的具体价格即做出选择，或任务包含定制需求时未识别规格选项中的'定制'关键词与任务需求的对应关系",
+        "evidence_card_ids": [
+          "failure-train-group-000001231-sample-000009856-full-skill-retry-01",
+          "failure-train-group-000001277-sample-000010224-full-skill-retry-01"
+        ],
+        "consolidation_cluster_id": "cluster-fec6c929a99f4485",
+        "proposal_checkpoint": "qwen35-4b-round-001",
+        "operation": "REWRITE",
+        "target_chunk_id": "chunk-c83ed5ae8b70",
+        "validation_result": "selected",
+        "estimated_effect": 0.03516256869010673,
+        "contribution_rank": 1,
+        "selected_intervention_id": "chunk-c83ed5ae8b70"
+      }
+    },
+    {
+      "skill_id": "chunk-1f8d27322e9f",
+      "version": "candidate",
+      "enabled": true,
+      "content": "### 候选验证 - 规格选项全属性匹配验证\n\n- Applies when: 商品详情页存在规格选择轴且任务指令或用户搜索历史包含多个属性约束时\n- Procedure:\n  1. 从任务指令和用户画像'最近 14 天搜索关键词'中提取所有属性要素（如网罩、双振膜、支架、防水、尺寸、数值等）\n  2. 逐一检查各规格选项的完整文本是否包含全部提取的属性词\n  3. 优先选择同时包含所有属性关键词的选项\n  4. 使用完整选项文本执行点击操作，不自行构造或修改\n- Verify: 确认所选规格选项的完整文本包含任务指令明确提及的所有属性关键词，且 missing_option_axes 为空\n- Avoid: 仅匹配部分属性关键词即做出选择，遗漏任务指令或搜索历史中明确提及的其他关键属性",
+      "metadata": {
+        "title": "候选验证 - 规格选项全属性匹配验证",
+        "failure_mechanism": "商品详情页规格选择时仅匹配部分任务属性关键词，遗漏任务指令或用户搜索历史中明确提及的其他关键属性",
+        "evidence_card_ids": [
+          "failure-train-group-000001327-sample-000010624-full-skill-retry-01"
+        ],
+        "consolidation_cluster_id": "cluster-5592406a6a90ea8f",
+        "proposal_checkpoint": "qwen35-4b-round-002",
+        "operation": "REWRITE",
+        "target_chunk_id": "chunk-1f8d27322e9f",
+        "validation_result": "selected",
+        "estimated_effect": 0.024429093792546097,
+        "contribution_rank": 4,
+        "selected_intervention_id": "online-5592406a6a90ea8f"
+      }
+    },
+    {
+      "skill_id": "online-8e3e179b9270814a",
+      "version": "candidate",
+      "enabled": true,
+      "content": "### 搜索查询构建 - 多功能约束完整提取\n\n- Applies when: 任务指令包含多个并列功能要求（如多种病症防治、多种成分组合）或商品存在明确子类型区分（如风暖/灯暖）时\n- Procedure:\n  1. 识别任务指令中所有功能性要求关键词（病症名、成分名、功效词、子类型等）\n  2. 将所有功能关键词与产品类别词组合为复合搜索查询\n  3. 将子类型和功能特征词明确融入搜索查询，避免仅使用泛化类别词\n- Verify: 验证搜索结果首页是否出现同时匹配所有功能关键词的商品\n- Avoid: 仅提取单一功能属性进行窄化搜索，遗漏其他并列功能要求或子类型区分词",
+      "metadata": {
+        "title": "搜索查询构建 - 多功能约束完整提取",
+        "failure_mechanism": "搜索查询构建时仅提取部分功能约束，遗漏任务指令中的多项核心功能要求或子类型区分词，导致搜索结果无法召回同时满足所有功能属性的目标商品",
+        "evidence_card_ids": [
+          "failure-train-group-000000087-sample-000000704-full-skill-retry-01",
+          "failure-train-group-000000232-sample-000001864-full-skill-retry-01",
+          "failure-train-group-000000333-sample-000002672-full-skill-retry-01",
+          "failure-train-group-000000608-sample-000004872-full-skill-retry-01"
+        ],
+        "consolidation_cluster_id": "cluster-8e3e179b9270814a",
+        "proposal_checkpoint": "qwen35-4b-round-000",
+        "operation": "ADD",
+        "validation_result": "selected",
+        "estimated_effect": 0.025302718849802147,
+        "contribution_rank": 3,
+        "selected_intervention_id": "online-8e3e179b9270814a"
+      }
+    },
+    {
+      "skill_id": "online-214dfd1028dc4157",
+      "version": "candidate",
+      "enabled": true,
+      "content": "### 候选商品筛选 - 商品类型与型号变体区分\n\n- Applies when: 搜索结果中同一品牌存在多个型号变体且任务指令包含特定使用场景关键词时，或任务指令要求购买配件且搜索结果同时包含机身和配件商品时\n- Procedure:\n  1. 从任务指令中提取核心使用场景词（如遛娃、登机、旅行等）或识别核心商品类型（机身或配件）\n  2. 识别搜索结果中同品牌商品的型号标识差异或商品类型关键词\n  3. 优先选择标题同时包含品牌名、具体型号标识和任务场景词的商品\n  4. 当任务需求为配件时优先选择标题或关键属性包含'配件'关键词的商品\n- Verify: 确认所选商品标题包含任务核心场景关键词且型号标识与任务需求一致，或关键属性包含'配件'关键词\n- Avoid: 仅依赖品牌匹配而忽略型号变体差异，或选择相机机身商品后依赖规格选项中的配件变体",
+      "metadata": {
+        "title": "候选商品筛选 - 商品类型与型号变体区分",
+        "failure_mechanism": "搜索结果中出现同一品牌多个型号变体时未根据任务场景关键词精确匹配型号标识，或任务需求为配件时未能区分机身与配件商品",
+        "evidence_card_ids": [
+          "failure-train-group-000001690-sample-000013528-full-skill-retry-01",
+          "failure-train-group-000001894-sample-000015160-full-skill-retry-01"
+        ],
+        "consolidation_cluster_id": "cluster-214dfd1028dc4157",
+        "proposal_checkpoint": "qwen35-4b-round-002",
+        "operation": "ADD",
+        "validation_result": "selected",
+        "estimated_effect": 0.005980797828265006,
+        "contribution_rank": 7,
+        "selected_intervention_id": "online-214dfd1028dc4157"
+      }
+    },
+    {
+      "skill_id": "online-3297dc4c0f4f6109",
+      "version": "candidate",
+      "enabled": true,
+      "content": "### 规格选项选择 - 多组件多约束复合匹配\n\n- Applies when: 任务指令包含多个由连接词连接的产品组件描述，或包含多个属性约束且规格选项名称为复合描述时，或任务指令包含具体数值规格要求时\n- Procedure:\n  1. 从任务指令中提取所有组件关键词、属性约束词和数值规格（包括中文数字和阿拉伯数字）\n  2. 将中文数字转换为阿拉伯数字进行标准化比对\n  3. 逐一检查规格选项文本是否包含所有提取的关键词\n  4. 优先选择规格选项文本中包含全部组件/属性/数值关键词的组合选项\n- Verify: 确认所选规格选项文本中包含任务指令提及的所有产品组件、属性约束和数值规格关键词\n- Avoid: 仅根据单一组件或部分匹配选择规格选项，忽略任务指令中的并列组件要求或数值规格",
+      "metadata": {
+        "title": "规格选项选择 - 多组件多约束复合匹配",
+        "failure_mechanism": "当任务指令提及多种产品组件或包含多个属性约束时，未能识别应选择包含所有提及组件/属性的组合选项，或未能匹配数值规格约束",
+        "evidence_card_ids": [
+          "failure-train-group-000001520-sample-000012168-full-skill-retry-01",
+          "failure-train-group-000001627-sample-000013024-full-skill-retry-01",
+          "failure-train-group-000001910-sample-000015288-full-skill-retry-01"
+        ],
+        "consolidation_cluster_id": "cluster-3297dc4c0f4f6109",
+        "proposal_checkpoint": "qwen35-4b-round-002",
+        "operation": "ADD",
+        "validation_result": "selected",
+        "estimated_effect": 0.004661495181177309,
+        "contribution_rank": 8,
+        "selected_intervention_id": "online-3297dc4c0f4f6109"
+      }
+    },
+    {
+      "skill_id": "online-3d2cdd6a2aac9717",
+      "version": "candidate",
+      "enabled": true,
+      "content": "### 规格选项选择 - 特定场景约束匹配\n\n- Applies when: 任务指令包含明确尺码要求且商品规格选项中存在多个尺码变体时，或商品存在多个套餐类型选项且任务指令包含专业级要求时，或任务指令包含物流服务或风格特征描述词时，或商品存在多个满足预算的规格选项时\n- Procedure:\n  1. 识别任务指令中的场景约束关键词（尺码、套餐层级、物流服务、风格特征等）\n  2. 在规格选项列表中逐项检查选项名称是否包含这些场景约束关键词\n  3. 优先选择与任务要求完全匹配的规格选项\n  4. 当多个选项均满足预算时，选择与任务描述核心特征最匹配的选项而非仅最低价\n- Verify: 确认所选规格选项名称中包含任务要求的场景约束关键词，且规格状态显示已选择，价格在预算范围内\n- Avoid: 忽略任务指令中的场景约束，或仅基于价格选择规格选项而忽略任务隐含属性匹配",
+      "metadata": {
+        "title": "规格选项选择 - 特定场景约束匹配",
+        "failure_mechanism": "规格选项选择时未识别任务指令中的特定场景约束（如尺码、套餐层级、物流服务、风格特征等），或当多个规格均满足预算时盲目选择最低价格选项",
+        "evidence_card_ids": [
+          "failure-train-group-000001455-sample-000011648-full-skill-retry-01",
+          "failure-train-group-000001491-sample-000011936-full-skill-retry-01",
+          "failure-train-group-000001526-sample-000012216-full-skill-retry-01",
+          "failure-train-group-000001764-sample-000014120-full-skill-retry-01",
+          "failure-train-group-000001817-sample-000014544-full-skill-retry-01"
+        ],
+        "consolidation_cluster_id": "cluster-3d2cdd6a2aac9717",
+        "proposal_checkpoint": "qwen35-4b-round-002",
+        "operation": "ADD",
+        "validation_result": "selected",
+        "estimated_effect": 0.007112882101501248,
+        "contribution_rank": 6,
+        "selected_intervention_id": "online-3d2cdd6a2aac9717"
+      }
+    },
+    {
+      "skill_id": "online-ea5dd903b14ec0fc",
+      "version": "candidate",
+      "enabled": true,
+      "content": "### 候选商品筛选 - 关键属性与功能偏好覆盖验证\n\n- Applies when: 用户画像包含明确的功能偏好列表且搜索结果存在多个候选商品时，或任务指令包含明确的商品属性要求且搜索结果页面显示商品关键属性列表时\n- Procedure:\n  1. 从用户画像'功能'偏好列表或任务指令中提取与当前任务相关的所有功能要求词和核心属性词\n  2. 逐一检查候选商品的关键属性列表是否包含这些功能要求词和核心属性词\n  3. 仅点击关键属性列表包含所有任务核心属性词的商品\n  4. 优先选择关键属性覆盖全部功能要求的商品\n- Verify: 点击前确认所选商品的关键属性列表包含用户画像功能偏好中所有相关功能词和任务指令中明确提及的所有核心属性词\n- Avoid: 仅依赖搜索结果排序或商品标题进行筛选，未系统验证关键属性对功能偏好的覆盖度",
+      "metadata": {
+        "title": "候选商品筛选 - 关键属性与功能偏好覆盖验证",
+        "failure_mechanism": "候选商品筛选时未验证商品关键属性是否覆盖用户画像功能偏好列表或任务指令中的核心属性词",
+        "evidence_card_ids": [
+          "failure-train-group-000001547-sample-000012384-full-skill-retry-01",
+          "failure-train-group-000001563-sample-000012512-full-skill-retry-01"
+        ],
+        "consolidation_cluster_id": "cluster-ea5dd903b14ec0fc",
+        "proposal_checkpoint": "qwen35-4b-round-002",
+        "operation": "ADD",
+        "validation_result": "selected",
+        "estimated_effect": 0.010011736308465016,
+        "contribution_rank": 5,
+        "selected_intervention_id": "online-ea5dd903b14ec0fc"
+      }
+    }
+  ]
+}

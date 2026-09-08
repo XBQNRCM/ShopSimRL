@@ -2,8 +2,10 @@
 
 Only the treatment differs: both rollouts use the same frozen checkpoint,
 tasks, prompt, environment and sampling distribution. A bare run is read, never
-generated here. Failed attempts may be resumed; multiple completed replicates
-require a separately designed experiment, not a completion-order tie-break.
+generated here. Failed attempts are retried by the evaluator, then dropped from
+means and the paired regression if either side is still incomplete. Multiple
+completed replicates require a separately designed experiment, not a
+completion-order tie-break.
 """
 
 from __future__ import annotations
@@ -11,7 +13,7 @@ from __future__ import annotations
 import json
 import math
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, Mapping, Sequence
 
 from .schemas import TRACE_SCHEMA_VERSION, EpisodeJob, fingerprint
 
@@ -164,13 +166,17 @@ def load_bare_validation(
     if len(bare_jobs) != len(set(bare_jobs)) or set(bare_jobs) != expected_jobs:
         raise GateEvaluationError("bare validation job coverage mismatch (split/task/sample/seed)")
     traces = read_validation_traces(run_dir / "traces.jsonl")
-    if len(traces) != len(expected_jobs) or {
-        _job_key(trace.get("job") or {}, send_seed=send_seed) for trace in traces
-    } != expected_jobs:
-        raise GateEvaluationError("bare validation trace coverage mismatch; complete the bare val run first")
+    trace_keys = {_job_key(trace.get("job") or {}, send_seed=send_seed) for trace in traces}
+    if not trace_keys <= expected_jobs:
+        raise GateEvaluationError("bare validation traces include jobs outside the frozen plan")
+    scored = [trace for trace in traces if completed(trace)]
+    if not scored:
+        raise GateEvaluationError(
+            "bare validation has no completed traces after retries; complete the bare val run first"
+        )
     metrics: dict[str, list[float]] = {}
     observed_environments = set()
-    for trace in traces:
+    for trace in scored:
         if EpisodeJob(**trace["job"]).episode_id != trace["episode_id"]:
             raise GateEvaluationError("bare validation episode_id/job mismatch")
         _require_bare(trace)
@@ -185,13 +191,15 @@ def load_bare_validation(
         raise GateEvaluationError("bare validation mixes environment versions")
     digest = fingerprint([
         {key: trace[key] for key in ("episode_id", "job", "provenance", "selected_skills", "final")}
-        for trace in traces
+        for trace in scored
     ])
-    return traces, {
+    return scored, {
         "run_dir": str(run_dir.resolve()),
         "plan_fingerprint": manifest["plan_fingerprint"],
         "observations_sha256": digest,
-        "observations": len(traces),
+        "observations": len(scored),
+        "requested_observations": len(expected_jobs),
+        "dropped_observations": len(expected_jobs) - len(scored),
         "checkpoint_id": checkpoint,
         "mean_outcomes": {key: sum(values) / len(values) for key, values in metrics.items()},
     }
@@ -203,14 +211,25 @@ def paired_observations(
 ) -> tuple[list[list[int]], dict[str, list[float]], list[dict[str, Any]]]:
     """Align by task/sample/split and subtract each task's own observed baseline."""
     masked, bare = unique_traces(traces), unique_traces(bare_traces)
-    expected = {row["episode_id"] for row in assignments["assignments"]}
-    if len(expected) != len(assignments["assignments"]) or set(masked) != expected or set(bare) != expected:
-        raise GateEvaluationError("paired validation trace coverage mismatch")
+    expected = [row["episode_id"] for row in assignments["assignments"]]
+    if len(expected) != len(set(expected)):
+        raise GateEvaluationError("paired validation assignments contain duplicate episode ids")
+    expected_set = set(expected)
+    unexpected = (set(masked) | set(bare)) - expected_set
+    if unexpected:
+        raise GateEvaluationError("paired validation contains unexpected episode ids")
     masks, rows, outcomes = [], [], {}
     reference = None
     for assignment in assignments["assignments"]:
         episode_id = assignment["episode_id"]
-        treated, baseline = masked[episode_id], bare[episode_id]
+        treated, baseline = masked.get(episode_id), bare.get(episode_id)
+        if not (
+            treated is not None
+            and baseline is not None
+            and completed(treated)
+            and completed(baseline)
+        ):
+            continue
         _require_bare(baseline)
         observed, control = _provenance(treated), _provenance(baseline)
         for field in ("model", "environment", "prompt", "runtime"):
@@ -247,7 +266,24 @@ def paired_observations(
             "bare_reward_detail": {k: v for k, v in base.items() if k != "reward"},
             "delta_reward_detail": {k: v for k, v in delta.items() if k != "reward"},
         })
+    if not rows:
+        raise GateEvaluationError("paired validation has no completed bare/masked pairs after retries")
     return masks, outcomes, rows
+
+
+def dropped_episode_ids(
+    assignments: dict[str, Any], observation_rows: Sequence[Mapping[str, Any]]
+) -> list[str]:
+    paired = {
+        row["episode_id"]
+        for row in observation_rows
+        if isinstance(row, Mapping) and isinstance(row.get("episode_id"), str)
+    }
+    return [
+        row["episode_id"]
+        for row in assignments["assignments"]
+        if row["episode_id"] not in paired
+    ]
 
 
 def outcome_means(rows: list[dict[str, Any]], metric: str) -> dict[str, float]:

@@ -41,7 +41,7 @@ R_i-B_i=C_i^\top\beta+\epsilon_i,
 
 `summary.json` 保留 masked rollout 的原始指标；bare run 的 `summary.json` 保持原样。`contributions.json` 记录 estimator/formula、baseline 来源与 hash、每项的 `masked_mean` / `bare_mean` / `delta_mean`、各 chunk 系数，以及逐任务的原始 reward、bare reward 和 delta，便于独立复算。Gate manifest 与 selected bank 保存 baseline provenance。
 
-当前仍采用有符号系数降序的 strictly-positive top-K；不足 K 不补齐。Online REWRITE 先做互斥 replacement-family winner selection（同分保留 old），再做全局 positive top-K。正负用于暂定选择规则，并不等于已证明“有益/有害”；大小的排序价值也需要独立 held-out 验证，后续实验见 [ranking validation plan](./trace2skill_ranking_validation_plan.md)。
+当前仍采用有符号系数降序的 strictly-positive top-K；不足 K 不补齐。Online REWRITE 先做互斥 replacement-family winner selection（同分保留 old），再做全局 positive top-K。正负用于暂定选择规则，并不等于已证明“有益/有害”；大小的排序价值也需要独立 held-out 验证，后续实验见 [ranking validation plan](./archive/trace2skill_ranking_validation_plan.md)。
 
 逐任务相减旨在消除可预测的任务难度差异，但 \(B_i\) 是一次有噪声的观测，不是真实期望值；是否降方差取决于 \(R_i,B_i\) 的协方差及基线噪声，不能保证比原估计更显著。该无截距 main-effect 模型是相对于 bare 的加性近似；存在 chunk 交互、异质性或模型失配时，系数不是自动成立的独立因果效应，也不保证等于随机 mask 分布下的平均边际效应。零系数同样不能证明已内化。
 

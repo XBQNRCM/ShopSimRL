@@ -1,0 +1,29 @@
+{
+  "method": "restore_frozen_selection_from_recorded_context",
+  "comparison_path": "C:\\project\\ShopSimRL\\runs\\qwen35-4b-test-paired-delta-positive-vs-negative\\comparison.json",
+  "source_run": "C:\\project\\ShopSimRL\\runs\\qwen35-4b-test-paired-delta-positive",
+  "source_skillbank": {
+    "provider": "json_skillbank",
+    "schema_version": "shopsimrl-skillbank-v1",
+    "bank_version": "cold-start-gate-a-paired-delta-positive-v1",
+    "bank_sha256": "a83a8831a36bb31e3c6d0cc4ea0c71ca4f2c63fe37b3882a0462afcec6a0ee1e",
+    "max_skills": null
+  },
+  "source_draft_sha256": "9e5bc2bb1123dada03e6879044f528516bb989c6d0ff4e2c1f8ad53fed07cf4f",
+  "matching_trace_contexts": 422,
+  "selected_chunk_ids": [
+    "chunk-27a7e5bb9344",
+    "chunk-a9e98e128a35",
+    "chunk-a71a5634ee99",
+    "chunk-4d958fc1d69e",
+    "chunk-bbe6cb9408eb",
+    "chunk-d3a9ac5af7ef",
+    "chunk-b64b0567ce98",
+    "chunk-f58e352cdad0",
+    "chunk-c83ed5ae8b70",
+    "chunk-1f8d27322e9f"
+  ],
+  "uses_test_outcomes": false,
+  "validation_refitted": false,
+  "recovered_skillbank_sha256": "28d6084b03d4ea99ccada0232ff3f3f40733b73c316a3fc51e47a83afe362bca"
+}

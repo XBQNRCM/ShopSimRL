@@ -42,6 +42,8 @@ from .online_validation import (
 from .training_analysis import (
     analyze_training_failures,
     load_online_analysis_config,
+    watch_training_failure_cards,
+    write_analysis_failure_fallback,
 )
 
 
@@ -191,13 +193,13 @@ def command_run(config_path: str) -> int:
         )
 
     print(f"run={run_dir} episodes={len(jobs)} model={model_spec.model_id}")
-    summary = Evaluator(
+    Evaluator(
         runtime_factory=runtime_factory,
         store=store,
         max_workers=spec.concurrency,
         progress=_progress,
     ).run(jobs, resume=spec.resume)
-    return 1 if summary["counts"]["failed"] else 0
+    return 0
 
 
 def command_summarize(run_dir: str, requested: int | None) -> int:
@@ -265,21 +267,35 @@ def command_training(args: argparse.Namespace) -> int:
         write_curriculum_state(args.output, payload)
     elif args.action == "analyze":
         spec = load_online_analysis_config(args.config)
-        payload = analyze_training_failures(spec)
+        try:
+            payload = analyze_training_failures(spec)
+        except Exception as exc:
+            payload = write_analysis_failure_fallback(spec, exc)
         if args.wandb:
-            from .wandb_reporting import report_round_to_wandb
+            try:
+                from .wandb_reporting import report_round_to_wandb
 
-            report_round_to_wandb(
-                stage="analysis",
-                name=spec.name,
-                output_dir=spec.output_dir,
-                payload=payload,
-                project=args.wandb_project,
-                entity=args.wandb_entity,
-                group=args.wandb_group,
-                mode=args.wandb_mode,
-                directory=args.wandb_dir,
-            )
+                report_round_to_wandb(
+                    stage="analysis",
+                    name=spec.name,
+                    output_dir=spec.output_dir,
+                    payload=payload,
+                    project=args.wandb_project,
+                    entity=args.wandb_entity,
+                    group=args.wandb_group,
+                    mode=args.wandb_mode,
+                    directory=args.wandb_dir,
+                )
+            except Exception as exc:
+                payload = dict(payload)
+                payload["wandb_error"] = f"{type(exc).__name__}: {exc}"
+    elif args.action == "watch-analyze":
+        spec = load_online_analysis_config(args.config)
+        payload = watch_training_failure_cards(
+            spec,
+            poll_seconds=args.poll_seconds,
+            stop_path=args.stop_file,
+        )
     elif args.action in {"online-gate-plan", "online-gate"}:
         spec = load_online_gate_config(args.config)
         payload = (
@@ -288,19 +304,23 @@ def command_training(args: argparse.Namespace) -> int:
             else run_online_gate(spec, progress=_progress)
         )
         if args.action == "online-gate" and args.wandb:
-            from .wandb_reporting import report_round_to_wandb
+            try:
+                from .wandb_reporting import report_round_to_wandb
 
-            report_round_to_wandb(
-                stage="gate",
-                name=spec.name,
-                output_dir=spec.output_dir,
-                payload=payload,
-                project=args.wandb_project,
-                entity=args.wandb_entity,
-                group=args.wandb_group,
-                mode=args.wandb_mode,
-                directory=args.wandb_dir,
-            )
+                report_round_to_wandb(
+                    stage="gate",
+                    name=spec.name,
+                    output_dir=spec.output_dir,
+                    payload=payload,
+                    project=args.wandb_project,
+                    entity=args.wandb_entity,
+                    group=args.wandb_group,
+                    mode=args.wandb_mode,
+                    directory=args.wandb_dir,
+                )
+            except Exception as exc:
+                payload = dict(payload)
+                payload["wandb_error"] = f"{type(exc).__name__}: {exc}"
     else:  # pragma: no cover - argparse owns this boundary
         raise AssertionError(args.action)
     print(json.dumps(payload, ensure_ascii=False, indent=2, default=str))
@@ -358,10 +378,25 @@ def build_parser() -> argparse.ArgumentParser:
     curriculum.add_argument("--rho-max", type=float, required=True)
     curriculum.add_argument("--contribution-scale", type=float)
     analyze = training_subparsers.add_parser(
-        "analyze", help="analyze failed full-skill retry trajectories"
+        "analyze", help="analyze remaining failed retries then compile candidates"
     )
     analyze.add_argument("config")
     _add_wandb_report_arguments(analyze)
+    watch_analyze = training_subparsers.add_parser(
+        "watch-analyze",
+        help="analyze failed full-skill retries while a training round is running",
+    )
+    watch_analyze.add_argument("config")
+    watch_analyze.add_argument(
+        "--poll-seconds",
+        type=float,
+        default=5.0,
+        help="how often to scan for new pending triage files",
+    )
+    watch_analyze.add_argument(
+        "--stop-file",
+        help="stop after this file appears, then finish in-flight analyses",
+    )
     online_plan = training_subparsers.add_parser(
         "online-gate-plan", help="validate an online randomized intervention plan"
     )

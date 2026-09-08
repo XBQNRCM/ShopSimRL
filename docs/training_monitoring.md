@@ -3,7 +3,7 @@
 本文说明 ShopSimRL 训练外循环的监控口径和操作方式。监控覆盖三个独立阶段：
 
 1. slime GRPO 训练，按 `rollout/step` 连续记录；
-2. Failure Analyst，完成一轮失败分析后记录一次；
+2. Failure Analyst，训练期间 sidecar 写 `failure_cards.jsonl`，W&B 仍在 round 结束 compile 后记录一次；
 3. randomized validation gate，完成或中止一轮验证后记录一次。
 
 训练轨迹、验证轨迹、回归输入和 gate 结果的本地文件仍是审计依据。W&B 用于查看曲线、横向比较 round 和集中保存阶段产物，不替代 `runs/` 下的原始记录。
@@ -77,14 +77,18 @@ bash scripts/run_shopsimrl_slime.sh
 
 | 指标 | 定义 |
 |---|---|
-| `rollout/shopsim/trajectory_count` | 当前 batch 中去重后的训练 trajectory 数 |
-| `rollout/shopsim/group_count` | 当前 batch 中接受的 GRPO prompt group 数 |
-| `rollout/shopsim/scored_rate` | 去重 trajectory 中可评分的比例；正常接受 batch 应为 1 |
-| `rollout/shopsim/reward_mean` | 去重 trajectory 的主 reward 均值 |
-| `rollout/shopsim/strict_reward_mean` | 去重 trajectory 的 `r_strict` 均值 |
-| `rollout/shopsim/success_rate` | 去重 trajectory 的 `r_success` 均值 |
+| `rollout/shopsim/trajectory_count` | 本步**全部已完成生成**（含被动态过滤丢掉的）去重 trajectory 数 |
+| `rollout/shopsim/group_count` | 同上，全部已完成 prompt group 数 |
+| `rollout/shopsim/train_trajectory_count` | 实际进入 trainer 的去重 trajectory 数 |
+| `rollout/shopsim/train_group_count` | 实际进入 trainer 的 prompt group 数 |
+| `rollout/shopsim/scored_rate` | 全部已完成 trajectory 中可评分的比例 |
+| `rollout/shopsim/reward_mean` | 全部已完成、可评分 trajectory 的主 reward 均值 |
+| `rollout/shopsim/strict_reward_mean` | 全部已完成、可评分 trajectory 的 `r_strict` 均值 |
+| `rollout/shopsim/success_rate` | 全部已完成、可评分 trajectory 的 `r_success` 均值 |
 
-这些曲线描述本轮进入 trainer 的样本。训练 rollout 的 token、logprob、loss mask 和 advantage 仍由 slime 训练数据持有；W&B 标量不承担逐 token 审计。
+这些曲线描述本步 SGLang 实际跑完的策略轨迹，包括 over-sampling 后因 zero-std 丢掉、以及凑满 16 组之后多出来的有差异组。中止未完成的 abort 不计入。`train_*` 才是进入 GRPO 的子集。训练 rollout 的 token、logprob、loss mask 和 advantage 仍由 slime 训练数据持有；W&B 标量不承担逐 token 审计。
+
+入口仍是 `enrich_rollout_metrics`；全量 group 由 `--rollout-all-samples-process-path`（`record_generated_rollout_groups`）在过滤前交给它。未接该 hook 时回退为只统计进入 trainer 的样本。
 
 ### 3.2 q、rho 和实际 mask
 
@@ -100,7 +104,7 @@ bash scripts/run_shopsimrl_slime.sh
 | `rollout/shopsim/chunk/<chunk-id>/target_rho` | 该 chunk 在 assisted 分支的目标 rho |
 | `rollout/shopsim/chunk/<chunk-id>/inclusion_rate` | 该 chunk 在当前 assisted groups 中的实际入选率 |
 
-`inclusion_rate` 的分母只包含 assisted 与 assisted-empty groups，不包含 q 命中的 skill-free groups，因此可以直接和 `target_rho` 比较。单个 batch 的 group 数较少时会有明显 Bernoulli 波动，应观察多个 step 的趋势；它不参与 gate 判定。
+`inclusion_rate` 的分母只包含全部已完成生成中的 assisted 与 assisted-empty groups，不包含 q 命中的 skill-free groups，因此可以直接和 `target_rho` 比较。单个 batch 的 group 数较少时会有明显 Bernoulli 波动，应观察多个 step 的趋势；它不参与 gate 判定。
 
 ### 3.3 all-wrong、retry 和技术失败
 
@@ -114,12 +118,16 @@ bash scripts/run_shopsimrl_slime.sh
 | `rollout/shopsim/runtime_error_group_rate` | 已接受 group 的 diagnostic retry 发生环境/runtime 错误的比例 |
 | `rollout/shopsim/technical_group_drop_count` | 动态采样期间因训练 trajectory 不可评分而丢弃的 group 数 |
 | `rollout/shopsim/technical_group_drop_rate` | `drop_count / (accepted_groups + drop_count)` |
+| `rollout/shopsim/zero_std_group_drop_count` | 因 sibling reward 全部相同、advantage 恒为 0 而丢弃的 group 数 |
+| `rollout/shopsim/zero_std_group_drop_rate` | `drop_count / (accepted_groups + drop_count)` |
 
 训练 trajectory 本身出现技术错误时，整个 group 会被过滤并补采，所以不会进入前几个 outcome 均值；这类故障应看 `technical_group_drop_*`。`runtime_error_group_rate` 主要覆盖训练 siblings 正常、但额外 diagnostic retry 出错的情况。
 
+sibling reward 全部相同的 group 对 GRPO 没有梯度贡献。reward 的比较按 `rollout_id` 去重，fan-out 分段不算多个样本。`over_sampling_batch_size=32` 时第一波有富余，`remaining>16` 的 zero-std 会真丢；只在手里已经不够再采时才放行。所以 `zero_std_group_drop_rate` 是丢弃率而非 zero-std 发生率。波次、`remaining` 和凑批规则见 [dynamic_sampling_filter.md](dynamic_sampling_filter.md)。两个 drop 指标共用 **进入 trainer 的** accepted 分母，各自只计入自己的丢弃数。all-wrong group 在过滤前就已写出 trace 和 triage，Failure Analyst 不受影响。`reward_mean` / `success_rate` 在全部已完成生成上计算，不被筛选偏向 0.5。
+
 ## 4. Failure Analyst 上报
 
-Failure Analyst 完成后显式开启 W&B：
+Failure Analyst 完成后显式开启 W&B（配置由 `configs/archive/trace2skill_online_analysis.example.yaml` 复制后填写）：
 
 ```bash
 python scripts/run_shopsimrl.py training analyze \
@@ -145,6 +153,8 @@ python scripts/run_shopsimrl.py training analyze \
 `failure_cards.jsonl` 包含 privileged audit。使用 W&B 公有云时，这个文件会随 `--wandb` 上传；需要把 gold-aware 记录限制在训练集群内时，应使用 offline/私有部署，或不要给 Analyst 命令加 `--wandb`，本地 JSON 不受影响。
 
 ## 5. Online gate 上报
+
+配置由 `configs/archive/trace2skill_online_gate.example.yaml` 复制后填写：
 
 ```bash
 python scripts/run_shopsimrl.py training online-gate \

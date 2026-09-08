@@ -17,7 +17,7 @@ from shopsimrl.paired_validation import (
     read_validation_traces, unique_traces,
 )
 from shopsimrl.schemas import EpisodeJob
-from shopsimrl.trace2skill_evaluation import build_mask_assignments, fit_paired_delta_ols, gate_a_plan, run_gate_a
+from shopsimrl.trace2skill_evaluation import build_mask_assignments, fit_paired_delta_ols, run_gate_a
 from shopsimrl.trace2skill_evaluation_config import GateASpec, load_trace2skill_evaluation_config
 from test_trace2skill_evaluation import _EffectRuntime, _experiment, _write_bare, _write_draft
 
@@ -58,7 +58,7 @@ def test_task_delta_alignment_and_auxiliary_outcomes(pair):
     assert rows[0]["delta_reward"] == pytest.approx(rows[0]["reward"] - rows[0]["bare_reward"])
 
 
-@pytest.mark.parametrize("case", ["missing", "extra", "failed", "duplicate", "task", "split", "seed", "mask", "bare_skill", "missing_provenance", "checkpoint", "sampling", "prompt", "environment", "runtime", "nan", "component", "strict"])
+@pytest.mark.parametrize("case", ["extra", "duplicate", "task", "split", "seed", "mask", "bare_skill", "missing_provenance", "checkpoint", "sampling", "prompt", "environment", "runtime", "nan", "component", "strict"])
 def test_reject_unsafe_pairs(pair, case):
     _, _, assignments, masked, bare = pair
     trace = masked[0]
@@ -96,6 +96,24 @@ def test_reject_unsafe_pairs(pair, case):
         paired_observations(assignments, masked, bare)
 
 
+def test_incomplete_pairs_are_dropped_from_regression(pair):
+    _, _, assignments, masked, bare = pair
+    missing_bare = deepcopy(bare)
+    missing_bare.pop()
+    _, _, rows = paired_observations(assignments, masked, missing_bare)
+    assert len(rows) == 39
+    failed_bare = deepcopy(bare)
+    failed_bare[0]["status"] = "failed"
+    _, _, rows = paired_observations(assignments, masked, failed_bare)
+    assert len(rows) == 39
+    assert failed_bare[0]["episode_id"] not in {row["episode_id"] for row in rows}
+    failed_masked = deepcopy(masked)
+    failed_masked[1]["status"] = "failed"
+    _, _, rows = paired_observations(assignments, failed_masked, bare)
+    assert len(rows) == 39
+    assert failed_masked[1]["episode_id"] not in {row["episode_id"] for row in rows}
+
+
 def test_failed_attempt_can_resume_but_completed_replicates_are_not_latest_selected(pair):
     _, _, _, _, bare = pair
     failed = deepcopy(bare[0])
@@ -118,9 +136,8 @@ def test_unsent_seeds_need_not_match_but_sample_ids_must(pair):
         paired_observations(assignments, masked, bare)
 
 
-def test_gate_a_failed_attempt_is_resumed_and_plan_fingerprint_agrees(pair):
+def test_gate_a_retries_then_drops_persistent_failures(pair):
     spec, plan, _, _, _ = pair
-    expected = gate_a_plan(spec)["semantic_plan_fingerprint"]
     failed_task = plan["jobs"][0]["task_id"]
     calls = []
 
@@ -133,25 +150,35 @@ def test_gate_a_failed_attempt_is_resumed_and_plan_fingerprint_agrees(pair):
                 trace["final"]["done"] = False
             return trace
 
-    manifest = run_gate_a(spec, runtime_factory=lambda provider: Runtime(provider, plan))
-    assert manifest["status"] == "incomplete"
-    assert len(calls) == 40
-    assert not (spec.output_dir / "selected_skillbank.json").exists()
-    assert json.loads((spec.output_dir / "manifest.json").read_text())["plan_fingerprint"] == expected
-    calls.clear()
-
-    class Retry(_EffectRuntime):
-        def run(self, job):
-            calls.append(job.task_id)
-            return super().run(job)
-
-    result = run_gate_a(spec, runtime_factory=lambda provider: Retry(provider, plan))
+    result = run_gate_a(spec, runtime_factory=lambda provider: Runtime(provider, plan))
     assert result["status"] == "complete"
-    assert calls == [failed_task]
-    # Raw failed + completed attempts are retained, but only one completed pair contributes.
-    assert len((spec.output_dir / "traces.jsonl").read_text().splitlines()) == 41
+    assert calls.count(failed_task) == 3
+    contributions = json.loads((spec.output_dir / "contributions.json").read_text())
+    assert contributions["observations"] == 39
+    assert len(contributions["dropped_episode_ids"]) == 1
+
+
+def test_gate_a_includes_episode_that_succeeds_on_retry(pair):
+    spec, plan, _, _, _ = pair
+    failed_task = plan["jobs"][0]["task_id"]
+    remaining = {failed_task: 1}
+
+    class Runtime(_EffectRuntime):
+        def run(self, job):
+            trace = super().run(job)
+            left = remaining.get(job.task_id, 0)
+            if left > 0:
+                remaining[job.task_id] = left - 1
+                trace["status"] = "failed"
+                trace["final"]["done"] = False
+            return trace
+
+    result = run_gate_a(spec, runtime_factory=lambda provider: Runtime(provider, plan))
+    assert result["status"] == "complete"
     contributions = json.loads((spec.output_dir / "contributions.json").read_text())
     assert contributions["observations"] == 40
+    assert contributions["dropped_episode_ids"] == []
+    assert len((spec.output_dir / "traces.jsonl").read_text().splitlines()) == 41
 
 
 def test_baseline_preflight_matches_manifest_and_traces(pair):
@@ -182,6 +209,19 @@ def test_baseline_preflight_matches_manifest_and_traces(pair):
         handle.write("not json\n")
     with pytest.raises(GateEvaluationError, match="invalid validation JSON"):
         load_bare_validation(spec.bare_run_dir, plan)
+
+
+def test_load_bare_drops_failed_latest_from_stats(pair):
+    spec, plan, _, _, _ = pair
+    path = spec.bare_run_dir / "traces.jsonl"
+    rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    rows[0]["status"] = "failed"
+    path.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
+    records, info = load_bare_validation(spec.bare_run_dir, plan, require_checkpoint=True)
+    assert len(records) == 39
+    assert info["observations"] == 39
+    assert info["requested_observations"] == 40
+    assert info["dropped_observations"] == 1
 
 
 def test_no_constant_column_or_zero_mask_special_case():
@@ -230,13 +270,19 @@ def test_online_orchestration_reuses_bare_and_resumes(pair):
 @pytest.mark.parametrize("online", [False, True])
 def test_gate_config_requires_bare_run_dir(tmp_path, online):
     root = Path(__file__).resolve().parents[1]
-    name = "trace2skill_online_gate.example.yaml" if online else "trace2skill_gate_a.yaml"
+    name = (
+        "trace2skill_online_gate.example.yaml"
+        if online
+        else "trace2skill_gate_a.example.yaml"
+    )
     loader = load_online_gate_config if online else load_trace2skill_evaluation_config
-    spec = loader(root / "configs" / name)
+    spec = loader(root / "configs" / "archive" / name)
     assert spec.bare_run_dir.is_absolute()
-    payload = yaml.safe_load((root / "configs" / name).read_text())
+    payload = yaml.safe_load((root / "configs" / "archive" / name).read_text())
     record = payload["online_gate" if online else "gate_a"]
-    record["experiment_config"] = str(root / "configs" / record["experiment_config"])
+    record["experiment_config"] = str(
+        (root / "configs" / "archive" / record["experiment_config"]).resolve()
+    )
     record.pop("bare_run_dir")
     path = tmp_path / "config.yaml"
     path.write_text(yaml.safe_dump(payload))

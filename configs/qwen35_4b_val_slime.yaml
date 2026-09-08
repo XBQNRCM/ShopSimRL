@@ -1,9 +1,11 @@
+# Local eval template aligned with training val/gate.
+# Copy, then change experiment.name, checkpoint_id, and skills.path.
 experiment:
-  # Change the name AND checkpoint_id for each frozen checkpoint.
-  name: round-000-bare-val
+  name: qwen35-4b-val-template
   output_dir: ../runs
+  dotenv: ../.env
   seed: 20260830
-  concurrency: 16
+  concurrency: 32
   resume: true
 
 tasks:
@@ -23,25 +25,23 @@ runtime:
 prompt:
   system_prompt_file: prompts/persona_single_turn.txt
 
-# Generic run reports bare val; the randomized gate reuses exactly these traces.
 skills:
   path: null
   max_skills: null
 
 model:
-  id: qwen35-4b-current-checkpoint
-  # Operator-supplied weights identity (path/revision/hash); not sent to the API.
-  # Replace with the actual frozen weights ID and keep the endpoint frozen for both runs.
-  checkpoint_id: round-000-checkpoint
+  id: qwen35-4b
+  checkpoint_id: replace-with-frozen-weights-id
   name: Qwen/Qwen3.5-4B
   base_url: http://127.0.0.1:30000/v1
   api_key_env: null
   temperature: 0.6
   top_p: 1.0
-  max_tokens: 2048
+  max_tokens: 4096
   timeout: 180
   max_retries: 3
   trust_env: false
   send_seed: false
   tool_choice: auto
-  extra_body: {}
+  extra_body:
+    enable_thinking: true

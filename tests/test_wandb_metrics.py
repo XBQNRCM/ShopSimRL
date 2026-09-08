@@ -135,7 +135,8 @@ def test_rollout_hook_adds_dynamic_filter_drop_rate(tmp_path):
         _sample(1, 11, {"reward": 0.0, "r_success": 0.0}, assignment),
     ]
     extra = {
-        "rollout/dynamic_filter/drop_shopsim_unscored_technical_group": 1
+        "rollout/dynamic_filter/drop_shopsim_unscored_technical_group": 1,
+        "rollout/dynamic_filter/drop_shopsim_zero_std_group": 3,
     }
     assert (
         enrich_rollout_metrics(
@@ -149,6 +150,62 @@ def test_rollout_hook_adds_dynamic_filter_drop_rate(tmp_path):
     )
     assert extra["rollout/shopsim/technical_group_drop_count"] == 1.0
     assert extra["rollout/shopsim/technical_group_drop_rate"] == 0.5
+    assert extra["rollout/shopsim/zero_std_group_drop_count"] == 3.0
+    assert extra["rollout/shopsim/zero_std_group_drop_rate"] == 0.75
+
+
+def test_rollout_hook_averages_reward_over_all_generated_groups(tmp_path):
+    curriculum = _curriculum(tmp_path)
+    curriculum_path = tmp_path / "curriculum.json"
+    curriculum_path.write_text(
+        json.dumps(
+            build_curriculum_state(
+                tmp_path / "bank.json",
+                round_id="round-000",
+                seed=3,
+                skill_free_probability=0.2,
+                rho_min=0.2,
+                rho_max=0.8,
+            )
+        ),
+        encoding="utf-8",
+    )
+    assignment = {
+        "state_id": curriculum.state_id,
+        "group_key": "1",
+        "mode": "assisted",
+        "skill_ids": ["a"],
+    }
+    kept = [
+        _sample(1, 10, {"reward": 0.0, "r_success": 0.0}, assignment),
+        _sample(1, 11, {"reward": 1.0, "r_success": 1.0}, assignment),
+    ]
+    dropped = [
+        _sample(2, 20, {"reward": 1.0, "r_success": 1.0}, assignment),
+        _sample(2, 21, {"reward": 1.0, "r_success": 1.0}, assignment),
+    ]
+    from shopsimrl.slime_metrics import record_generated_rollout_groups
+
+    record_generated_rollout_groups(None, [kept, dropped], None)
+    extra = {
+        "rollout/dynamic_filter/drop_shopsim_zero_std_group": 1,
+    }
+    assert (
+        enrich_rollout_metrics(
+            0,
+            SimpleNamespace(shopsim_curriculum_path=str(curriculum_path)),
+            kept,
+            extra,
+            1.0,
+        )
+        is False
+    )
+    assert extra["rollout/shopsim/reward_mean"] == 0.75
+    assert extra["rollout/shopsim/success_rate"] == 0.75
+    assert extra["rollout/shopsim/group_count"] == 2.0
+    assert extra["rollout/shopsim/train_group_count"] == 1.0
+    assert extra["rollout/shopsim/train_trajectory_count"] == 2.0
+    assert extra["rollout/shopsim/zero_std_group_drop_rate"] == 0.5
 
 
 def test_round_metric_extractors():

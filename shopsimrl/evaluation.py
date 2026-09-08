@@ -15,6 +15,8 @@ from .runtime import AgentRuntime
 from .schemas import TRACE_SCHEMA_VERSION, EpisodeJob, utc_now
 from .store import RunStore
 
+DEFAULT_MAX_EPISODE_RETRIES = 2
+
 
 @dataclass(frozen=True)
 class EvaluationPlan:
@@ -210,59 +212,71 @@ class Evaluator:
         store: RunStore,
         max_workers: int = 1,
         progress: Callable[[int, int, EpisodeJob, dict[str, Any]], None] | None = None,
+        max_episode_retries: int = DEFAULT_MAX_EPISODE_RETRIES,
     ):
         if max_workers < 1:
             raise ValueError("max_workers must be positive")
+        if isinstance(max_episode_retries, bool) or max_episode_retries < 0:
+            raise ValueError("max_episode_retries cannot be negative")
         self.runtime_factory = runtime_factory
         self.store = store
         self.max_workers = max_workers
         self.progress = progress
+        self.max_episode_retries = max_episode_retries
 
     def run(
         self, jobs: Sequence[EpisodeJob], *, resume: bool = True
     ) -> dict[str, Any]:
-        pending = [job for job in jobs if not (resume and self.store.is_complete(job))]
-        total_pending = len(pending)
-        if pending:
-            def run_one(job: EpisodeJob) -> dict[str, Any]:
-                return self.runtime_factory().run(job)
-
-            with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
-                futures = {
-                    executor.submit(run_one, job): job
-                    for job in pending
-                }
-                for completed_count, future in enumerate(as_completed(futures), 1):
-                    job = futures[future]
-                    try:
-                        trace = future.result()
-                    except Exception as exc:  # defensive boundary around custom runtimes
-                        trace = {
-                            "schema_version": TRACE_SCHEMA_VERSION,
-                            "episode_id": job.episode_id,
-                            "status": "failed",
-                            "job": job.to_dict(),
-                            "provenance": {},
-                            "started_at": None,
-                            "ended_at": utc_now(),
-                            "duration_ms": None,
-                            "reset": None,
-                            "selected_skills": [],
-                            "conversation": [],
-                            "steps": [],
-                            "final": None,
-                            "error": {
-                                "stage": "evaluator_boundary",
-                                "type": type(exc).__name__,
-                                "message": str(exc),
-                            },
-                        }
-                    self.store.save_trace(trace)
-                    if self.progress:
-                        self.progress(completed_count, total_pending, job, trace)
-
+        del resume
+        max_attempts = 1 + self.max_episode_retries
+        while True:
+            pending = [
+                job
+                for job in jobs
+                if not self.store.is_complete(job)
+                and self.store.attempt_count(job.episode_id) < max_attempts
+            ]
+            if not pending:
+                break
+            self._run_wave(pending)
         summary = summarize_traces(
             self.store.iter_traces(), requested=len(jobs)
         )
         self.store.write_summary(summary)
         return summary
+
+    def _run_wave(self, pending: Sequence[EpisodeJob]) -> None:
+        def run_one(job: EpisodeJob) -> dict[str, Any]:
+            return self.runtime_factory().run(job)
+
+        total_pending = len(pending)
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            futures = {executor.submit(run_one, job): job for job in pending}
+            for completed_count, future in enumerate(as_completed(futures), 1):
+                job = futures[future]
+                try:
+                    trace = future.result()
+                except Exception as exc:  # defensive boundary around custom runtimes
+                    trace = {
+                        "schema_version": TRACE_SCHEMA_VERSION,
+                        "episode_id": job.episode_id,
+                        "status": "failed",
+                        "job": job.to_dict(),
+                        "provenance": {},
+                        "started_at": None,
+                        "ended_at": utc_now(),
+                        "duration_ms": None,
+                        "reset": None,
+                        "selected_skills": [],
+                        "conversation": [],
+                        "steps": [],
+                        "final": None,
+                        "error": {
+                            "stage": "evaluator_boundary",
+                            "type": type(exc).__name__,
+                            "message": str(exc),
+                        },
+                    }
+                self.store.save_trace(trace)
+                if self.progress:
+                    self.progress(completed_count, total_pending, job, trace)

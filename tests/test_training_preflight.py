@@ -1,10 +1,17 @@
 import json
+from types import SimpleNamespace
 
 import pytest
 import yaml
 
 from shopsimrl.curriculum import build_curriculum_state, write_curriculum_state, write_slime_task_data
-from shopsimrl.training_analysis import _pending_triage_records
+from shopsimrl.training_analysis import (
+    OnlineAnalysisSpec,
+    _pending_triage_records,
+    drain_training_failure_cards,
+    watch_training_failure_cards,
+    write_analysis_failure_fallback,
+)
 from shopsimrl.training_preflight import check_training_inputs
 
 
@@ -67,3 +74,96 @@ def test_analysis_does_not_silently_accept_missing_round(tmp_path):
         _pending_triage_records(tmp_path / "missing")
     with pytest.raises(ValueError, match="no completed group"):
         _pending_triage_records(tmp_path)
+
+
+def test_analysis_failure_keeps_current_skills_without_new_candidates(tmp_path):
+    bank = tmp_path / "bank.json"
+    bank.write_text(
+        json.dumps(
+            {
+                "skills": [
+                    {
+                        "skill_id": "a",
+                        "content": "rule a",
+                        "metadata": {"estimated_effect": 0.2},
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    spec = OnlineAnalysisSpec(
+        name="round-000",
+        training_round_dir=tmp_path / "missing-round",
+        current_skillbank_path=bank,
+        output_dir=tmp_path / "analysis",
+        proposal_ledger_history_path=None,
+        proposal_checkpoint="ckpt",
+        max_candidates=6,
+        resume=True,
+        trace2skill=SimpleNamespace(),
+    )
+    summary = write_analysis_failure_fallback(spec, RuntimeError("analyst down"))
+    assert summary["status"] == "failed"
+    assert summary["submitted_candidates"] is False
+    assert summary["candidates"] == 0
+    pool = json.loads((tmp_path / "analysis" / "candidate_pool.json").read_text())
+    assert pool["candidates"] == []
+    assert pool["current_skills"][0]["skill_id"] == "a"
+
+
+def _analysis_spec(tmp_path, round_dir):
+    bank = tmp_path / "bank.json"
+    if not bank.is_file():
+        bank.write_text(
+            json.dumps(
+                {
+                    "skills": [
+                        {
+                            "skill_id": "a",
+                            "content": "rule a",
+                            "metadata": {"estimated_effect": 0.2},
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+    model = SimpleNamespace(identity=lambda: {"model": "cpu-analyst"})
+    return OnlineAnalysisSpec(
+        name="round-000",
+        training_round_dir=round_dir,
+        current_skillbank_path=bank,
+        output_dir=tmp_path / "analysis",
+        proposal_ledger_history_path=None,
+        proposal_checkpoint="ckpt",
+        max_candidates=6,
+        resume=True,
+        trace2skill=SimpleNamespace(
+            environment_base_url="http://unused",
+            environment_persona=True,
+            environment_timeout=30,
+            concurrency=1,
+            analyst_model=model,
+            compiler_model=model,
+            max_failure_analysis_steps=20,
+        ),
+    )
+
+
+def test_drain_allows_empty_live_round(tmp_path):
+    spec = _analysis_spec(tmp_path, tmp_path / "missing-round")
+    payload = drain_training_failure_cards(spec, allow_empty=True)
+    assert payload["triage_groups"] == 0
+    assert payload["newly_analyzed"] == 0
+    assert payload["analyzed_cards"] == 0
+
+
+def test_watch_analyze_stops_on_stop_file(tmp_path):
+    spec = _analysis_spec(tmp_path, tmp_path / "missing-round")
+    stop = tmp_path / "analyst.stop"
+    stop.write_text("stop", encoding="utf-8")
+    payload = watch_training_failure_cards(spec, poll_seconds=0.05, stop_path=stop)
+    assert payload["status"] == "watched"
+    assert payload["triage_groups"] == 0
+    assert payload["newly_analyzed"] == 0

@@ -216,6 +216,9 @@ def test_failed_group_retry_flows_into_online_analysis(harness, tmp_path, monkey
     assert [row["skill_id"] for row in pool["current_skills"]] == ["a"]
     assert training_analysis.analyze_training_failures(spec) == summary
     assert len(seen) == 1
+    drain = training_analysis.drain_training_failure_cards(spec)
+    assert drain["newly_analyzed"] == 0
+    assert training_analysis.compile_training_failure_cards(spec) == summary
 
 
 @pytest.mark.parametrize("sampling,split,evaluation", [
@@ -229,18 +232,51 @@ def test_training_contract_rejects_incompatible_sampling_and_evaluation(harness,
     assert not harness.calls
 
 
+def _filter_sample(rollout_id, reward, scored=True):
+    return SimpleNamespace(
+        index=rollout_id,
+        rollout_id=rollout_id,
+        metadata={"shopsim_scored": scored},
+        get_reward_value=lambda args, reward=reward: reward,
+    )
+
+
 def test_dynamic_filter_reports_technical_drop_reason(harness):
     from slime.rollout.filter_hub.base_types import DynamicFilterOutput
 
     slime_runtime._FAILED_GROUP_STREAK = 0
-    scored = SimpleNamespace(metadata={"shopsim_scored": True})
-    failed = SimpleNamespace(metadata={"shopsim_scored": False})
-    kept = slime_runtime.fully_scored_group_filter(harness.args, [scored])
-    dropped = slime_runtime.fully_scored_group_filter(harness.args, [failed])
+    kept = slime_runtime.fully_scored_group_filter(
+        harness.args, [[_filter_sample(0, 1.0)], [_filter_sample(1, 0.0)]]
+    )
+    dropped = slime_runtime.fully_scored_group_filter(
+        harness.args, [[_filter_sample(0, 1.0)], [_filter_sample(1, 0.0, scored=False)]]
+    )
     assert isinstance(kept, DynamicFilterOutput) and kept.keep and kept.reason is None
     assert isinstance(dropped, DynamicFilterOutput) and not dropped.keep
     assert dropped.reason == "shopsim_unscored_technical_group"
+    assert dropped.keep_when_insufficient is False
     slime_runtime._FAILED_GROUP_STREAK = 0
+
+
+def test_dynamic_filter_drops_tied_group_but_yields_when_batch_runs_short(harness):
+    from slime.rollout.filter_hub.base_types import DynamicFilterOutput
+
+    slime_runtime._FAILED_GROUP_STREAK = 0
+    tied = slime_runtime.fully_scored_group_filter(
+        harness.args, [[_filter_sample(0, 1.0)], [_filter_sample(1, 1.0)]]
+    )
+    assert isinstance(tied, DynamicFilterOutput) and not tied.keep
+    assert tied.reason == "shopsim_zero_std_group"
+    assert tied.keep_when_insufficient is True
+    slime_runtime._FAILED_GROUP_STREAK = 0
+
+
+def test_reward_spread_counts_executions_not_fan_out_segments(harness):
+    # Two segments of one execution repeat its reward and cannot disagree.
+    single = [_filter_sample(0, 1.0), _filter_sample(0, 1.0)]
+    assert slime_runtime.group_has_reward_spread(harness.args, single) is False
+    two = single + [_filter_sample(1, 0.0), _filter_sample(1, 0.0)]
+    assert slime_runtime.group_has_reward_spread(harness.args, two) is True
 
 
 def test_slime_dataset_accepts_task_ids_when_checkpoint_has_processor(harness, tmp_path, monkeypatch):

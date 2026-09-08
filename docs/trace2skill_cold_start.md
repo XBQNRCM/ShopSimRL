@@ -40,8 +40,8 @@ python scripts\run_shopsimrl.py trace2skill compile configs\trace2skill_cold_sta
 ```powershell
 python scripts\run_shopsimrl.py run configs\qwen35_4b_val.yaml
 # 已有匹配且完整的 bare val 时跳过上一条，将 bare_run_dir 指向该 run。
-python scripts\run_shopsimrl.py trace2skill gate-a-plan configs\trace2skill_gate_a.yaml
-python scripts\run_shopsimrl.py trace2skill gate-a configs\trace2skill_gate_a.yaml
+python scripts\run_shopsimrl.py trace2skill gate-a-plan configs\archive\trace2skill_gate_a.example.yaml
+python scripts\run_shopsimrl.py trace2skill gate-a configs\archive\trace2skill_gate_a.example.yaml
 
 python scripts\run_shopsimrl.py plan configs\qwen35_4b_test_trace2skill_equipped.yaml
 python scripts\run_shopsimrl.py run configs\qwen35_4b_test_trace2skill_equipped.yaml
@@ -56,7 +56,7 @@ Equipped YAML 依赖 Gate A 已经生成 `selected_skillbank.json`，因此其 `
 确认 `bare_run_dir` 中的 bare val 已完整后，需要过夜串行时可运行（脚本不另跑 bare）：
 
 ```powershell
-python scripts\run_trace2skill_overnight.py
+python scripts\archive\run_trace2skill_overnight.py
 ```
 
 该临时编排脚本先运行 Gate A；如 manifest 为 `incomplete`，会利用 evaluator 的 `resume` 语义只补跑未完成任务，默认最多再试 5 次（连同首次最多 6 轮）。Gate A 完整成功后，脚本再调用原始 `plan` / `run` 接口执行 equipped test。配置或 manifest 协议错误不会被盲目重试。

@@ -12,10 +12,10 @@ python scripts\run_shopsimrl.py training prepare-data `
   train data\shopsim_train.jsonl
 ```
 
-冷启动使用最新 paired-delta validation 入选的 10 条 chunk。当前工作区的历史 `gate-a` 是旧的 masked-only 带截距估计（7 条入选），不能作为本次初始化。最新 selection 的 ID、完整文本和系数已从 positive run 的全部 422 条 context 记录中核对恢复，保存至 `paired-delta-recovered/selected_skillbank.json` 和 `selected_skill.md`；记录的文本同时与冷启动 draft 核对一致。恢复脚本只读取已冻结的 skill context，不读取 test reward/success 来重选：
+冷启动使用最新 paired-delta validation 入选的 10 条 chunk。仓库发布副本在 `artifacts/cold-start/`（`run_full_train.sh` 与 `configs/slime_shopsimrl.yaml` 默认读取这里）。当前工作区的历史 `gate-a` 是旧的 masked-only 带截距估计（7 条入选），不能作为本次初始化。最新 selection 的 ID、完整文本和系数已从 positive run 的全部 422 条 context 记录中核对恢复，保存至 `paired-delta-recovered/selected_skillbank.json` 和 `selected_skill.md`；记录的文本同时与冷启动 draft 核对一致。恢复脚本只读取已冻结的 skill context，不读取 test reward/success 来重选：
 
 ```powershell
-python scripts\recover_paired_skillbank.py `
+python scripts\archive\recover_paired_skillbank.py `
   --comparison runs\qwen35-4b-test-paired-delta-positive-vs-negative\comparison.json `
   --positive-run runs\qwen35-4b-test-paired-delta-positive `
   --draft-skillbank runs\qwen35-4b-train-0830\trace2skill-cold-start\initial_skillbank.json `
@@ -53,10 +53,13 @@ export TRAIN_SAVE=/path/to/output
 bash scripts/run_shopsimrl_slime.sh
 ```
 
-当前训练与 rollout 均为 TP=2，所以 `NUM_GPUS` 必须是 2 的正整数。脚本同时把
-该值传给 slime 的 actor 和 rollout 节点拓扑；2、4、8 卡会分别启动 1、2、4 个
-双卡 rollout engine。少于 8 卡时不能只修改 Ray 的可见 GPU 数而保留 slime
-默认的 `num_gpus_per_node=8`。
+训练 TP 由 `TP_SIZE` 控制（默认 2），推理引擎 TP 由 `ROLLOUT_TP_SIZE` 控制（默认 1）。
+`NUM_GPUS` 必须同时被两者整除；`TP_SIZE>1` 时训练打开 sequence parallel。
+当前默认 `NUM_GPUS=4 TP_SIZE=2 ROLLOUT_TP_SIZE=1`：训练切开词表 logits，rollout / val 仍是 4 个独立引擎。
+训练打包 `MAX_TOKENS_PER_GPU=16384`，单条 Sample 由 `ROLLOUT_MAX_CONTEXT_LEN=24576` 封顶；二者不要当成同一件事，见 [oom_qwen35_4b.md](archive/oom_qwen35_4b.md)。
+`ROLLOUT_BATCH_SIZE` 默认 16，即每步留下 `16×8=128` 条 episode。`run_full_train.sh` 另把 `OVER_SAMPLING_BATCH_SIZE` 设为 32、`GLOBAL_BATCH_SIZE` 设为 64：先多采再过滤，留下的 128 条切成两次优化器更新。波次规则见 [dynamic_sampling_filter.md](dynamic_sampling_filter.md)。
+1 卡用 `NUM_GPUS=1 TP_SIZE=1`。
+少于 8 卡时不能只修改 Ray 的可见 GPU 数而保留 slime 默认的 `num_gpus_per_node=8`。
 
 运行前按 ShopSimulator 文档启动环境服务，并按机器拓扑审核 GPU、batch、context 和 checkpoint 路径；脚本会在启动 Ray 前检查 checkpoint、task data、slime checkout 和 custom config，并执行以下无 GPU、无 API 的输入校验。自定义参数位于 `configs/slime_shopsimrl.yaml`；其中 `shopsim_skillbank_path` 与 `shopsim_curriculum_path` 必须对应同一版本：
 
@@ -72,10 +75,10 @@ python scripts\run_shopsimrl.py training check configs\slime_shopsimrl.yaml
 - 环境 observation、tool result 和 prompt token 的 loss mask 为 0，模型生成 token 的 loss mask 为 1；
 - 动态工具 schema 造成 token-contiguous trajectory 分段时，siblings 共享 `rollout_id`。reward normalization 先按 unique rollout 计算，再向 siblings 广播，不会让长轨迹在组均值中被重复计数。
 - 适配器明确使用 `fork_threshold_tokens=0`：slime 默认会在短 assistant reasoning 回显或 token drift 时丢弃先前 response 的训练信号；本实现保留每一轮实际生成的 token/logprob，必要时独立分段。
-- 任一 rollout 因环境、协议运行时或空 trajectory 而不可评分时，动态采样过滤器丢弃整个 prompt group 并补采；技术失败不会作为 reward=0 样本污染 GRPO。连续失败达到配置阈值时直接终止，避免环境服务宕机后无限补采。
+- 任一 rollout 因环境、协议运行时或空 trajectory 而不可评分时，动态采样过滤器丢弃整个 prompt group 并补采；技术失败不会作为 reward=0 样本污染 GRPO。连续失败达到配置阈值时直接终止，避免环境服务宕机后无限补采。zero-std（全对/全错）带 `keep_when_insufficient`，波次与凑批规则见 [dynamic_sampling_filter.md](dynamic_sampling_filter.md)。
 - SGLang 的 `abort` 及 rollout 停止状态属于技术中止；停止后不再启动新的 turn/retry 请求。达到生成长度上限仍是可评分的 policy failure。当前页面未提供的工具与 evaluator 一样返回 `unavailable_tool` feedback，不执行环境动作。
 
-脚本给 slime dataset loader 开启 `--apply-chat-template`，兼容 Qwen3.5 checkpoint 附带 processor 时必须使用 message-list 的输入要求；实际购物 prompt 仍由 runtime 根据 `metadata.task_id` 从环境生成。`GLOBAL_BATCH_SIZE` 默认等于 `ROLLOUT_BATCH_SIZE * N_SAMPLES_PER_PROMPT`（原默认仍为 128），缩小 smoke batch 时随之缩小；显式覆盖时必须整除一轮的 episode 数，避免训练侧丢弃尾部 rollouts。
+脚本给 slime dataset loader 开启 `--apply-chat-template`，兼容 Qwen3.5 checkpoint 附带 processor 时必须使用 message-list 的输入要求；实际购物 prompt 仍由 runtime 根据 `metadata.task_id` 从环境生成。`run_shopsimrl_slime.sh` 里 `GLOBAL_BATCH_SIZE` 默认等于 `ROLLOUT_BATCH_SIZE * N_SAMPLES_PER_PROMPT`；`run_full_train.sh` 覆盖为 64，必须整除一轮留下的 episode 数，且是 `N_SAMPLES_PER_PROMPT` 的倍数，避免训练侧丢弃尾部 rollouts 或把同一个 prompt group 拆进两次更新。累计 `NUM_ROLLOUT` 变长时必须 `--override-opt-param-scheduler`，否则 Megatron 会因 checkpoint 里的 `lr_decay_steps` 与新 job 不一致而拒绝 load（constant lr 下这个总步数本来就不影响学习率）。
 
 当前入口固定 `top_p=1.0, top_k=-1`。这是 runtime contract，而不是随意的解码偏好：slime 的普通 rollout 能在 `top_p<1` 时携带截断分布 replay 元数据，但当前多轮 `TrajectoryManager` 只保存 exact token/logprob，不能把该 ragged 元数据跨 turn/fan-out 无损传到训练侧。验证配置使用同一采样分布；若未来扩展 manager 的 replay contract，再联合修改训练和 validation，不能只改脚本参数。
 
@@ -109,16 +112,19 @@ runs/slime-training/<round-id>/group-XXXXXXXXX/
 - 仍失败时只标为 `full_skill_failure_pending_analysis`，不会自动宣判 skill deficit；
 - 原 group 含环境/runtime 技术错误时不触发 skill 分析。
 
-round 结束后复制并修改在线分析示例配置，再运行：
+round 结束后复制并修改在线分析示例配置。外循环在 slime 训练期间启动 `training watch-analyze`，对着同一台 ShopSimulator 并发调用百炼 Failure Analyst，把 card 追加到 `failure_cards.jsonl`；训练 round 结束后再跑 `training analyze`，补上剩余 retry 并由 compiler 一次汇总：
 
 ```powershell
-Copy-Item configs\trace2skill_online_analysis.example.yaml `
+Copy-Item configs\archive\trace2skill_online_analysis.example.yaml `
   configs\trace2skill_online_analysis.yaml
+python scripts\run_shopsimrl.py training watch-analyze `
+  configs\trace2skill_online_analysis.yaml
+# slime 结束后：
 python scripts\run_shopsimrl.py training analyze `
   configs\trace2skill_online_analysis.yaml
 ```
 
-该命令只消费失败的 full-skill retry trajectory，调用现有 live、gold-aware Failure Analyst。ADD 必须有真实成功 counterfactual trial；REWRITE 的 target 必须是 current active chunk；gold firewall 与 cold start 相同；Analyst 仍可返回 `NO_PROPOSAL`。随后所有 eligible cards 被一次 many-to-one compiler 合并，近义机制去重后每轮最多输出 **6 条 ADD/REWRITE candidates**（`max_candidates` 默认值及当前配置均为 6）。单条 trajectory card 不会直接成为 validation factor。第二轮起可在配置中指定上一轮 `proposal_ledger.jsonl`；compiler 只把它作为审计/去重状态，不注入 policy prompt，gate 输出会累计历史并更新本轮候选结果。
+Analyst 只消费失败的 full-skill retry trajectory。ADD 必须有真实成功 counterfactual trial；REWRITE 的 target 必须是 current active chunk；gold firewall 与 cold start 相同；Analyst 仍可返回 `NO_PROPOSAL`。Compiler 在 round 结束时对所有 eligible cards 做一次 many-to-one 合并，近义机制去重后每轮最多输出 **6 条 ADD/REWRITE candidates**（`max_candidates` 默认值及当前配置均为 6）。单条 trajectory card 不会直接成为 validation factor。第二轮起可在配置中指定上一轮 `proposal_ledger.jsonl`；compiler 只把它作为审计/去重状态，不注入 policy prompt，gate 输出会累计历史并更新本轮候选结果。watch-analyze 与训练共享环境服务，并发沿用 Trace2Skill 配置（当前为 2），不要把 analyst 塞进 slime 进程。
 
 主要产物：
 
@@ -129,14 +135,14 @@ python scripts\run_shopsimrl.py training analyze `
 
 ## 4. 当前 checkpoint 的 randomized validation
 
-在线 gate 使用固定 `val` 400 tasks，每个 task 一条 bare 加一条 masked rollout，统一拟合 \(R_i-B_i=C_i^\top\beta+\epsilon_i\)。先将当前 checkpoint 以 OpenAI-compatible endpoint 暴露；`configs/qwen35_4b_val_slime.yaml` 默认连接 `http://127.0.0.1:30000/v1`。每轮更新 `experiment.name` 与 `model.checkpoint_id` 为实际冻结权重的唯一标识，并保持服务在 bare/masked/补测期间不换权重。
+在线 gate 使用固定 `val` 400 tasks，每个 task 一条 bare 加一条 masked rollout，统一拟合 \(R_i-B_i=C_i^\top\beta+\epsilon_i\)。先将当前 checkpoint 以 OpenAI-compatible endpoint 暴露；训练循环里用 4 卡 `tp=1 dp=4` 起 sglang，`configs/qwen35_4b_val_slime.yaml` 仍连 `http://127.0.0.1:30000/v1`，并发 32。每轮更新 `experiment.name` 与 `model.checkpoint_id` 为实际冻结权重的唯一标识，并保持服务在 bare/masked/补测期间不换权重。
 
 先用原始 evaluator 取得 bare validation score；已有相同 checkpoint、同协议的完整 run 时直接复用这批 traces，不重复调用模型。`online_gate.bare_run_dir` 指向该 run，`experiment_config` 引用同一份 bare YAML：
 
 ```powershell
 python scripts\run_shopsimrl.py run configs\qwen35_4b_val_slime.yaml
 # 已有匹配的完整 bare run 时跳过上一条，并设置 bare_run_dir。
-Copy-Item configs\trace2skill_online_gate.example.yaml `
+Copy-Item configs\archive\trace2skill_online_gate.example.yaml `
   configs\trace2skill_online_gate.yaml
 python scripts\run_shopsimrl.py training online-gate-plan `
   configs\trace2skill_online_gate.yaml
@@ -146,7 +152,7 @@ python scripts\run_shopsimrl.py training online-gate `
 
 普通 current/ADD slot 使用 `absent/present` 两个等概率状态。存在 rewrite family 时，一个逻辑 slot 使用 `absent/old/new1/...` 外生互斥状态；old 和 new 不会同时出现在 prompt。所有版本 dummy columns 与其他 slots 一起进入 **paired-delta 无截距 main-effect OLS**，因变量是同任务的 masked reward 减 bare reward，各 `r_*` 分量同样逐项相减。绝不减全局 bare 均值、不另外估计截距、不复用上一 checkpoint 的基线。
 
-共享数据契约、完整性/provenance 校验和解释边界见 [paired_validation.md](./paired_validation.md)。训练中的 skill-free group 或 full-skill retry 不能替代固定 val 的 bare run；当前是有限 round 后显式调用 evaluator/gate 的流程，未新增 trainer 内部自动评测调度。
+共享数据契约、完整性/provenance 校验和解释边界见 [paired_validation.md](./paired_validation.md)。训练中的 skill-free group 或 full-skill retry 不能替代固定 val 的 bare run。`run_full_train.sh` 每 20 个 slime step 停下来跑同一 checkpoint 的 bare val 与 masked gate，这不是 slime `--eval-interval`。
 
 选择顺序严格固定：
 
@@ -165,7 +171,7 @@ Gate 完成后输出 `mask_assignments.json`、通用 evaluator traces/summary�
 
 用新 gate 的 `selected_skillbank.json` 显式选择下一轮 q/rho 参数并构建新的 curriculum，然后让 slime 从对应 checkpoint 继续一个有限 round。
 
-注意 slime 的 `NUM_ROLLOUT` 是累计结束位置，不是本轮增量。第一轮更新到 100 后若再训练 100 轮，应从已保存 checkpoint 加载并设 `NUM_ROLLOUT=200`；仍填 100 会使循环为空。同时更新两个输入路径、`round_id` 和评测的 checkpoint identity。
+注意 slime 的 `NUM_ROLLOUT` 是累计结束位置，不是本轮增量。正式 100-step 跑法是 5 段、每段 20 step：`NUM_ROLLOUT` 依次为 21、41、…、101（转换后的 ckpt 从 `start_rollout_id=1` 起）。每段结束后从已保存 checkpoint 继续，并更新 SkillBank / curriculum / `round_id` 与评测的 checkpoint identity。仍填上一段的结束值会使循环为空。`run_shopsimrl_slime.sh` 打开 `--override-opt-param-scheduler`，允许后一段用更大的 `NUM_ROLLOUT` 覆盖 checkpoint 里的 scheduler 总步数。
 
 完整循环为：
 

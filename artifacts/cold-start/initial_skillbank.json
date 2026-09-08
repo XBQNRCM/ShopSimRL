@@ -1,0 +1,319 @@
+{
+  "schema_version": "shopsimrl-skillbank-v1",
+  "bank_version": "cold-start-draft-pre-validation",
+  "metadata": {
+    "draft_schema_version": "shopsimrl-initial-skill-draft-v2",
+    "gate_status": {
+      "gate_a": "not_run",
+      "gate_b": "not_run"
+    },
+    "active_skill_budget": 10
+  },
+  "skills": [
+    {
+      "skill_id": "chunk-27a7e5bb9344",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 搜索查询构建 - 显式约束整合\n\n- Applies when: 任务包含明确属性约束（品牌、颜色、尺寸、价格、功能等）时\n- Procedure:\n  1. 将所有核心属性约束整合为单一搜索查询词\n  2. 将价格约束、产品形态、核心成分等关键要素直接融入搜索词\n  3. 避免使用泛化搜索词或分步搜索\n- Verify: 验证搜索结果首屏是否出现匹配所有核心约束的商品\n- Avoid: 搜索词过于宽泛或遗漏关键约束导致结果不相关",
+      "metadata": {
+        "workflow_stage": "搜索查询构建",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-001-cluster-01",
+          "success-batch-002-cluster-01",
+          "success-batch-003-cluster-05",
+          "success-batch-004-cluster-05",
+          "success-batch-005-cluster-01",
+          "success-batch-006-cluster-01",
+          "success-batch-007-cluster-01",
+          "success-batch-008-cluster-01",
+          "success-batch-009-cluster-01",
+          "failure-batch-001-cluster-02",
+          "failure-batch-001-cluster-03",
+          "failure-batch-002-cluster-03",
+          "failure-batch-003-cluster-02",
+          "failure-batch-004-cluster-02",
+          "failure-batch-005-cluster-01"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-a9e98e128a35",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 搜索查询构建 - 画像证据融合\n\n- Applies when: 任务有约束且用户画像提供品牌偏好、历史搜索线索时\n- Procedure:\n  1. 从用户画像提取品牌偏好和近期搜索关键词\n  2. 从任务指令提取功能属性要求\n  3. 融合显式任务约束与隐式画像偏好构造复合搜索查询\n- Verify: 搜索结果首页出现同时匹配多个核心属性且包含用户偏好品牌的商品\n- Avoid: 忽略用户画像中的品牌偏好和近期搜索历史，使用过于通用的搜索词",
+      "metadata": {
+        "workflow_stage": "搜索查询构建",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-006-cluster-02",
+          "success-batch-007-cluster-02",
+          "success-batch-008-cluster-02",
+          "success-batch-010-cluster-01",
+          "failure-batch-001-cluster-01",
+          "failure-batch-001-cluster-04",
+          "failure-batch-002-cluster-01",
+          "failure-batch-002-cluster-02",
+          "failure-batch-002-cluster-04",
+          "failure-batch-003-cluster-01",
+          "failure-batch-003-cluster-03",
+          "failure-batch-004-cluster-01"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-a71a5634ee99",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 候选商品筛选 - 多维度评估\n\n- Applies when: 搜索结果存在多个候选商品需系统性筛选时\n- Procedure:\n  1. 建立多维度评估框架（价格匹配度、品牌偏好、属性符合度、功能特性）\n  2. 综合品牌偏好、价格约束、功能属性多维度筛选\n  3. 系统比对后选择综合匹配度最高的商品\n- Verify: 所选商品同时满足多项任务约束和用户偏好信号\n- Avoid: 仅依赖单一维度（价格或排名）筛选，忽略其他约束条件",
+      "metadata": {
+        "workflow_stage": "候选商品筛选",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-001-cluster-02",
+          "success-batch-002-cluster-05",
+          "success-batch-003-cluster-03",
+          "success-batch-003-cluster-04",
+          "success-batch-004-cluster-01",
+          "success-batch-004-cluster-04",
+          "success-batch-005-cluster-02",
+          "success-batch-006-cluster-03",
+          "success-batch-007-cluster-03",
+          "success-batch-007-cluster-04",
+          "success-batch-007-cluster-08",
+          "success-batch-008-cluster-03",
+          "success-batch-008-cluster-04",
+          "success-batch-009-cluster-02",
+          "success-batch-009-cluster-06",
+          "success-batch-010-cluster-02",
+          "failure-batch-001-cluster-05",
+          "failure-batch-001-cluster-06",
+          "failure-batch-003-cluster-04",
+          "failure-batch-004-cluster-06"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-4d958fc1d69e",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 候选商品筛选 - 显式约束优先\n\n- Applies when: 用户品牌偏好与任务显式功能、价格要求存在冲突时\n- Procedure:\n  1. 优先满足任务显式约束（预算、颜色、功能属性）\n  2. 用户画像中的软性偏好作为次要考量\n  3. 确认所选商品完全满足任务显式约束\n- Verify: 验证所选商品是否满足任务所有硬性约束，即使品牌不匹配用户偏好\n- Avoid: 过度依赖品牌偏好而忽略任务明确约束",
+      "metadata": {
+        "workflow_stage": "候选商品筛选",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-001-cluster-07",
+          "success-batch-003-cluster-01",
+          "success-batch-006-cluster-06",
+          "success-batch-008-cluster-05",
+          "success-batch-010-cluster-05"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-bbe6cb9408eb",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 候选商品筛选 - 历史行为匹配\n\n- Applies when: 多个候选均满足显式任务要求，需利用用户画像进行优先级排序时\n- Procedure:\n  1. 参考用户近期搜索或浏览历史选择最一致的商品\n  2. 优先选择可见属性与用户画像中的搜索历史和偏好高度匹配的商品\n  3. 验证商品属性与用户标签、历史搜索关键词的语义关联\n- Verify: 商品关键属性与历史搜索关键词高度匹配\n- Avoid: 忽略历史行为证据导致次优选择",
+      "metadata": {
+        "workflow_stage": "候选商品筛选",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-002-cluster-07",
+          "success-batch-006-cluster-07",
+          "failure-batch-005-cluster-04"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-ace1918b2d89",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 规格选项选择 - 显式约束匹配\n\n- Applies when: 商品存在多规格且任务有明确属性要求（尺寸、颜色、功能等）时\n- Procedure:\n  1. 将任务指令中的显式约束与商品规格选项进行精确匹配\n  2. 优先匹配任务显式规格要求，逐项验证每个选项轴\n  3. 直接将任务中的显式规格要求作为规格选择的首要依据\n- Verify: 确认所选规格参数完全满足任务约束\n- Avoid: 依赖推断偏好或默认选择，忽视任务显式约束",
+      "metadata": {
+        "workflow_stage": "规格选项选择",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-001-cluster-03",
+          "success-batch-002-cluster-03",
+          "success-batch-004-cluster-06",
+          "success-batch-006-cluster-05",
+          "success-batch-008-cluster-08",
+          "success-batch-009-cluster-04",
+          "success-batch-010-cluster-03",
+          "failure-batch-001-cluster-07",
+          "failure-batch-002-cluster-06",
+          "failure-batch-003-cluster-06",
+          "failure-batch-004-cluster-03",
+          "failure-batch-004-cluster-05",
+          "failure-batch-005-cluster-02"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-a6dc99015d8f",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 规格选项选择 - 画像证据引导\n\n- Applies when: 规格选项无明确任务指引但用户行为历史提供线索时\n- Procedure:\n  1. 从用户近期搜索、浏览历史中提取规格偏好（颜色、尺码等）\n  2. 查阅用户文档中的尺码、型号偏好或近期搜索关键词中的具体数值\n  3. 在商品可选规格中选择最匹配或最接近的选项\n- Verify: 验证所选规格与用户画像偏好或搜索历史中的具体属性值一致\n- Avoid: 随机或默认选择规格，未利用用户历史行为信号指导选择",
+      "metadata": {
+        "workflow_stage": "规格选项选择",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-002-cluster-04",
+          "success-batch-003-cluster-06",
+          "success-batch-004-cluster-03",
+          "success-batch-007-cluster-05",
+          "success-batch-008-cluster-07",
+          "failure-batch-003-cluster-07"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-d3a9ac5af7ef",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 规格选项选择 - 颜色语义映射\n\n- Applies when: 用户描述的颜色需要映射到商品可选颜色选项时\n- Procedure:\n  1. 将模糊的颜色描述映射到语义最接近的商品颜色选项\n  2. 如'白里透黄'对应米色或象牙白\n- Verify: 验证所选颜色选项与用户描述的语义匹配度\n- Avoid: 无法识别模糊颜色描述对应的具体选项",
+      "metadata": {
+        "workflow_stage": "规格选项选择",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-004-cluster-07"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-36097c09dd60",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 价格验证 - 变体价格确认\n\n- Applies when: 商品价格随规格变化且存在预算约束时\n- Procedure:\n  1. 在完成所有规格选项选择后，确认最终价格是否满足预算约束\n  2. 通过选择具体规格变体获取确切价格\n  3. 不可仅凭价格区间判断\n- Verify: 选择具体规格后验证显示价格是否在预算范围内\n- Avoid: 仅依赖展示的价格区间下限，未验证选定规格后的最终价格",
+      "metadata": {
+        "workflow_stage": "价格验证",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-001-cluster-04",
+          "success-batch-002-cluster-02",
+          "success-batch-003-cluster-02",
+          "success-batch-004-cluster-02",
+          "success-batch-005-cluster-03",
+          "success-batch-006-cluster-04",
+          "success-batch-007-cluster-06",
+          "success-batch-008-cluster-09",
+          "success-batch-009-cluster-03",
+          "failure-batch-002-cluster-05",
+          "failure-batch-003-cluster-05",
+          "failure-batch-004-cluster-04"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-a98e72998b7c",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 价格验证 - 价格区间评估\n\n- Applies when: 任务指定目标价格且搜索结果中存在多个价格区间不同的候选时\n- Procedure:\n  1. 优先选择价格区间起点或中点最接近目标值的商品\n  2. 而非仅看价格上限是否覆盖目标值\n- Verify: 比较各候选商品价格区间与目标价格的接近程度\n- Avoid: 仅看价格上限是否覆盖目标值，忽略价格区间起点或中点的匹配度",
+      "metadata": {
+        "workflow_stage": "价格验证",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-001-cluster-06"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-b64b0567ce98",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 回退策略 - 搜索迭代\n\n- Applies when: 初始搜索结果无法同时满足多项显式约束时\n- Procedure:\n  1. 采用迭代式搜索策略，先 broad 搜索定位候选\n  2. 发现关键属性不匹配时及时回退搜索结果页\n  3. 逐步添加约束词 refine 查询\n- Verify: 每次查看商品详情后检查关键属性是否匹配，不匹配时回退并调整搜索词\n- Avoid: 强行选择近似选项而非回退重构搜索",
+      "metadata": {
+        "workflow_stage": "搜索迭代与回退",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-001-cluster-05",
+          "success-batch-009-cluster-05"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-a7828a5d9468",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 回退策略 - 约束违反处理\n\n- Applies when: 已选商品无法满足显式任务要求（颜色、价格等）时\n- Procedure:\n  1. 检测到价格或约束违反时主动返回搜索结果重新筛选\n  2. 显式任务要求优先于推断的用户偏好\n  3. 不强行购买仅部分满足需求的商品\n- Verify: 重新选择后候选商品满足所有显式约束\n- Avoid: 继续购买超预算商品或强行完成不符合约束的购买流程",
+      "metadata": {
+        "workflow_stage": "购买决策阶段",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-005-cluster-04",
+          "success-batch-006-cluster-08"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-f58e352cdad0",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 购买决策 - 近似价格容差\n\n- Applies when: 任务指定近似价格目标（如'左右'）时\n- Procedure:\n  1. 接受小幅价格偏差，优先保证核心属性匹配\n  2. 对模糊约束采用弹性区间解释（如±10%）\n- Verify: 价格偏差在合理范围内\n- Avoid: 过度严格导致无合适商品",
+      "metadata": {
+        "workflow_stage": "购买决策阶段",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-006-cluster-09"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-c83ed5ae8b70",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 购买决策 - 约束协同验证\n\n- Applies when: 任务含价格、颜色等显性要求且用户画像含尺码、材质等偏好时\n- Procedure:\n  1. 购买决策前同时验证任务显性约束和用户画像隐性偏好\n  2. 系统性地验证所有约束轴（预算、颜色、规格、材质等）均有明确证据支持\n  3. 任一维度不匹配应继续筛选\n- Verify: 系统性地验证所有约束轴均有明确证据支持\n- Avoid: 遗漏某一约束轴验证，导致任务失败",
+      "metadata": {
+        "workflow_stage": "购买决策阶段",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-002-cluster-06",
+          "success-batch-007-cluster-07"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-381be5616e59",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 操作执行 - 精确文本匹配\n\n- Applies when: 点击操作需匹配页面实际可点击元素时\n- Procedure:\n  1. 根据错误反馈调整操作参数\n  2. 采用页面实际可点击元素的完整名称而非简化或推断的名称\n  3. 直接复制使用可点击元素列表中显示的精确字符串\n- Verify: 使用完整标识后操作成功\n- Avoid: 使用简化或推断的元素名称导致操作失败",
+      "metadata": {
+        "workflow_stage": "操作执行",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-007-cluster-10"
+        ],
+        "validation_result": null
+      }
+    },
+    {
+      "skill_id": "chunk-1f8d27322e9f",
+      "version": "draft-1",
+      "enabled": true,
+      "content": "### 候选验证 - 详情页深度检查\n\n- Applies when: 搜索结果页面无法完整展示所有规格属性时\n- Procedure:\n  1. 理解部分规格信息仅在商品详情页可见\n  2. 主动点击候选商品进行深度验证后再做购买决策\n- Verify: 进入商品详情页确认关键规格后再选择\n- Avoid: 仅依赖搜索结果页面信息做决策，未进入详情页确认关键规格",
+      "metadata": {
+        "workflow_stage": "候选商品验证",
+        "draft_only": true,
+        "evidence_cluster_ids": [
+          "success-batch-007-cluster-09"
+        ],
+        "validation_result": null
+      }
+    }
+  ]
+}

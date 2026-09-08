@@ -1,0 +1,143 @@
+{
+  "schema_version": "shopsimrl-ranking-selection-v1",
+  "k": 4,
+  "checkpoint_id": "qwen35-4b-base-hf",
+  "split_eval": "test",
+  "beta_source": "/root/autodl-tmp/ShopSimRL/runs/qwen35-4b-val-base-gate-a/contributions.json",
+  "all_coefficients": {
+    "chunk-27a7e5bb9344": 0.028284225031335992,
+    "chunk-a9e98e128a35": -0.029885800753821787,
+    "chunk-a71a5634ee99": 0.039121103109250446,
+    "chunk-4d958fc1d69e": -0.004706496193712956,
+    "chunk-bbe6cb9408eb": 0.06984051131811034,
+    "chunk-ace1918b2d89": -0.01024118215477422,
+    "chunk-a6dc99015d8f": -0.008570507841386627,
+    "chunk-d3a9ac5af7ef": -0.08192636182605642,
+    "chunk-36097c09dd60": 0.07061838505459163,
+    "chunk-a98e72998b7c": -0.0289744285552592,
+    "chunk-b64b0567ce98": -0.00036328744772435966,
+    "chunk-a7828a5d9468": -0.014684376756089695,
+    "chunk-f58e352cdad0": -0.029340510388771054,
+    "chunk-c83ed5ae8b70": -0.010169127941805417,
+    "chunk-381be5616e59": 0.028781818217601434,
+    "chunk-1f8d27322e9f": 0.06280332556630287
+  },
+  "ranked_desc": [
+    {
+      "chunk_id": "chunk-36097c09dd60",
+      "coefficient": 0.07061838505459163
+    },
+    {
+      "chunk_id": "chunk-bbe6cb9408eb",
+      "coefficient": 0.06984051131811034
+    },
+    {
+      "chunk_id": "chunk-1f8d27322e9f",
+      "coefficient": 0.06280332556630287
+    },
+    {
+      "chunk_id": "chunk-a71a5634ee99",
+      "coefficient": 0.039121103109250446
+    },
+    {
+      "chunk_id": "chunk-381be5616e59",
+      "coefficient": 0.028781818217601434
+    },
+    {
+      "chunk_id": "chunk-27a7e5bb9344",
+      "coefficient": 0.028284225031335992
+    },
+    {
+      "chunk_id": "chunk-b64b0567ce98",
+      "coefficient": -0.00036328744772435966
+    },
+    {
+      "chunk_id": "chunk-4d958fc1d69e",
+      "coefficient": -0.004706496193712956
+    },
+    {
+      "chunk_id": "chunk-a6dc99015d8f",
+      "coefficient": -0.008570507841386627
+    },
+    {
+      "chunk_id": "chunk-c83ed5ae8b70",
+      "coefficient": -0.010169127941805417
+    },
+    {
+      "chunk_id": "chunk-ace1918b2d89",
+      "coefficient": -0.01024118215477422
+    },
+    {
+      "chunk_id": "chunk-a7828a5d9468",
+      "coefficient": -0.014684376756089695
+    },
+    {
+      "chunk_id": "chunk-a98e72998b7c",
+      "coefficient": -0.0289744285552592
+    },
+    {
+      "chunk_id": "chunk-f58e352cdad0",
+      "coefficient": -0.029340510388771054
+    },
+    {
+      "chunk_id": "chunk-a9e98e128a35",
+      "coefficient": -0.029885800753821787
+    },
+    {
+      "chunk_id": "chunk-d3a9ac5af7ef",
+      "coefficient": -0.08192636182605642
+    }
+  ],
+  "top4": [
+    "chunk-36097c09dd60",
+    "chunk-bbe6cb9408eb",
+    "chunk-1f8d27322e9f",
+    "chunk-a71a5634ee99"
+  ],
+  "bottom4": [
+    "chunk-d3a9ac5af7ef",
+    "chunk-a9e98e128a35",
+    "chunk-f58e352cdad0",
+    "chunk-a98e72998b7c"
+  ],
+  "random4": {
+    "20260907": [
+      "chunk-4d958fc1d69e",
+      "chunk-a6dc99015d8f",
+      "chunk-d3a9ac5af7ef",
+      "chunk-381be5616e59"
+    ],
+    "20260908": [
+      "chunk-4d958fc1d69e",
+      "chunk-ace1918b2d89",
+      "chunk-d3a9ac5af7ef",
+      "chunk-c83ed5ae8b70"
+    ],
+    "20260909": [
+      "chunk-a9e98e128a35",
+      "chunk-a71a5634ee99",
+      "chunk-f58e352cdad0",
+      "chunk-1f8d27322e9f"
+    ],
+    "20260910": [
+      "chunk-a9e98e128a35",
+      "chunk-a71a5634ee99",
+      "chunk-4d958fc1d69e",
+      "chunk-bbe6cb9408eb"
+    ],
+    "20260911": [
+      "chunk-27a7e5bb9344",
+      "chunk-a9e98e128a35",
+      "chunk-d3a9ac5af7ef",
+      "chunk-a7828a5d9468"
+    ]
+  },
+  "random_seeds": [
+    20260907,
+    20260908,
+    20260909,
+    20260910,
+    20260911
+  ],
+  "notes": "Frozen from local paired-delta Gate A before test ranking rollouts. Do not change after seeing test results."
+}

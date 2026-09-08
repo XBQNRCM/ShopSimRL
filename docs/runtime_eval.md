@@ -86,9 +86,9 @@ shopsimrl/
 
 configs/
   prompts/persona_single_turn.txt
-  qwen35_4b_train.yaml
   qwen35_4b_val.yaml
   qwen35_4b_test.yaml
+  archive/          # SiliconFlow 0830 与未使用模板
 
 docs/
   code_plan.md
@@ -245,12 +245,14 @@ python -m shopsimrl.cli run configs\teacher_sample.yaml
 
 ## 9. 配置原则
 
-`configs/qwen35_4b_{train,val,test}.yaml` 是当前可直接运行的完整配置。其他模型或 checkpoint 从最接近用途的文件复制后修改：
+`configs/qwen35_4b_val.yaml` 与 `configs/qwen35_4b_test.yaml` 是当前可直接运行的本地协议配置。0830 SiliconFlow 的 train 采集配置在 `configs/archive/qwen35_4b_train.yaml`。其他模型或 checkpoint 从最接近用途的文件复制后修改：
 
 - 随机采样：`split=train`、`sample_size=N`、`repeats=K`、Teacher model、非零 temperature；
 - 固定评测：`split=val/test`、固定 temperature、单个 checkpoint、通常 `repeats=1`。
 
-当前 Qwen3.5-4B 配置统一使用 thinking mode 和标准 function tool calling，只以 `max_tokens=2048` 限制单轮生成，不设置独立 thinking budget；temperature 为 0.6、`top_p=0.95`、`top_k=20`。prompt 不要求输出可见 Thought 或文本 Action，thinking 与 tool call 分字段进入 trace。
+当前 Qwen3.5-4B 配置统一使用 thinking mode 和标准 function tool calling，只以 `max_tokens` 限制单轮生成，不设置独立 thinking budget。本地评测为 temperature 0.6、`top_p=1.0`、无 `top_k`。prompt 不要求输出可见 Thought 或文本 Action，thinking 与 tool call 分字段进入 trace。
+
+展示用 `configs/` 评测配置为 `max_tokens=4096`。历史 SiliconFlow 0830 配置（`configs/archive/`）为 2048 / `top_p=0.95` / `top_k=20`，不能与本地 4096 数字混画。
 
 先运行 `plan`。它只验证 YAML、split、persona 一致性、SkillBank 和确定性抽样，不调用模型或环境 API。确认 episode 数、前几个 task ID、prompt/skill hash 后再运行 `run`。
 

@@ -1,0 +1,51 @@
+{
+  "schema_version": "shopsimrl-eval-summary-v2",
+  "created_at": "2026-09-07T01:48:14.180952+00:00",
+  "counts": {
+    "requested": 400,
+    "trace_files": 400,
+    "completed": 400,
+    "failed": 0,
+    "scored": 400,
+    "coverage": 1.0
+  },
+  "primary": {
+    "reward_mean": 0.8406904761904762,
+    "reward_sem": 0.0179363093378822,
+    "success_rate": 0.8275
+  },
+  "reward_components": {
+    "r_att": 0.9093039321789321,
+    "r_loose": 0.9020281870906871,
+    "r_option": 0.865,
+    "r_price": 0.91,
+    "r_strict": 0.8406904761904762,
+    "r_success": 0.8275,
+    "r_type": 0.935
+  },
+  "behavior": {
+    "steps_mean": 5.99,
+    "model_steps": 2396,
+    "protocol_errors": 51,
+    "protocol_error_rate": 0.021285475792988316,
+    "policy_failures": 18,
+    "policy_failure_rate": 0.007512520868113523,
+    "invalid_action_rate": 0.04426299957026214,
+    "invalid_actions": 103,
+    "total_actions": 2327,
+    "termination_reasons": {
+      "action_limit": 7,
+      "generation_length": 18,
+      "purchase": 375
+    }
+  },
+  "cost": {
+    "duration_ms_mean": 26989.792432161048,
+    "tokens": {
+      "completion_tokens": 543378,
+      "prompt_tokens": 17728683,
+      "total_tokens": 18272061
+    }
+  },
+  "errors": {}
+}

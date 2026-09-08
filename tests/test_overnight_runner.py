@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from scripts import run_trace2skill_overnight as overnight
+from scripts.archive import run_trace2skill_overnight as overnight
 
 
 def _write_gate_a_manifest(

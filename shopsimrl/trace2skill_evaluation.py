@@ -20,6 +20,7 @@ from .paired_validation import (
     GateEvaluationError,
     PAIRED_ESTIMATOR,
     PAIRED_FORMULA,
+    dropped_episode_ids,
     load_bare_validation,
     outcome_means,
     paired_observations,
@@ -468,6 +469,8 @@ def estimate_gate_a_contributions(
         "mask_seed": assignments["mask_seed"],
         "mask_probability": assignments["mask_probability"],
         "observations": len(observation_rows),
+        "requested_observations": len(assignments["assignments"]),
+        "dropped_episode_ids": dropped_episode_ids(assignments, observation_rows),
         "active_skill_budget": active_skill_budget,
         "selected_count": len(selected_in_injection_order),
         "selected_chunk_ids": selected_in_injection_order,
@@ -811,7 +814,15 @@ def run_gate_a(
     ).run(jobs, resume=spec.experiment.resume)
     trace_records = read_validation_traces(store.traces_path)
     observed_provenance = _observed_provenance(trace_records)
-    if summary["counts"]["failed"] or summary["counts"]["coverage"] != 1.0:
+    try:
+        contributions = estimate_gate_a_contributions(
+            draft=draft,
+            assignments=assignments,
+            traces=trace_records,
+            bare_traces=bare_traces,
+            active_skill_budget=budget,
+        )
+    except GateEvaluationError:
         manifest = _gate_a_manifest(
             spec=spec,
             status="incomplete",
@@ -824,13 +835,6 @@ def run_gate_a(
         atomic_write_json(spec.output_dir / "gate_a_manifest.json", manifest)
         return manifest
 
-    contributions = estimate_gate_a_contributions(
-        draft=draft,
-        assignments=assignments,
-        traces=trace_records,
-        bare_traces=bare_traces,
-        active_skill_budget=budget,
-    )
     contributions["bare_baseline"] = baseline
     selected_bank = _selected_skillbank(
         draft=draft,

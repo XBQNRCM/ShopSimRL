@@ -1,0 +1,197 @@
+{
+  "schema_version": "shopsimrl-skill-curriculum-v1",
+  "created_at": "2026-09-06T15:03:48.426869+00:00",
+  "round_id": "round-001",
+  "seed": 20260901,
+  "skill_free_probability": 0.2,
+  "chunks": [
+    {
+      "skill_id": "chunk-27a7e5bb9344",
+      "version": "paired-delta-positive-1",
+      "content": "### 搜索查询构建 - 显式约束整合\n\n- Applies when: 任务包含明确属性约束（品牌、颜色、尺寸、价格、功能等）时\n- Procedure:\n  1. 将所有核心属性约束整合为单一搜索查询词\n  2. 将价格约束、产品形态、核心成分等关键要素直接融入搜索词\n  3. 避免使用泛化搜索词或分步搜索\n- Verify: 验证搜索结果首屏是否出现匹配所有核心约束的商品\n- Avoid: 搜索词过于宽泛或遗漏关键约束导致结果不相关",
+      "metadata": {
+        "workflow_stage": "搜索查询构建",
+        "evidence_cluster_ids": [
+          "success-batch-001-cluster-01",
+          "success-batch-002-cluster-01",
+          "success-batch-003-cluster-05",
+          "success-batch-004-cluster-05",
+          "success-batch-005-cluster-01",
+          "success-batch-006-cluster-01",
+          "success-batch-007-cluster-01",
+          "success-batch-008-cluster-01",
+          "success-batch-009-cluster-01",
+          "failure-batch-001-cluster-02",
+          "failure-batch-001-cluster-03",
+          "failure-batch-002-cluster-03",
+          "failure-batch-003-cluster-02",
+          "failure-batch-004-cluster-02",
+          "failure-batch-005-cluster-01"
+        ],
+        "validation_result": "selected",
+        "estimated_effect": 0.027016475399560255,
+        "contribution_rank": 6,
+        "draft_order": 1,
+        "coefficient_sign": "positive",
+        "estimator": "paired_delta_ols_main_effects_no_intercept",
+        "selected_intervention_id": "chunk-27a7e5bb9344"
+      },
+      "contribution": 0.027016475399560255,
+      "inclusion_probability": 0.4558757756140158
+    },
+    {
+      "skill_id": "chunk-a9e98e128a35",
+      "version": "paired-delta-positive-1",
+      "content": "### 搜索查询构建 - 画像证据融合\n\n- Applies when: 任务有约束且用户画像提供品牌偏好、历史搜索线索时\n- Procedure:\n  1. 从用户画像提取品牌偏好和近期搜索关键词\n  2. 从任务指令提取功能属性要求\n  3. 融合显式任务约束与隐式画像偏好构造复合搜索查询\n- Verify: 搜索结果首页出现同时匹配多个核心属性且包含用户偏好品牌的商品\n- Avoid: 忽略用户画像中的品牌偏好和近期搜索历史，使用过于通用的搜索词",
+      "metadata": {
+        "workflow_stage": "搜索查询构建",
+        "evidence_cluster_ids": [
+          "success-batch-006-cluster-02",
+          "success-batch-007-cluster-02",
+          "success-batch-008-cluster-02",
+          "success-batch-010-cluster-01",
+          "failure-batch-001-cluster-01",
+          "failure-batch-001-cluster-04",
+          "failure-batch-002-cluster-01",
+          "failure-batch-002-cluster-02",
+          "failure-batch-002-cluster-04",
+          "failure-batch-003-cluster-01",
+          "failure-batch-003-cluster-03",
+          "failure-batch-004-cluster-01"
+        ],
+        "validation_result": "selected",
+        "estimated_effect": 0.015260273770068864,
+        "contribution_rank": 7,
+        "draft_order": 2,
+        "coefficient_sign": "positive",
+        "estimator": "paired_delta_ols_main_effects_no_intercept",
+        "selected_intervention_id": "chunk-a9e98e128a35"
+      },
+      "contribution": 0.015260273770068864,
+      "inclusion_probability": 0.3445315989317448
+    },
+    {
+      "skill_id": "chunk-bbe6cb9408eb",
+      "version": "paired-delta-positive-1",
+      "content": "### 候选商品筛选 - 历史行为匹配\n\n- Applies when: 多个候选均满足显式任务要求，需利用用户画像进行优先级排序时\n- Procedure:\n  1. 参考用户近期搜索或浏览历史选择最一致的商品\n  2. 优先选择可见属性与用户画像中的搜索历史和偏好高度匹配的商品\n  3. 验证商品属性与用户标签、历史搜索关键词的语义关联\n- Verify: 商品关键属性与历史搜索关键词高度匹配\n- Avoid: 忽略历史行为证据导致次优选择",
+      "metadata": {
+        "workflow_stage": "候选商品筛选",
+        "evidence_cluster_ids": [
+          "success-batch-002-cluster-07",
+          "success-batch-006-cluster-07",
+          "failure-batch-005-cluster-04"
+        ],
+        "validation_result": "selected",
+        "estimated_effect": 0.04113563630357464,
+        "contribution_rank": 3,
+        "draft_order": 5,
+        "coefficient_sign": "positive",
+        "estimator": "paired_delta_ols_main_effects_no_intercept",
+        "selected_intervention_id": "chunk-bbe6cb9408eb"
+      },
+      "contribution": 0.04113563630357464,
+      "inclusion_probability": 0.589599778982441
+    },
+    {
+      "skill_id": "chunk-c83ed5ae8b70",
+      "version": "paired-delta-positive-1",
+      "content": "### 购买决策 - 约束协同验证\n\n- Applies when: 任务含价格、颜色等显性要求且用户画像含尺码、材质等偏好时\n- Procedure:\n  1. 购买决策前同时验证任务显性约束和用户画像隐性偏好\n  2. 系统性地验证所有约束轴（预算、颜色、规格、材质等）均有明确证据支持\n  3. 任一维度不匹配应继续筛选\n- Verify: 系统性地验证所有约束轴均有明确证据支持\n- Avoid: 遗漏某一约束轴验证，导致任务失败",
+      "metadata": {
+        "workflow_stage": "购买决策阶段",
+        "evidence_cluster_ids": [
+          "success-batch-002-cluster-06",
+          "success-batch-007-cluster-07"
+        ],
+        "validation_result": "selected",
+        "estimated_effect": 0.03642437192101195,
+        "contribution_rank": 4,
+        "draft_order": 14,
+        "coefficient_sign": "positive",
+        "estimator": "paired_delta_ols_main_effects_no_intercept",
+        "selected_intervention_id": "chunk-c83ed5ae8b70"
+      },
+      "contribution": 0.03642437192101195,
+      "inclusion_probability": 0.5449789167055454
+    },
+    {
+      "skill_id": "chunk-1f8d27322e9f",
+      "version": "paired-delta-positive-1",
+      "content": "### 候选验证 - 详情页深度检查\n\n- Applies when: 搜索结果页面无法完整展示所有规格属性时\n- Procedure:\n  1. 理解部分规格信息仅在商品详情页可见\n  2. 主动点击候选商品进行深度验证后再做购买决策\n- Verify: 进入商品详情页确认关键规格后再选择\n- Avoid: 仅依赖搜索结果页面信息做决策，未进入详情页确认关键规格",
+      "metadata": {
+        "workflow_stage": "候选商品验证",
+        "evidence_cluster_ids": [
+          "success-batch-007-cluster-09"
+        ],
+        "validation_result": "selected",
+        "estimated_effect": 0.04670235093096396,
+        "contribution_rank": 2,
+        "draft_order": 16,
+        "coefficient_sign": "positive",
+        "estimator": "paired_delta_ols_main_effects_no_intercept",
+        "selected_intervention_id": "chunk-1f8d27322e9f"
+      },
+      "contribution": 0.04670235093096396,
+      "inclusion_probability": 0.6423226971958329
+    },
+    {
+      "skill_id": "online-8e3e179b9270814a",
+      "version": "candidate",
+      "content": "### 搜索查询构建 - 多功能约束完整提取\n\n- Applies when: 任务指令包含多个并列功能要求（如多种病症防治、多种成分组合）或商品存在明确子类型区分（如风暖/灯暖）时\n- Procedure:\n  1. 识别任务指令中所有功能性要求关键词（病症名、成分名、功效词、子类型等）\n  2. 将所有功能关键词与产品类别词组合为复合搜索查询\n  3. 将子类型和功能特征词明确融入搜索查询，避免仅使用泛化类别词\n- Verify: 验证搜索结果首页是否出现同时匹配所有功能关键词的商品\n- Avoid: 仅提取单一功能属性进行窄化搜索，遗漏其他并列功能要求或子类型区分词",
+      "metadata": {
+        "title": "搜索查询构建 - 多功能约束完整提取",
+        "failure_mechanism": "搜索查询构建时仅提取部分功能约束，遗漏任务指令中的多项核心功能要求或子类型区分词，导致搜索结果无法召回同时满足所有功能属性的目标商品",
+        "evidence_card_ids": [
+          "failure-train-group-000000087-sample-000000704-full-skill-retry-01",
+          "failure-train-group-000000232-sample-000001864-full-skill-retry-01",
+          "failure-train-group-000000333-sample-000002672-full-skill-retry-01",
+          "failure-train-group-000000608-sample-000004872-full-skill-retry-01"
+        ],
+        "consolidation_cluster_id": "cluster-8e3e179b9270814a",
+        "proposal_checkpoint": "qwen35-4b-round-000",
+        "operation": "ADD",
+        "validation_result": "selected",
+        "estimated_effect": 0.03368315918029599,
+        "contribution_rank": 5,
+        "selected_intervention_id": "online-8e3e179b9270814a"
+      },
+      "contribution": 0.03368315918029599,
+      "inclusion_probability": 0.5190166131192998
+    },
+    {
+      "skill_id": "online-bbef274e1764d953",
+      "version": "candidate",
+      "content": "### 候选商品筛选 - 历史行为与预算协同\n\n- Applies when: 多个候选均满足显式任务要求，且用户画像包含最近搜索关键词时，或商品存在多个满足功能需求的规格选项且任务有明确预算约束时\n- Procedure:\n  1. 从用户画像'最近14天搜索关键词'提取具体规格要素\n  2. 优先选择标题或规格选项中包含这些规格要素的商品\n  3. 列出所有满足核心功能需求的规格选项\n  4. 优先筛选价格在预算上限内的选项\n  5. 从符合预算的选项中选择最佳匹配规格\n- Verify: 验证所选商品的关键属性是否与用户画像中的搜索历史关键词高度匹配，同时满足任务显式约束，且所选规格价格不超过预算上限\n- Avoid: 忽略用户画像中具体规格搜索历史，仅依赖价格或商品属性丰富度做决策，或优先匹配历史搜索关键词而选择超出预算的选项",
+      "metadata": {
+        "title": "候选商品筛选 - 历史行为与预算协同",
+        "failure_mechanism": "当多个候选均满足显式任务要求时，策略未充分利用用户画像中的最近搜索历史进行优先级排序，或在规格选项选择时未优先验证价格约束即选择与历史偏好匹配的选项",
+        "evidence_card_ids": [
+          "failure-train-group-000000116-sample-000000936-full-skill-retry-01",
+          "failure-train-group-000000209-sample-000001680-full-skill-retry-01",
+          "failure-train-group-000000371-sample-000002976-full-skill-retry-01",
+          "failure-train-group-000000415-sample-000003328-full-skill-retry-01"
+        ],
+        "consolidation_cluster_id": "cluster-bbef274e1764d953",
+        "proposal_checkpoint": "qwen35-4b-round-000",
+        "operation": "ADD",
+        "validation_result": "selected",
+        "estimated_effect": 0.07390903939347465,
+        "contribution_rank": 1,
+        "selected_intervention_id": "online-bbef274e1764d953"
+      },
+      "contribution": 0.07390903939347465,
+      "inclusion_probability": 0.8999999999999999
+    }
+  ],
+  "source": {
+    "skillbank_path": "/root/autodl-tmp/ShopSimRL/runs/round-000-online-gate/selected_skillbank.json",
+    "skillbank_sha256": "38db2dc584c66e9afe7ce81efd00acb5e298589da98da995526058d705b380cf",
+    "probability_mapping": {
+      "name": "clipped_linear_positive_contribution",
+      "rho_min": 0.2,
+      "rho_max": 0.9,
+      "contribution_scale": 0.07390903939347465,
+      "scale_source": "largest_active_contribution"
+    }
+  },
+  "state_id": "747223fbeca202a01a735b99fc578cc12b45a00709948e49b5dc841755fc4236"
+}

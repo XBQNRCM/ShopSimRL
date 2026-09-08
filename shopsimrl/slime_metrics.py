@@ -14,6 +14,25 @@ from typing import Any, Iterable, Mapping
 from .curriculum import SkillCurriculum
 from .slime_runtime import _project_path
 
+_GENERATED_ROLLOUT_GROUPS: list[Any] | None = None
+
+
+def record_generated_rollout_groups(
+    args: Any, all_samples: list[Any], data_source: Any
+) -> None:
+    """slime ``--rollout-all-samples-process-path``: keep filtered-out groups for metrics."""
+
+    del args, data_source
+    global _GENERATED_ROLLOUT_GROUPS
+    _GENERATED_ROLLOUT_GROUPS = all_samples
+
+
+def _take_generated_rollout_groups() -> list[Any] | None:
+    global _GENERATED_ROLLOUT_GROUPS
+    groups = _GENERATED_ROLLOUT_GROUPS
+    _GENERATED_ROLLOUT_GROUPS = None
+    return groups
+
 
 def _leaves(values: Iterable[Any]) -> Iterable[Any]:
     for value in values:
@@ -93,7 +112,8 @@ def compute_shopsim_rollout_metrics(
         values = [
             value
             for row in rows
-            if (value := _number(row["reward"].get(reward_key))) is not None
+            if row["scored"]
+            and (value := _number(row["reward"].get(reward_key))) is not None
         ]
         _set(metrics, metric_name, _mean(values))
 
@@ -201,19 +221,35 @@ def enrich_rollout_metrics(
         return False
     curriculum_path = _project_path(getattr(args, "shopsim_curriculum_path"))
     curriculum = SkillCurriculum.load(Path(curriculum_path))
-    metrics = compute_shopsim_rollout_metrics(samples, curriculum)
-    dropped = _number(
-        rollout_extra_metrics.get(
-            "rollout/dynamic_filter/drop_shopsim_unscored_technical_group"
-        )
+    accepted_metrics = compute_shopsim_rollout_metrics(samples, curriculum)
+    generated = _take_generated_rollout_groups()
+    metrics = (
+        compute_shopsim_rollout_metrics(generated, curriculum)
+        if generated is not None
+        else accepted_metrics
     )
-    accepted = metrics.get("rollout/shopsim/group_count", 0.0)
-    if dropped is not None:
-        _set(metrics, "technical_group_drop_count", dropped)
+    accepted_groups = accepted_metrics.get("rollout/shopsim/group_count", 0.0)
+    _set(metrics, "train_group_count", accepted_groups)
+    _set(
+        metrics,
+        "train_trajectory_count",
+        accepted_metrics.get("rollout/shopsim/trajectory_count"),
+    )
+    for reason, name in (
+        ("shopsim_unscored_technical_group", "technical_group_drop"),
+        ("shopsim_zero_std_group", "zero_std_group_drop"),
+    ):
+        dropped = _number(
+            rollout_extra_metrics.get(f"rollout/dynamic_filter/drop_{reason}")
+        )
+        if dropped is None:
+            continue
+        # Rate is against accepted plus this reason's drops, not generated volume.
+        _set(metrics, f"{name}_count", dropped)
         _set(
             metrics,
-            "technical_group_drop_rate",
-            dropped / (accepted + dropped) if accepted + dropped else 0.0,
+            f"{name}_rate",
+            dropped / (accepted_groups + dropped) if accepted_groups + dropped else 0.0,
         )
     rollout_extra_metrics.update(metrics)
     return False

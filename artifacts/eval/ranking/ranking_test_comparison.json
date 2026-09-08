@@ -1,0 +1,712 @@
+{
+  "schema_version": "shopsimrl-ranking-test-comparison-v1",
+  "created_at": "2026-09-07T15:06:03.798723+00:00",
+  "protocol": {
+    "checkpoint_id": "qwen35-4b-base-hf",
+    "split": "test",
+    "k": 4,
+    "random_seed_evaluated": 20260907,
+    "random_seeds_not_run": [
+      20260908,
+      20260909,
+      20260910,
+      20260911
+    ],
+    "beta_source": "/root/autodl-tmp/ShopSimRL/runs/qwen35-4b-val-base-gate-a/contributions.json",
+    "selection": "/root/autodl-tmp/ShopSimRL/runs/qwen35-4b-val-base-gate-a/ranking_selection.json",
+    "bootstrap": {
+      "method": "task_level_paired_percentile",
+      "samples": 10000,
+      "seed": 20260901,
+      "confidence_level": 0.95
+    }
+  },
+  "arms": {
+    "top4": {
+      "run": "/root/autodl-tmp/ShopSimRL/runs/qwen35-4b-test-rank-top4",
+      "chunk_ids": [
+        "chunk-a71a5634ee99",
+        "chunk-bbe6cb9408eb",
+        "chunk-36097c09dd60",
+        "chunk-1f8d27322e9f"
+      ],
+      "summary": {
+        "counts": {
+          "requested": 400,
+          "trace_files": 400,
+          "completed": 400,
+          "failed": 0,
+          "scored": 400,
+          "coverage": 1.0
+        },
+        "primary": {
+          "reward_mean": 0.5417341269841269,
+          "reward_sem": 0.02433210007727676,
+          "success_rate": 0.5175
+        },
+        "reward_components": {
+          "r_att": 0.7352777777777777,
+          "r_loose": 0.7245515873015873,
+          "r_option": 0.5895833333333333,
+          "r_price": 0.87,
+          "r_strict": 0.5417341269841269,
+          "r_success": 0.5175,
+          "r_type": 0.91875
+        }
+      }
+    },
+    "bottom4": {
+      "run": "/root/autodl-tmp/ShopSimRL/runs/qwen35-4b-test-rank-bottom4",
+      "chunk_ids": [
+        "chunk-a9e98e128a35",
+        "chunk-d3a9ac5af7ef",
+        "chunk-a98e72998b7c",
+        "chunk-f58e352cdad0"
+      ],
+      "summary": {
+        "counts": {
+          "requested": 400,
+          "trace_files": 400,
+          "completed": 400,
+          "failed": 0,
+          "scored": 400,
+          "coverage": 1.0
+        },
+        "primary": {
+          "reward_mean": 0.5703938492063493,
+          "reward_sem": 0.024249273244650565,
+          "success_rate": 0.55
+        },
+        "reward_components": {
+          "r_att": 0.7633412698412698,
+          "r_loose": 0.7432469821844822,
+          "r_option": 0.6229166666666667,
+          "r_price": 0.8375,
+          "r_strict": 0.5703938492063493,
+          "r_success": 0.55,
+          "r_type": 0.915
+        }
+      }
+    },
+    "random4_20260907": {
+      "run": "/root/autodl-tmp/ShopSimRL/runs/qwen35-4b-test-rank-random4-20260907",
+      "chunk_ids": [
+        "chunk-4d958fc1d69e",
+        "chunk-a6dc99015d8f",
+        "chunk-d3a9ac5af7ef",
+        "chunk-381be5616e59"
+      ],
+      "summary": {
+        "counts": {
+          "requested": 400,
+          "trace_files": 400,
+          "completed": 400,
+          "failed": 0,
+          "scored": 400,
+          "coverage": 1.0
+        },
+        "primary": {
+          "reward_mean": 0.5588511904761905,
+          "reward_sem": 0.02440526735705939,
+          "success_rate": 0.5425
+        },
+        "reward_components": {
+          "r_att": 0.7468928571428571,
+          "r_loose": 0.7332130681818182,
+          "r_option": 0.6075,
+          "r_price": 0.8625,
+          "r_strict": 0.5588511904761905,
+          "r_success": 0.5425,
+          "r_type": 0.9277500000000001
+        }
+      }
+    },
+    "bare": {
+      "run": "/root/autodl-tmp/ShopSimRL/runs/qwen35-4b-test-base-free",
+      "chunk_ids": [],
+      "summary": {
+        "counts": {
+          "requested": 400,
+          "trace_files": 400,
+          "completed": 400,
+          "failed": 0,
+          "scored": 400,
+          "coverage": 1.0
+        },
+        "primary": {
+          "reward_mean": 0.5421666666666667,
+          "reward_sem": 0.02433258027129295,
+          "success_rate": 0.5175
+        },
+        "reward_components": {
+          "r_att": 0.7451428571428572,
+          "r_loose": 0.7282689393939394,
+          "r_option": 0.5825,
+          "r_price": 0.86,
+          "r_strict": 0.5421666666666667,
+          "r_success": 0.5175,
+          "r_type": 0.91875
+        }
+      }
+    }
+  },
+  "vs_bare_comparisons": {
+    "top4": "/root/autodl-tmp/ShopSimRL/runs/qwen35-4b-test-rank-top4/comparison.json",
+    "bottom4": "/root/autodl-tmp/ShopSimRL/runs/qwen35-4b-test-rank-bottom4/comparison.json",
+    "random4_20260907": "/root/autodl-tmp/ShopSimRL/runs/qwen35-4b-test-rank-random4-20260907/comparison.json"
+  },
+  "contrasts": {
+    "top_minus_bottom": {
+      "minus": "bottom4",
+      "plus": "top4",
+      "difference_direction": "top4_minus_bottom4",
+      "metric_aggregation": "mean_of_task_level_values",
+      "bootstrap": {
+        "method": "task_level_paired_percentile",
+        "samples": 10000,
+        "seed": 20260901,
+        "confidence_level": 0.95
+      },
+      "metrics": {
+        "completion_tokens": {
+          "minus_mean": 1985.9775,
+          "plus_mean": 1821.0025,
+          "mean_difference": -164.975,
+          "confidence_interval": [
+            -363.02599999999995,
+            33.999124999999935
+          ],
+          "pairs": 400
+        },
+        "duration_ms": {
+          "minus_mean": 34207.77395773679,
+          "plus_mean": 30034.676498631015,
+          "mean_difference": -4173.097459105775,
+          "confidence_interval": [
+            -7715.561601735884,
+            -599.601719745436
+          ],
+          "pairs": 400
+        },
+        "invalid_action_rate": {
+          "minus_mean": 0.0371540671787568,
+          "plus_mean": 0.03633702895594376,
+          "mean_difference": -0.0008170382228130349,
+          "confidence_interval": [
+            -0.017213334764014977,
+            0.015210595326165647
+          ],
+          "pairs": 400
+        },
+        "policy_failure_rate": {
+          "minus_mean": 0.007048493499964088,
+          "plus_mean": 0.009840367965367965,
+          "mean_difference": 0.0027918744654038766,
+          "confidence_interval": [
+            -0.0032922357238349877,
+            0.009219440863466597
+          ],
+          "pairs": 400
+        },
+        "prompt_tokens": {
+          "minus_mean": 50720.195,
+          "plus_mean": 42251.0125,
+          "mean_difference": -8469.1825,
+          "confidence_interval": [
+            -19048.5930625,
+            1607.4171874999981
+          ],
+          "pairs": 400
+        },
+        "protocol_error_rate": {
+          "minus_mean": 0.011132132884374797,
+          "plus_mean": 0.009833149952864922,
+          "mean_difference": -0.0012989829315098761,
+          "confidence_interval": [
+            -0.005707506424389163,
+            0.0030173149573570453
+          ],
+          "pairs": 400
+        },
+        "r_att": {
+          "minus_mean": 0.7633412698412698,
+          "plus_mean": 0.7352777777777777,
+          "mean_difference": -0.028063492063492065,
+          "confidence_interval": [
+            -0.06634863591269842,
+            0.009703249007936492
+          ],
+          "pairs": 400
+        },
+        "r_loose": {
+          "minus_mean": 0.7432469821844822,
+          "plus_mean": 0.7245515873015873,
+          "mean_difference": -0.018695394882894886,
+          "confidence_interval": [
+            -0.05379779716810964,
+            0.016018560432622928
+          ],
+          "pairs": 400
+        },
+        "r_option": {
+          "minus_mean": 0.6229166666666667,
+          "plus_mean": 0.5895833333333333,
+          "mean_difference": -0.03333333333333333,
+          "confidence_interval": [
+            -0.0725,
+            0.00625
+          ],
+          "pairs": 400
+        },
+        "r_price": {
+          "minus_mean": 0.8375,
+          "plus_mean": 0.87,
+          "mean_difference": 0.0325,
+          "confidence_interval": [
+            -0.005,
+            0.07
+          ],
+          "pairs": 400
+        },
+        "r_strict": {
+          "minus_mean": 0.5703938492063493,
+          "plus_mean": 0.5417341269841269,
+          "mean_difference": -0.028659722222222222,
+          "confidence_interval": [
+            -0.0699453125,
+            0.011930902777777771
+          ],
+          "pairs": 400
+        },
+        "r_success": {
+          "minus_mean": 0.55,
+          "plus_mean": 0.5175,
+          "mean_difference": -0.0325,
+          "confidence_interval": [
+            -0.0725,
+            0.0075
+          ],
+          "pairs": 400
+        },
+        "r_type": {
+          "minus_mean": 0.915,
+          "plus_mean": 0.91875,
+          "mean_difference": 0.00375,
+          "confidence_interval": [
+            -0.03,
+            0.0375
+          ],
+          "pairs": 400
+        },
+        "reasoning_tokens": {
+          "minus_mean": 0.0,
+          "plus_mean": 0.0,
+          "mean_difference": 0.0,
+          "confidence_interval": [
+            0.0,
+            0.0
+          ],
+          "pairs": 400
+        },
+        "reward": {
+          "minus_mean": 0.5703938492063493,
+          "plus_mean": 0.5417341269841269,
+          "mean_difference": -0.028659722222222222,
+          "confidence_interval": [
+            -0.06958732638888886,
+            0.011375868055555542
+          ],
+          "pairs": 400
+        },
+        "steps": {
+          "minus_mean": 6.27,
+          "plus_mean": 6.0575,
+          "mean_difference": -0.2125,
+          "confidence_interval": [
+            -0.74,
+            0.3325
+          ],
+          "pairs": 400
+        },
+        "total_tokens": {
+          "minus_mean": 52706.1725,
+          "plus_mean": 44072.015,
+          "mean_difference": -8634.1575,
+          "confidence_interval": [
+            -19736.6566875,
+            1889.8499374999965
+          ],
+          "pairs": 400
+        }
+      }
+    },
+    "top_minus_random": {
+      "minus": "random4_20260907",
+      "plus": "top4",
+      "difference_direction": "top4_minus_random4_20260907",
+      "metric_aggregation": "mean_of_task_level_values",
+      "bootstrap": {
+        "method": "task_level_paired_percentile",
+        "samples": 10000,
+        "seed": 20260901,
+        "confidence_level": 0.95
+      },
+      "metrics": {
+        "completion_tokens": {
+          "minus_mean": 1784.8425,
+          "plus_mean": 1821.0025,
+          "mean_difference": 36.16,
+          "confidence_interval": [
+            -133.5858749999999,
+            204.20368749999997
+          ],
+          "pairs": 400
+        },
+        "duration_ms": {
+          "minus_mean": 32781.44883058965,
+          "plus_mean": 30034.676498631015,
+          "mean_difference": -2746.7723319586366,
+          "confidence_interval": [
+            -5875.296471755951,
+            445.5559210849453
+          ],
+          "pairs": 400
+        },
+        "invalid_action_rate": {
+          "minus_mean": 0.033410740124378224,
+          "plus_mean": 0.03633702895594376,
+          "mean_difference": 0.0029262888315655373,
+          "confidence_interval": [
+            -0.011642112871812943,
+            0.017253611996498677
+          ],
+          "pairs": 400
+        },
+        "policy_failure_rate": {
+          "minus_mean": 0.007540571975916803,
+          "plus_mean": 0.009840367965367965,
+          "mean_difference": 0.002299795989451162,
+          "confidence_interval": [
+            -0.004225182629870128,
+            0.00935963864320545
+          ],
+          "pairs": 400
+        },
+        "prompt_tokens": {
+          "minus_mean": 45927.14,
+          "plus_mean": 42251.0125,
+          "mean_difference": -3676.1275,
+          "confidence_interval": [
+            -13038.643249999997,
+            5339.728812499999
+          ],
+          "pairs": 400
+        },
+        "protocol_error_rate": {
+          "minus_mean": 0.008335141340812847,
+          "plus_mean": 0.009833149952864922,
+          "mean_difference": 0.001498008612052074,
+          "confidence_interval": [
+            -0.0024632745581790565,
+            0.005421065442169122
+          ],
+          "pairs": 400
+        },
+        "r_att": {
+          "minus_mean": 0.7468928571428571,
+          "plus_mean": 0.7352777777777777,
+          "mean_difference": -0.011615079365079363,
+          "confidence_interval": [
+            -0.047257936507936506,
+            0.024325520833333333
+          ],
+          "pairs": 400
+        },
+        "r_loose": {
+          "minus_mean": 0.7332130681818182,
+          "plus_mean": 0.7245515873015873,
+          "mean_difference": -0.00866148088023088,
+          "confidence_interval": [
+            -0.04111002886002886,
+            0.024252339240620483
+          ],
+          "pairs": 400
+        },
+        "r_option": {
+          "minus_mean": 0.6075,
+          "plus_mean": 0.5895833333333333,
+          "mean_difference": -0.017916666666666668,
+          "confidence_interval": [
+            -0.05916666666666667,
+            0.024177083333333182
+          ],
+          "pairs": 400
+        },
+        "r_price": {
+          "minus_mean": 0.8625,
+          "plus_mean": 0.87,
+          "mean_difference": 0.0075,
+          "confidence_interval": [
+            -0.025,
+            0.04
+          ],
+          "pairs": 400
+        },
+        "r_strict": {
+          "minus_mean": 0.5588511904761905,
+          "plus_mean": 0.5417341269841269,
+          "mean_difference": -0.017117063492063492,
+          "confidence_interval": [
+            -0.057907118055555554,
+            0.02437757936507934
+          ],
+          "pairs": 400
+        },
+        "r_success": {
+          "minus_mean": 0.5425,
+          "plus_mean": 0.5175,
+          "mean_difference": -0.025,
+          "confidence_interval": [
+            -0.0675,
+            0.02
+          ],
+          "pairs": 400
+        },
+        "r_type": {
+          "minus_mean": 0.9277500000000001,
+          "plus_mean": 0.91875,
+          "mean_difference": -0.009000000000000001,
+          "confidence_interval": [
+            -0.0415,
+            0.02375
+          ],
+          "pairs": 400
+        },
+        "reasoning_tokens": {
+          "minus_mean": 0.0,
+          "plus_mean": 0.0,
+          "mean_difference": 0.0,
+          "confidence_interval": [
+            0.0,
+            0.0
+          ],
+          "pairs": 400
+        },
+        "reward": {
+          "minus_mean": 0.5588511904761905,
+          "plus_mean": 0.5417341269841269,
+          "mean_difference": -0.017117063492063492,
+          "confidence_interval": [
+            -0.05854610615079365,
+            0.023353422619047617
+          ],
+          "pairs": 400
+        },
+        "steps": {
+          "minus_mean": 6.0175,
+          "plus_mean": 6.0575,
+          "mean_difference": 0.04,
+          "confidence_interval": [
+            -0.43,
+            0.5300624999999992
+          ],
+          "pairs": 400
+        },
+        "total_tokens": {
+          "minus_mean": 47711.9825,
+          "plus_mean": 44072.015,
+          "mean_difference": -3639.9675,
+          "confidence_interval": [
+            -13108.434124999996,
+            5515.303249999998
+          ],
+          "pairs": 400
+        }
+      }
+    },
+    "random_minus_bottom": {
+      "minus": "bottom4",
+      "plus": "random4_20260907",
+      "difference_direction": "random4_20260907_minus_bottom4",
+      "metric_aggregation": "mean_of_task_level_values",
+      "bootstrap": {
+        "method": "task_level_paired_percentile",
+        "samples": 10000,
+        "seed": 20260901,
+        "confidence_level": 0.95
+      },
+      "metrics": {
+        "completion_tokens": {
+          "minus_mean": 1985.9775,
+          "plus_mean": 1784.8425,
+          "mean_difference": -201.135,
+          "confidence_interval": [
+            -395.23181249999993,
+            -7.116687500000012
+          ],
+          "pairs": 400
+        },
+        "duration_ms": {
+          "minus_mean": 34207.77395773679,
+          "plus_mean": 32781.44883058965,
+          "mean_difference": -1426.3251271471381,
+          "confidence_interval": [
+            -4938.771549215075,
+            2200.51957139885
+          ],
+          "pairs": 400
+        },
+        "invalid_action_rate": {
+          "minus_mean": 0.0371540671787568,
+          "plus_mean": 0.033410740124378224,
+          "mean_difference": -0.0037433270543785722,
+          "confidence_interval": [
+            -0.018128325355596803,
+            0.010377832114605008
+          ],
+          "pairs": 400
+        },
+        "policy_failure_rate": {
+          "minus_mean": 0.007048493499964088,
+          "plus_mean": 0.007540571975916803,
+          "mean_difference": 0.0004920784759527151,
+          "confidence_interval": [
+            -0.004556318488602334,
+            0.005618731197386115
+          ],
+          "pairs": 400
+        },
+        "prompt_tokens": {
+          "minus_mean": 50720.195,
+          "plus_mean": 45927.14,
+          "mean_difference": -4793.055,
+          "confidence_interval": [
+            -15454.285187499992,
+            5932.365749999996
+          ],
+          "pairs": 400
+        },
+        "protocol_error_rate": {
+          "minus_mean": 0.011132132884374797,
+          "plus_mean": 0.008335141340812847,
+          "mean_difference": -0.00279699154356195,
+          "confidence_interval": [
+            -0.006839601369277526,
+            0.0012419942115729158
+          ],
+          "pairs": 400
+        },
+        "r_att": {
+          "minus_mean": 0.7633412698412698,
+          "plus_mean": 0.7468928571428571,
+          "mean_difference": -0.016448412698412698,
+          "confidence_interval": [
+            -0.0546826884920635,
+            0.021679141865079354
+          ],
+          "pairs": 400
+        },
+        "r_loose": {
+          "minus_mean": 0.7432469821844822,
+          "plus_mean": 0.7332130681818182,
+          "mean_difference": -0.010033914002664004,
+          "confidence_interval": [
+            -0.044150639291264275,
+            0.024145403641497382
+          ],
+          "pairs": 400
+        },
+        "r_option": {
+          "minus_mean": 0.6229166666666667,
+          "plus_mean": 0.6075,
+          "mean_difference": -0.015416666666666667,
+          "confidence_interval": [
+            -0.05791666666666667,
+            0.029166666666666664
+          ],
+          "pairs": 400
+        },
+        "r_price": {
+          "minus_mean": 0.8375,
+          "plus_mean": 0.8625,
+          "mean_difference": 0.025,
+          "confidence_interval": [
+            -0.0075,
+            0.0575
+          ],
+          "pairs": 400
+        },
+        "r_strict": {
+          "minus_mean": 0.5703938492063493,
+          "plus_mean": 0.5588511904761905,
+          "mean_difference": -0.01154265873015873,
+          "confidence_interval": [
+            -0.05490625,
+            0.030511532738095228
+          ],
+          "pairs": 400
+        },
+        "r_success": {
+          "minus_mean": 0.55,
+          "plus_mean": 0.5425,
+          "mean_difference": -0.0075,
+          "confidence_interval": [
+            -0.05,
+            0.0375
+          ],
+          "pairs": 400
+        },
+        "r_type": {
+          "minus_mean": 0.915,
+          "plus_mean": 0.9277500000000001,
+          "mean_difference": 0.01275,
+          "confidence_interval": [
+            -0.01975,
+            0.045250000000000005
+          ],
+          "pairs": 400
+        },
+        "reasoning_tokens": {
+          "minus_mean": 0.0,
+          "plus_mean": 0.0,
+          "mean_difference": 0.0,
+          "confidence_interval": [
+            0.0,
+            0.0
+          ],
+          "pairs": 400
+        },
+        "reward": {
+          "minus_mean": 0.5703938492063493,
+          "plus_mean": 0.5588511904761905,
+          "mean_difference": -0.01154265873015873,
+          "confidence_interval": [
+            -0.05440203373015872,
+            0.030005084325396822
+          ],
+          "pairs": 400
+        },
+        "steps": {
+          "minus_mean": 6.27,
+          "plus_mean": 6.0175,
+          "mean_difference": -0.2525,
+          "confidence_interval": [
+            -0.77,
+            0.2575
+          ],
+          "pairs": 400
+        },
+        "total_tokens": {
+          "minus_mean": 52706.1725,
+          "plus_mean": 47711.9825,
+          "mean_difference": -4994.19,
+          "confidence_interval": [
+            -15826.9719375,
+            6044.902437499997
+          ],
+          "pairs": 400
+        }
+      }
+    }
+  }
+}

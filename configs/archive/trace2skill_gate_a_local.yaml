@@ -1,0 +1,10 @@
+gate_a:
+  name: qwen35-4b-val-base-gate-a
+  output_dir: ../../runs/qwen35-4b-val-base-gate-a
+  experiment_config: ../qwen35_4b_val.yaml
+  bare_run_dir: ../../runs/qwen35-4b-val-base-free
+  draft_path: ../../runs/qwen35-4b-train-0830/trace2skill-cold-start/initial_skill_draft.json
+  draft_skillbank_path: ../../runs/qwen35-4b-train-0830/trace2skill-cold-start/initial_skillbank.json
+  mask_seed: 20260901
+  mask_probability: 0.5
+  active_skill_budget: 10

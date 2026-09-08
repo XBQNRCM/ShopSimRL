@@ -92,6 +92,77 @@ class EvaluationTest(unittest.TestCase):
             self.assertTrue(store.is_complete(job))
             self.assertEqual(len(store.traces_path.read_text(encoding="utf-8").splitlines()), 1)
 
+    def test_evaluator_retries_failed_episodes_then_keeps_success(self):
+        job = EpisodeJob(7, 0, 9, "eval")
+        calls = []
+
+        class Flaky:
+            def __init__(self):
+                self.seen = 0
+
+            def run(self, current):
+                calls.append(current.episode_id)
+                self.seen += 1
+                if self.seen < 3:
+                    return {
+                        "schema_version": TRACE_SCHEMA_VERSION,
+                        "episode_id": current.episode_id,
+                        "status": "failed",
+                        "job": current.to_dict(),
+                        "provenance": {},
+                        "final": None,
+                        "error": {"type": "timeout"},
+                    }
+                return completed_trace(current)
+
+        worker = Flaky()
+        with tempfile.TemporaryDirectory() as directory:
+            store = RunStore(Path(directory) / "run")
+            store.initialize({"jobs": [job.to_dict()]})
+            summary = Evaluator(
+                runtime_factory=lambda: worker,
+                store=store,
+                max_workers=1,
+            ).run([job], resume=True)
+            self.assertEqual(calls, [job.episode_id] * 3)
+            self.assertTrue(store.is_complete(job))
+            self.assertEqual(summary["counts"]["failed"], 0)
+            self.assertEqual(summary["counts"]["completed"], 1)
+            self.assertEqual(
+                len(store.traces_path.read_text(encoding="utf-8").splitlines()), 3
+            )
+
+    def test_evaluator_stops_after_two_retries(self):
+        job = EpisodeJob(8, 0, 10, "eval")
+        calls = []
+
+        class AlwaysFail:
+            def run(self, current):
+                calls.append(current.episode_id)
+                return {
+                    "schema_version": TRACE_SCHEMA_VERSION,
+                    "episode_id": current.episode_id,
+                    "status": "failed",
+                    "job": current.to_dict(),
+                    "provenance": {},
+                    "final": None,
+                    "error": {"type": "timeout"},
+                }
+
+        with tempfile.TemporaryDirectory() as directory:
+            store = RunStore(Path(directory) / "run")
+            store.initialize({"jobs": [job.to_dict()]})
+            summary = Evaluator(
+                runtime_factory=AlwaysFail,
+                store=store,
+                max_workers=1,
+            ).run([job], resume=True)
+            self.assertEqual(calls, [job.episode_id] * 3)
+            self.assertFalse(store.is_complete(job))
+            self.assertEqual(summary["counts"]["failed"], 1)
+            self.assertEqual(summary["counts"]["completed"], 0)
+            self.assertEqual(summary["primary"]["reward_mean"], None)
+
     def test_summary_separates_protocol_steps_from_environment_actions(self):
         job = EpisodeJob(3, 0, 3, "eval")
         trace = completed_trace(job)

@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, as_completed, wait
 from dataclasses import dataclass
 import json
 from pathlib import Path
+import signal
+import threading
 from typing import Any, Mapping, Sequence
 
 import yaml
@@ -157,11 +159,17 @@ def load_online_analysis_config(path: str | Path) -> OnlineAnalysisSpec:
     )
 
 
-def _pending_triage_records(round_dir: Path) -> list[dict[str, Any]]:
+def _pending_triage_records(
+    round_dir: Path, *, allow_empty: bool = False
+) -> list[dict[str, Any]]:
     if not round_dir.is_dir():
+        if allow_empty:
+            return []
         raise FileNotFoundError(f"training round directory not found: {round_dir}")
     paths = sorted(round_dir.glob("group-*/triage.json"))
     if not paths:
+        if allow_empty:
+            return []
         raise ValueError(f"training round contains no completed group triage: {round_dir}")
     records = []
     for path in paths:
@@ -399,22 +407,16 @@ def _consolidate(
     return normalized, list(arguments["evidence_only_card_ids"])
 
 
-def analyze_training_failures(spec: OnlineAnalysisSpec) -> dict[str, Any]:
-    bank = JsonSkillBank(spec.current_skillbank_path, max_skills=None)
-    current_skills = [
-        record for record in bank.records if record.get("enabled", True) is not False
-    ]
-    active_ids = {record["skill_id"] for record in current_skills}
-    proposal_history = _load_proposal_history(spec.proposal_ledger_history_path)
-    triage_records = _pending_triage_records(spec.training_round_dir)
-    card_store = JsonlIndex(spec.output_dir / "failure_cards.jsonl", "source_trajectory_id")
-    environment_config = ShopSimulatorConfig(
-        base_url=spec.trace2skill.environment_base_url,
-        persona=spec.trace2skill.environment_persona,
-        timeout=spec.trace2skill.environment_timeout,
-    )
+@dataclass
+class _OnlineCardPipeline:
+    spec: OnlineAnalysisSpec
+    bank: JsonSkillBank
+    current_skills: list[dict[str, Any]]
+    active_ids: set[str]
+    card_store: JsonlIndex
+    environment_config: ShopSimulatorConfig
 
-    def load_retry_trace(record: dict[str, Any]) -> dict[str, Any]:
+    def load_retry_trace(self, record: dict[str, Any]) -> dict[str, Any]:
         retry_record = record["full_skill_retry"]
         trace_path = Path(retry_record["trace_path"])
         trace = json.loads(trace_path.read_text(encoding="utf-8"))
@@ -435,7 +437,7 @@ def analyze_training_failures(spec: OnlineAnalysisSpec) -> dict[str, Any]:
                 str(skill_record.get("version", "1")),
                 skill_record["content"],
             )
-            for skill_record in current_skills
+            for skill_record in self.current_skills
         ]
         if (
             trace.get("status") != "completed"
@@ -451,61 +453,222 @@ def analyze_training_failures(spec: OnlineAnalysisSpec) -> dict[str, Any]:
             )
         return trace
 
-    def input_fingerprint(record: dict[str, Any]) -> str:
-        trace = load_retry_trace(record)
+    def input_fingerprint(self, record: dict[str, Any]) -> str:
         return fingerprint(
             {
                 "pipeline": ONLINE_ANALYSIS_SCHEMA_VERSION,
-                "trace": trace,
-                "active_skillbank_sha256": bank.bank_sha256,
-                "analyst_model": spec.trace2skill.analyst_model.identity(),
-                "max_failure_steps": spec.trace2skill.max_failure_analysis_steps,
+                "trace": self.load_retry_trace(record),
+                "active_skillbank_sha256": self.bank.bank_sha256,
+                "analyst_model": self.spec.trace2skill.analyst_model.identity(),
+                "max_failure_steps": self.spec.trace2skill.max_failure_analysis_steps,
             }
         )
 
-    def analyze(record: dict[str, Any]) -> dict[str, Any]:
-        trace = load_retry_trace(record)
+    def episode_id(self, record: dict[str, Any]) -> str:
+        episode_id = record["full_skill_retry"]["episode_id"]
+        if not isinstance(episode_id, str) or not episode_id:
+            raise ValueError("pending triage has no retry episode_id")
+        return episode_id
+
+    def pending_records(
+        self,
+        *,
+        allow_empty: bool,
+        skip_ids: set[str] | None = None,
+        retry_errors: bool = False,
+    ) -> list[dict[str, Any]]:
+        skip = skip_ids or set()
+        records = []
+        for record in _pending_triage_records(
+            self.spec.training_round_dir, allow_empty=allow_empty
+        ):
+            episode_id = self.episode_id(record)
+            if episode_id in skip:
+                continue
+            stored = self.card_store.latest.get(episode_id)
+            if not self.spec.resume or stored is None:
+                records.append(record)
+                continue
+            if stored.get("status") == "ANALYST_ERROR" and not retry_errors:
+                continue
+            try:
+                digest = self.input_fingerprint(record)
+            except Exception:
+                records.append(record)
+                continue
+            if stored.get("input_fingerprint") != digest:
+                records.append(record)
+        return records
+
+    def analyze(self, record: dict[str, Any]) -> dict[str, Any]:
+        trace = self.load_retry_trace(record)
         card = analyze_failure_trace(
             trace,
             model_factory=OpenAICompatibleChatModel,
-            environment_factory=lambda: ShopSimulatorHTTPEnvironment(environment_config),
-            spec=spec.trace2skill,
-            current_skill=current_skills,
-            allowed_rewrite_targets=active_ids,
+            environment_factory=lambda: ShopSimulatorHTTPEnvironment(
+                self.environment_config
+            ),
+            spec=self.spec.trace2skill,
+            current_skill=self.current_skills,
+            allowed_rewrite_targets=self.active_ids,
         )
-        card["input_fingerprint"] = input_fingerprint(record)
+        card["input_fingerprint"] = self.input_fingerprint(record)
         return card
 
-    pending = [
-        record
-        for record in triage_records
-        if not (
-            spec.resume
-            and record["full_skill_retry"]["episode_id"] in card_store.latest
-            and card_store.latest[record["full_skill_retry"]["episode_id"]].get(
-                "input_fingerprint"
-            )
-            == input_fingerprint(record)
-        )
-    ]
-    if pending:
-        with ThreadPoolExecutor(max_workers=spec.trace2skill.concurrency) as executor:
-            futures = {executor.submit(analyze, record): record for record in pending}
-            for future in as_completed(futures):
-                card_store.append(future.result())
+    def analyze_safe(self, record: dict[str, Any]) -> dict[str, Any]:
+        episode_id = self.episode_id(record)
+        try:
+            return self.analyze(record)
+        except Exception as exc:
+            digest = None
+            try:
+                digest = self.input_fingerprint(record)
+            except Exception:
+                pass
+            return {
+                "source_trajectory_id": episode_id,
+                "eligible_for_consolidation": False,
+                "status": "ANALYST_ERROR",
+                "error": {"type": type(exc).__name__, "message": str(exc)},
+                "input_fingerprint": digest,
+            }
 
-    source_ids = {
-        record["full_skill_retry"]["episode_id"] for record in triage_records
+
+def _online_card_pipeline(spec: OnlineAnalysisSpec) -> _OnlineCardPipeline:
+    bank = JsonSkillBank(spec.current_skillbank_path, max_skills=None)
+    current_skills = [
+        record for record in bank.records if record.get("enabled", True) is not False
+    ]
+    return _OnlineCardPipeline(
+        spec=spec,
+        bank=bank,
+        current_skills=current_skills,
+        active_ids={record["skill_id"] for record in current_skills},
+        card_store=JsonlIndex(spec.output_dir / "failure_cards.jsonl", "source_trajectory_id"),
+        environment_config=ShopSimulatorConfig(
+            base_url=spec.trace2skill.environment_base_url,
+            persona=spec.trace2skill.environment_persona,
+            timeout=spec.trace2skill.environment_timeout,
+        ),
+    )
+
+
+def drain_training_failure_cards(
+    spec: OnlineAnalysisSpec, *, allow_empty: bool = False
+) -> dict[str, Any]:
+    """Analyze pending full-skill retry traces. Does not run the compiler."""
+    pipeline = _online_card_pipeline(spec)
+    pending = pipeline.pending_records(
+        allow_empty=allow_empty, retry_errors=True
+    )
+    if pending:
+        workers = max(1, int(spec.trace2skill.concurrency))
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = [executor.submit(pipeline.analyze_safe, record) for record in pending]
+            for future in as_completed(futures):
+                pipeline.card_store.append(future.result())
+    triage_records = _pending_triage_records(
+        spec.training_round_dir, allow_empty=allow_empty
+    )
+    source_ids = {pipeline.episode_id(record) for record in triage_records}
+    return {
+        "triage_groups": len(triage_records),
+        "newly_analyzed": len(pending),
+        "analyzed_cards": len(
+            [source_id for source_id in source_ids if source_id in pipeline.card_store.latest]
+        ),
     }
+
+
+def watch_training_failure_cards(
+    spec: OnlineAnalysisSpec,
+    *,
+    poll_seconds: float = 5.0,
+    stop_path: str | Path | None = None,
+) -> dict[str, Any]:
+    """Poll a live training round for pending retries. Does not run the compiler."""
+    if poll_seconds <= 0:
+        raise ValueError("poll_seconds must be positive")
+    pipeline = _online_card_pipeline(spec)
+    stop = threading.Event()
+    marker = Path(stop_path).resolve() if stop_path is not None else None
+
+    def request_stop(_signum: int, _frame: Any) -> None:
+        stop.set()
+
+    previous_term = signal.signal(signal.SIGTERM, request_stop)
+    previous_int = signal.signal(signal.SIGINT, request_stop)
+    in_flight: dict[str, Any] = {}
+    newly = 0
+    workers = max(1, int(spec.trace2skill.concurrency))
+    try:
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+
+            def submit_new() -> None:
+                for record in pipeline.pending_records(
+                    allow_empty=True, skip_ids=set(in_flight)
+                ):
+                    episode_id = pipeline.episode_id(record)
+                    in_flight[episode_id] = executor.submit(
+                        pipeline.analyze_safe, record
+                    )
+
+            def harvest(futures: Sequence[Any]) -> None:
+                nonlocal newly
+                done_ids = [
+                    episode_id
+                    for episode_id, future in list(in_flight.items())
+                    if future in futures
+                ]
+                for episode_id in done_ids:
+                    future = in_flight.pop(episode_id)
+                    pipeline.card_store.append(future.result())
+                    newly += 1
+
+            while not stop.is_set() and (marker is None or not marker.is_file()):
+                submit_new()
+                if not in_flight:
+                    stop.wait(poll_seconds)
+                    continue
+                done, _ = wait(
+                    list(in_flight.values()),
+                    timeout=poll_seconds,
+                    return_when=FIRST_COMPLETED,
+                )
+                harvest(list(done))
+            submit_new()
+            if in_flight:
+                harvest(list(as_completed(list(in_flight.values()))))
+    finally:
+        signal.signal(signal.SIGTERM, previous_term)
+        signal.signal(signal.SIGINT, previous_int)
+    triage_records = _pending_triage_records(spec.training_round_dir, allow_empty=True)
+    source_ids = {pipeline.episode_id(record) for record in triage_records}
+    return {
+        "status": "watched",
+        "triage_groups": len(triage_records),
+        "newly_analyzed": newly,
+        "analyzed_cards": len(
+            [source_id for source_id in source_ids if source_id in pipeline.card_store.latest]
+        ),
+    }
+
+
+def compile_training_failure_cards(spec: OnlineAnalysisSpec) -> dict[str, Any]:
+    """Consolidate already-written eligible cards. Does not call the analyst."""
+    pipeline = _online_card_pipeline(spec)
+    proposal_history = _load_proposal_history(spec.proposal_ledger_history_path)
+    triage_records = _pending_triage_records(spec.training_round_dir)
+    source_ids = {pipeline.episode_id(record) for record in triage_records}
     cards = [
         card
-        for source_id, card in sorted(card_store.latest.items())
+        for source_id, card in sorted(pipeline.card_store.latest.items())
         if source_id in source_ids and card.get("eligible_for_consolidation") is True
     ]
     compilation_input_sha256 = fingerprint(
         {
             "cards": cards,
-            "active_skillbank_sha256": bank.bank_sha256,
+            "active_skillbank_sha256": pipeline.bank.bank_sha256,
             "compiler_model": spec.trace2skill.compiler_model.identity(),
             "max_candidates": spec.max_candidates,
             "proposal_checkpoint": spec.proposal_checkpoint,
@@ -519,7 +682,7 @@ def analyze_training_failures(spec: OnlineAnalysisSpec) -> dict[str, Any]:
         if previous.get("compilation_input_sha256") == compilation_input_sha256:
             return previous
     candidates, evidence_only = _consolidate(
-        spec, cards, current_skills, proposal_history
+        spec, cards, pipeline.current_skills, proposal_history
     )
     pool = build_candidate_pool(
         spec.current_skillbank_path,
@@ -565,15 +728,58 @@ def analyze_training_failures(spec: OnlineAnalysisSpec) -> dict[str, Any]:
         "created_at": utc_now(),
         "triage_groups": len(triage_records),
         "analyzed_cards": len(
-            [source for source in source_ids if source in card_store.latest]
+            [source for source in source_ids if source in pipeline.card_store.latest]
         ),
         "eligible_cards": len(cards),
         "candidates": len(candidates),
         "proposal_history_records": len(proposal_history),
         "evidence_only_card_ids": evidence_only,
         "candidate_pool_path": str((spec.output_dir / "candidate_pool.json").resolve()),
-        "current_skillbank_sha256": bank.bank_sha256,
+        "current_skillbank_sha256": pipeline.bank.bank_sha256,
         "compilation_input_sha256": compilation_input_sha256,
     }
     atomic_write_json(summary_path, summary)
+    return summary
+
+
+def analyze_training_failures(spec: OnlineAnalysisSpec) -> dict[str, Any]:
+    """Catch up any remaining cards, then compile. Used after a training round."""
+    drain_training_failure_cards(spec, allow_empty=False)
+    return compile_training_failure_cards(spec)
+
+
+def write_analysis_failure_fallback(
+    spec: OnlineAnalysisSpec, error: BaseException
+) -> dict[str, Any]:
+    """Keep the current SkillBank only so a failed Analyst cannot block val/gate."""
+    bank = JsonSkillBank(spec.current_skillbank_path, max_skills=None)
+    pool = build_candidate_pool(
+        spec.current_skillbank_path,
+        [],
+        round_id=spec.name,
+        proposal_checkpoint=spec.proposal_checkpoint,
+    )
+    spec.output_dir.mkdir(parents=True, exist_ok=True)
+    pool_path = spec.output_dir / "candidate_pool.json"
+    atomic_write_json(pool_path, pool)
+    summary = {
+        "schema_version": ONLINE_ANALYSIS_SCHEMA_VERSION,
+        "created_at": utc_now(),
+        "status": "failed",
+        "submitted_candidates": False,
+        "error": {
+            "type": type(error).__name__,
+            "message": str(error),
+        },
+        "triage_groups": 0,
+        "analyzed_cards": 0,
+        "eligible_cards": 0,
+        "candidates": 0,
+        "proposal_history_records": 0,
+        "evidence_only_card_ids": [],
+        "candidate_pool_path": str(pool_path.resolve()),
+        "current_skillbank_sha256": bank.bank_sha256,
+        "compilation_input_sha256": None,
+    }
+    atomic_write_json(spec.output_dir / "analysis_summary.json", summary)
     return summary

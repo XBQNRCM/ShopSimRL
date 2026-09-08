@@ -15,6 +15,8 @@ from .evaluation import Evaluator
 from .paired_validation import (
     PAIRED_ESTIMATOR,
     PAIRED_FORMULA,
+    GateEvaluationError,
+    dropped_episode_ids,
     load_bare_validation,
     outcome_means,
     paired_observations,
@@ -460,6 +462,8 @@ def estimate_online_contributions(
         "pool_sha256": assignments["pool_sha256"],
         "assignment_sha256": assignments["assignment_sha256"],
         "observations": len(observations),
+        "requested_observations": len(assignments["assignments"]),
+        "dropped_episode_ids": dropped_episode_ids(assignments, observations),
         "active_skill_budget": active_skill_budget,
         "selected_intervention_ids": selected_by_order,
         "selected_count": len(selected_by_order),
@@ -818,17 +822,18 @@ def run_online_gate(
         "summary": summary,
         "output": None,
     }
-    if summary["counts"]["failed"] or summary["counts"]["coverage"] != 1.0:
+    try:
+        contributions = estimate_online_contributions(
+            pool=pool,
+            assignments=assignments,
+            traces=traces,
+            bare_traces=bare_traces,
+            active_skill_budget=spec.active_skill_budget,
+        )
+    except GateEvaluationError:
         atomic_write_json(spec.output_dir / "online_gate_manifest.json", manifest)
         return manifest
 
-    contributions = estimate_online_contributions(
-        pool=pool,
-        assignments=assignments,
-        traces=traces,
-        bare_traces=bare_traces,
-        active_skill_budget=spec.active_skill_budget,
-    )
     contributions["bare_baseline"] = baseline
     selected = selected_skillbank(pool, contributions)
     ledger_rows = _proposal_ledger_rows(

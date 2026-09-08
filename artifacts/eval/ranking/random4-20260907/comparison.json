@@ -1,0 +1,424 @@
+{
+  "schema_version": "shopsimrl-paired-run-comparison-v1",
+  "created_at": "2026-09-07T15:05:45.197027+00:00",
+  "runs": {
+    "bare": "/root/autodl-tmp/ShopSimRL/runs/qwen35-4b-test-base-free",
+    "equipped": "/root/autodl-tmp/ShopSimRL/runs/qwen35-4b-test-rank-random4-20260907"
+  },
+  "alignment": {
+    "plan": {
+      "status": "matched",
+      "checked_fields": [
+        "pipeline_version",
+        "model_id",
+        "model",
+        "task_split",
+        "jobs",
+        "environment",
+        "runtime",
+        "prompt"
+      ],
+      "bare_plan_fingerprint": "b8394fc55bb27392f6ab81b026875d6e2cd44b9177f7f2be946c96d5ab58719d",
+      "equipped_plan_fingerprint": "523a248c28e34450e209e4af575e4f96f1ad4553ff9af874c1dbec16202b7092"
+    },
+    "traces": {
+      "status": "matched",
+      "pairs": 400,
+      "checked_fields": [
+        "model",
+        "environment",
+        "prompt",
+        "runtime"
+      ],
+      "equipped_chunk_ids": [
+        "chunk-4d958fc1d69e",
+        "chunk-a6dc99015d8f",
+        "chunk-d3a9ac5af7ef",
+        "chunk-381be5616e59"
+      ],
+      "bare": {
+        "model": [
+          {
+            "provider": "openai_compatible_http",
+            "checkpoint_id": "qwen35-4b-base-hf",
+            "model": "Qwen/Qwen3.5-4B",
+            "base_url": "http://127.0.0.1:30000/v1",
+            "transport": {
+              "timeout_seconds": 180.0,
+              "max_retries": 3,
+              "retry_backoff_seconds": 1.0
+            },
+            "sampling": {
+              "temperature": 0.6,
+              "max_tokens": 4096,
+              "top_p": 1.0,
+              "send_seed": false,
+              "tool_choice": "auto",
+              "extra_body": {
+                "enable_thinking": true
+              }
+            }
+          }
+        ],
+        "environment": [
+          {
+            "adapter": "shopsimulator_http",
+            "base_url": "http://127.0.0.1:5700",
+            "persona": true,
+            "interaction_mode": "single_turn",
+            "environment_version": "shopsimulator-paper-aligned-v8",
+            "observation_version": "shopping-observation-v7"
+          }
+        ],
+        "prompt": [
+          {
+            "prompt_version": "shopsim-shopping-agent-tools-v2",
+            "system_prompt_sha256": "003c66328df66db57a6f67150f0928e914970b363501ab1f4c039bc46b53be6d",
+            "skill_renderer_version": "plain-skill-context-v1"
+          }
+        ],
+        "runtime": [
+          {
+            "max_steps": 30,
+            "action_protocol": "openai-function-tools-repair-v3"
+          }
+        ]
+      },
+      "equipped": {
+        "model": [
+          {
+            "provider": "openai_compatible_http",
+            "checkpoint_id": "qwen35-4b-base-hf",
+            "model": "Qwen/Qwen3.5-4B",
+            "base_url": "http://127.0.0.1:30000/v1",
+            "transport": {
+              "timeout_seconds": 180.0,
+              "max_retries": 3,
+              "retry_backoff_seconds": 1.0
+            },
+            "sampling": {
+              "temperature": 0.6,
+              "max_tokens": 4096,
+              "top_p": 1.0,
+              "send_seed": false,
+              "tool_choice": "auto",
+              "extra_body": {
+                "enable_thinking": true
+              }
+            }
+          }
+        ],
+        "environment": [
+          {
+            "adapter": "shopsimulator_http",
+            "base_url": "http://127.0.0.1:5700",
+            "persona": true,
+            "interaction_mode": "single_turn",
+            "environment_version": "shopsimulator-paper-aligned-v8",
+            "observation_version": "shopping-observation-v7"
+          }
+        ],
+        "prompt": [
+          {
+            "prompt_version": "shopsim-shopping-agent-tools-v2",
+            "system_prompt_sha256": "003c66328df66db57a6f67150f0928e914970b363501ab1f4c039bc46b53be6d",
+            "skill_renderer_version": "plain-skill-context-v1"
+          }
+        ],
+        "runtime": [
+          {
+            "max_steps": 30,
+            "action_protocol": "openai-function-tools-repair-v3"
+          }
+        ]
+      }
+    }
+  },
+  "absolute": {
+    "bare": {
+      "schema_version": "shopsimrl-eval-summary-v2",
+      "created_at": "2026-09-07T15:05:45.204731+00:00",
+      "counts": {
+        "requested": 400,
+        "trace_files": 400,
+        "completed": 400,
+        "failed": 0,
+        "scored": 400,
+        "coverage": 1.0
+      },
+      "primary": {
+        "reward_mean": 0.5421666666666667,
+        "reward_sem": 0.02433258027129295,
+        "success_rate": 0.5175
+      },
+      "reward_components": {
+        "r_att": 0.7451428571428572,
+        "r_loose": 0.7282689393939394,
+        "r_option": 0.5825,
+        "r_price": 0.86,
+        "r_strict": 0.5421666666666667,
+        "r_success": 0.5175,
+        "r_type": 0.91875
+      },
+      "behavior": {
+        "steps_mean": 6.2125,
+        "model_steps": 2485,
+        "protocol_errors": 57,
+        "protocol_error_rate": 0.022937625754527163,
+        "policy_failures": 19,
+        "policy_failure_rate": 0.007645875251509054,
+        "invalid_action_rate": 0.09298464092984642,
+        "invalid_actions": 224,
+        "total_actions": 2409,
+        "termination_reasons": {
+          "action_limit": 8,
+          "generation_length": 19,
+          "purchase": 373
+        }
+      },
+      "cost": {
+        "duration_ms_mean": 31132.075759815052,
+        "tokens": {
+          "completion_tokens": 712183,
+          "prompt_tokens": 18053628,
+          "total_tokens": 18765811
+        }
+      },
+      "errors": {}
+    },
+    "equipped": {
+      "schema_version": "shopsimrl-eval-summary-v2",
+      "created_at": "2026-09-07T15:05:45.212506+00:00",
+      "counts": {
+        "requested": 400,
+        "trace_files": 400,
+        "completed": 400,
+        "failed": 0,
+        "scored": 400,
+        "coverage": 1.0
+      },
+      "primary": {
+        "reward_mean": 0.5588511904761905,
+        "reward_sem": 0.02440526735705939,
+        "success_rate": 0.5425
+      },
+      "reward_components": {
+        "r_att": 0.7468928571428571,
+        "r_loose": 0.7332130681818182,
+        "r_option": 0.6075,
+        "r_price": 0.8625,
+        "r_strict": 0.5588511904761905,
+        "r_success": 0.5425,
+        "r_type": 0.9277500000000001
+      },
+      "behavior": {
+        "steps_mean": 6.0175,
+        "model_steps": 2407,
+        "protocol_errors": 64,
+        "protocol_error_rate": 0.02658911508101371,
+        "policy_failures": 19,
+        "policy_failure_rate": 0.007893643539675945,
+        "invalid_action_rate": 0.07228915662650602,
+        "invalid_actions": 168,
+        "total_actions": 2324,
+        "termination_reasons": {
+          "action_limit": 5,
+          "generation_length": 19,
+          "purchase": 376
+        }
+      },
+      "cost": {
+        "duration_ms_mean": 32781.44883058965,
+        "tokens": {
+          "completion_tokens": 713937,
+          "prompt_tokens": 18370856,
+          "total_tokens": 19084793
+        }
+      },
+      "errors": {}
+    }
+  },
+  "paired": {
+    "pairs": 400,
+    "difference_direction": "equipped_minus_bare",
+    "metric_aggregation": "mean_of_task_level_values",
+    "bootstrap": {
+      "method": "task_level_paired_percentile",
+      "samples": 10000,
+      "seed": 20260901,
+      "confidence_level": 0.95
+    },
+    "metrics": {
+      "completion_tokens": {
+        "bare_mean": 1780.4575,
+        "equipped_mean": 1784.8425,
+        "mean_difference": 4.385,
+        "confidence_interval": [
+          -169.23431249999993,
+          171.60275
+        ],
+        "pairs": 400
+      },
+      "duration_ms": {
+        "bare_mean": 31132.075759815052,
+        "equipped_mean": 32781.44883058965,
+        "mean_difference": 1649.3730707746,
+        "confidence_interval": [
+          -1744.2860396811732,
+          4867.656181809958
+        ],
+        "pairs": 400
+      },
+      "invalid_action_rate": {
+        "bare_mean": 0.03227487167926589,
+        "equipped_mean": 0.033410740124378224,
+        "mean_difference": 0.0011358684451123334,
+        "confidence_interval": [
+          -0.013510181848563684,
+          0.015738927178171876
+        ],
+        "pairs": 400
+      },
+      "policy_failure_rate": {
+        "bare_mean": 0.009857223658694247,
+        "equipped_mean": 0.007540571975916803,
+        "mean_difference": -0.0023166516827774434,
+        "confidence_interval": [
+          -0.00793282628424933,
+          0.0030125016601468164
+        ],
+        "pairs": 400
+      },
+      "prompt_tokens": {
+        "bare_mean": 45134.07,
+        "equipped_mean": 45927.14,
+        "mean_difference": 793.07,
+        "confidence_interval": [
+          -9965.024687499996,
+          11198.4088125
+        ],
+        "pairs": 400
+      },
+      "protocol_error_rate": {
+        "bare_mean": 0.009920864592209618,
+        "equipped_mean": 0.008335141340812847,
+        "mean_difference": -0.0015857232513967713,
+        "confidence_interval": [
+          -0.005652686133706754,
+          0.00259082175576841
+        ],
+        "pairs": 400
+      },
+      "r_att": {
+        "bare_mean": 0.7451428571428572,
+        "equipped_mean": 0.7468928571428571,
+        "mean_difference": 0.0017499999999999998,
+        "confidence_interval": [
+          -0.03314590773809523,
+          0.03683936011904762
+        ],
+        "pairs": 400
+      },
+      "r_loose": {
+        "bare_mean": 0.7282689393939394,
+        "equipped_mean": 0.7332130681818182,
+        "mean_difference": 0.004944128787878788,
+        "confidence_interval": [
+          -0.026557101145382393,
+          0.03642157287157286
+        ],
+        "pairs": 400
+      },
+      "r_option": {
+        "bare_mean": 0.5825,
+        "equipped_mean": 0.6075,
+        "mean_difference": 0.025,
+        "confidence_interval": [
+          -0.0175,
+          0.06666666666666667
+        ],
+        "pairs": 400
+      },
+      "r_price": {
+        "bare_mean": 0.86,
+        "equipped_mean": 0.8625,
+        "mean_difference": 0.0025,
+        "confidence_interval": [
+          -0.03,
+          0.035
+        ],
+        "pairs": 400
+      },
+      "r_strict": {
+        "bare_mean": 0.5421666666666667,
+        "equipped_mean": 0.5588511904761905,
+        "mean_difference": 0.01668452380952381,
+        "confidence_interval": [
+          -0.025624330357142837,
+          0.05823110119047616
+        ],
+        "pairs": 400
+      },
+      "r_success": {
+        "bare_mean": 0.5175,
+        "equipped_mean": 0.5425,
+        "mean_difference": 0.025,
+        "confidence_interval": [
+          -0.0175,
+          0.0675
+        ],
+        "pairs": 400
+      },
+      "r_type": {
+        "bare_mean": 0.91875,
+        "equipped_mean": 0.9277500000000001,
+        "mean_difference": 0.009000000000000001,
+        "confidence_interval": [
+          -0.0195,
+          0.0375
+        ],
+        "pairs": 400
+      },
+      "reasoning_tokens": {
+        "bare_mean": 0.0,
+        "equipped_mean": 0.0,
+        "mean_difference": 0.0,
+        "confidence_interval": [
+          0.0,
+          0.0
+        ],
+        "pairs": 400
+      },
+      "reward": {
+        "bare_mean": 0.5421666666666667,
+        "equipped_mean": 0.5588511904761905,
+        "mean_difference": 0.01668452380952381,
+        "confidence_interval": [
+          -0.024372321428571424,
+          0.05818638392857141
+        ],
+        "pairs": 400
+      },
+      "steps": {
+        "bare_mean": 6.2125,
+        "equipped_mean": 6.0175,
+        "mean_difference": -0.195,
+        "confidence_interval": [
+          -0.735,
+          0.3400624999999991
+        ],
+        "pairs": 400
+      },
+      "total_tokens": {
+        "bare_mean": 46914.5275,
+        "equipped_mean": 47711.9825,
+        "mean_difference": 797.455,
+        "confidence_interval": [
+          -10117.452125,
+          11388.345124999994
+        ],
+        "pairs": 400
+      }
+    }
+  }
+}

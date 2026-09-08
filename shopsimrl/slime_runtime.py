@@ -832,19 +832,20 @@ async def generate(
     return rollout.samples
 
 
+def _sample_leaves(node: Any):
+    if isinstance(node, (list, tuple)):
+        for child in node:
+            yield from _sample_leaves(child)
+    else:
+        yield node
+
+
 def keep_fully_scored_group(args: Any, group: Sequence[Any]) -> bool:
     """Dynamic-sampling filter: technical failures invalidate the whole group."""
 
     global _FAILED_GROUP_STREAK
 
-    def leaves(node: Any):
-        if isinstance(node, (list, tuple)):
-            for child in node:
-                yield from leaves(child)
-        else:
-            yield node
-
-    samples = list(leaves(group))
+    samples = list(_sample_leaves(group))
     keep = bool(samples) and all(
         (getattr(sample, "metadata", None) or {}).get("shopsim_scored") is True
         for sample in samples
@@ -866,15 +867,44 @@ def keep_fully_scored_group(args: Any, group: Sequence[Any]) -> bool:
     return False
 
 
+def group_has_reward_spread(args: Any, group: Sequence[Any]) -> bool:
+    """Whether the group can produce a non-zero GRPO advantage.
+
+    Fan-out siblings of one execution repeat that execution's reward, so the
+    spread is measured over unique ``rollout_id`` values, matching how
+    ``normalize_grpo_by_prompt_and_rollout`` centers advantages.
+    """
+
+    rewards: dict[int, float] = {}
+    for sample in _sample_leaves(group):
+        rollout_id = int(
+            sample.rollout_id if sample.rollout_id is not None else sample.index
+        )
+        rewards.setdefault(rollout_id, float(sample.get_reward_value(args)))
+    if len(rewards) < 2:
+        return False
+    return max(rewards.values()) - min(rewards.values()) > 1e-6
+
+
 def fully_scored_group_filter(args: Any, group: Sequence[Any]) -> Any:
     """slime dynamic-filter entry point with an observable drop reason."""
 
     from slime.rollout.filter_hub.base_types import DynamicFilterOutput
 
-    keep = keep_fully_scored_group(args, group)
+    if not keep_fully_scored_group(args, group):
+        # Unscored groups have no usable reward, so they are never salvageable.
+        return DynamicFilterOutput(
+            keep=False,
+            reason="shopsim_unscored_technical_group",
+        )
+    if group_has_reward_spread(args, group):
+        return DynamicFilterOutput(keep=True)
+    # All siblings tied: the advantage is zero, so the group trains on nothing.
+    # Resample instead, unless that would cost another rollout round.
     return DynamicFilterOutput(
-        keep=keep,
-        reason=None if keep else "shopsim_unscored_technical_group",
+        keep=False,
+        reason="shopsim_zero_std_group",
+        keep_when_insufficient=True,
     )
 
 

@@ -45,6 +45,7 @@ class RunStore:
         self.summary_path = self.root / "summary.json"
         self._lock = threading.Lock()
         self._latest: dict[str, dict[str, Any]] | None = None
+        self._attempts: dict[str, int] | None = None
 
     def initialize(self, semantic_plan: dict[str, Any]) -> dict[str, Any]:
         plan_fingerprint = fingerprint(semantic_plan)
@@ -85,22 +86,34 @@ class RunStore:
                 os.fsync(file.fileno())
             if self._latest is None:
                 self._latest = self._load_latest()
+            else:
+                self._attempts[episode_id] = self._attempts.get(episode_id, 0) + 1
             self._latest[episode_id] = trace
         return self.traces_path
 
+    def attempt_count(self, episode_id: str) -> int:
+        with self._lock:
+            if self._latest is None:
+                self._latest = self._load_latest()
+            return int(self._attempts.get(episode_id, 0))
+
     def _load_latest(self) -> dict[str, dict[str, Any]]:
         latest: dict[str, dict[str, Any]] = {}
-        if not self.traces_path.exists():
-            return latest
-        with self.traces_path.open("r", encoding="utf-8") as file:
-            for line in file:
-                try:
-                    payload = json.loads(line)
-                except json.JSONDecodeError:
-                    continue
-                episode_id = payload.get("episode_id") if isinstance(payload, dict) else None
-                if isinstance(episode_id, str):
-                    latest[episode_id] = payload
+        attempts: dict[str, int] = {}
+        if self.traces_path.exists():
+            with self.traces_path.open("r", encoding="utf-8") as file:
+                for line in file:
+                    try:
+                        payload = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+                    episode_id = (
+                        payload.get("episode_id") if isinstance(payload, dict) else None
+                    )
+                    if isinstance(episode_id, str):
+                        latest[episode_id] = payload
+                        attempts[episode_id] = attempts.get(episode_id, 0) + 1
+        self._attempts = attempts
         return latest
 
     def _records(self) -> dict[str, dict[str, Any]]:

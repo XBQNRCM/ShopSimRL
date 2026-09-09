@@ -658,11 +658,11 @@ Ledger 不进入 policy prompt，也不是推理时 memory。
 
 ## 11. 参考方法及取舍
 
-- [Trace2Skill](./Trace2Skill.pdf)：采用其成功/失败非对称 analyst、agentic failure diagnosis、并行 trajectory-level proposal 和 batch consolidation；不照搬完整 skill directory 结构。
-- [SkillRL](./SkillRL.pdf)：采用其成功模式与失败 counterfactual 分开蒸馏的思想；不采用 category-specific SkillBank 与递归检索框架。
-- [WikiSkill](./wikiskill.pdf)：只吸收其保留 proposal 历史、避免重复失败编辑的思想，以轻量 ledger 代替完整 Wiki 层。
-- [RESKILL](./ReSkill.pdf)：认可 failure profile 和 conditional revision 的价值；不采用 within-group skill-version mixing、bandit version allocation 或 assertion orchestration。
-- [Skill1](./Skill1.pdf)：不采用可训练 skill distiller 与 selection/utilization/distillation 联合目标，避免把 candidate generation 变成额外的核心优化问题。
+- [Trace2Skill](https://arxiv.org/abs/2603.25158)：采用其成功/失败非对称 analyst、agentic failure diagnosis、并行 trajectory-level proposal 和 batch consolidation；不照搬完整 skill directory 结构。
+- [SkillRL](https://arxiv.org/abs/2602.08234)：采用其成功模式与失败 counterfactual 分开蒸馏的思想；不采用 category-specific SkillBank 与递归检索框架。
+- [WikiSkill](https://arxiv.org/abs/2608.27454)：只吸收其保留 proposal 历史、避免重复失败编辑的思想，以轻量 ledger 代替完整 Wiki 层。
+- [RESKILL](https://arxiv.org/abs/2606.01619)：认可 failure profile 和 conditional revision 的价值；不采用 within-group skill-version mixing、bandit version allocation 或 assertion orchestration。
+- [Skill1](https://arxiv.org/abs/2605.06130)：不采用可训练 skill distiller 与 selection/utilization/distillation 联合目标，避免把 candidate generation 变成额外的核心优化问题。
 
 最终选择可以概括为：
 

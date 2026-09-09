@@ -1,0 +1,45 @@
+{
+  "environment_version": "shopsimulator-paper-aligned-v8",
+  "search": {
+    "version": "shopsimulator-multifield-bm25-v3",
+    "option_document_version": "public-axis-value-v1",
+    "top_k": 150,
+    "page_size": 20,
+    "field_weights": {
+      "title": 3.0,
+      "brand": 2.0,
+      "category": 2.0,
+      "model": 2.5,
+      "attributes": 1.5,
+      "options": 1.2,
+      "bullets": 0.8
+    }
+  },
+  "reward": {
+    "version": "shopsimulator-paper-reward-v2",
+    "primary": "r_strict",
+    "reported_metrics": [
+      "r_loose",
+      "r_strict",
+      "r_success",
+      "r_type",
+      "r_att",
+      "r_option",
+      "r_price",
+      "target_asin_match",
+      "price_verifiable"
+    ]
+  },
+  "episode_limits": {
+    "single_turn": 30,
+    "multi_turn": 40
+  },
+  "catalog_filter": {
+    "version": "single-price-axis-v1",
+    "max_price_affecting_axes": 1
+  },
+  "budget_parser_version": "instruction-budget-v1",
+  "variant_price_version": "variant-price-paper-v2",
+  "observation_version": "shopping-observation-v7",
+  "tool_version": "shopping-tools-paper-v4"
+}

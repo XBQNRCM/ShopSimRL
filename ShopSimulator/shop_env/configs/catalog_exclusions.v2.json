@@ -1,0 +1,8343 @@
+[
+  {
+    "asin": "932040992888",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7,
+    "task_ids": [
+      7
+    ]
+  },
+  {
+    "asin": "798437408539",
+    "price_affecting_axes": [
+      "尺码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 37,
+    "task_ids": [
+      37
+    ]
+  },
+  {
+    "asin": "870211117297",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 43,
+    "task_ids": [
+      43
+    ]
+  },
+  {
+    "asin": "674980438166",
+    "price_affecting_axes": [
+      "型号",
+      "数量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 51,
+    "task_ids": [
+      51
+    ]
+  },
+  {
+    "asin": "810338502341",
+    "price_affecting_axes": [
+      "颜色分类",
+      "电源功率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 57,
+    "task_ids": [
+      57
+    ]
+  },
+  {
+    "asin": "920761308547",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 71,
+    "task_ids": [
+      71
+    ]
+  },
+  {
+    "asin": "866812292170",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 77,
+    "task_ids": [
+      77
+    ]
+  },
+  {
+    "asin": "734894925147",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 96,
+    "task_ids": [
+      96
+    ]
+  },
+  {
+    "asin": "938094428049",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 119,
+    "task_ids": [
+      119
+    ]
+  },
+  {
+    "asin": "616616104547",
+    "price_affecting_axes": [
+      "口味",
+      "种类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 185,
+    "task_ids": [
+      185
+    ]
+  },
+  {
+    "asin": "842531114368",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 190,
+    "task_ids": [
+      190
+    ]
+  },
+  {
+    "asin": "566122350791",
+    "price_affecting_axes": [
+      "规格",
+      "数量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 195,
+    "task_ids": [
+      195
+    ]
+  },
+  {
+    "asin": "885698293301",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 229,
+    "task_ids": [
+      229
+    ]
+  },
+  {
+    "asin": "641872361298",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 251,
+    "task_ids": [
+      251
+    ]
+  },
+  {
+    "asin": "942123729779",
+    "price_affecting_axes": [
+      "颜色分类",
+      "数量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 269,
+    "task_ids": [
+      269
+    ]
+  },
+  {
+    "asin": "809393732596",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 314,
+    "task_ids": [
+      314
+    ]
+  },
+  {
+    "asin": "755704022958",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 341,
+    "task_ids": [
+      341
+    ]
+  },
+  {
+    "asin": "640641781255",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 356,
+    "task_ids": [
+      356
+    ]
+  },
+  {
+    "asin": "808225450867",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 358,
+    "task_ids": [
+      358
+    ]
+  },
+  {
+    "asin": "937499966008",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 362,
+    "task_ids": [
+      362
+    ]
+  },
+  {
+    "asin": "789331225524",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 395,
+    "task_ids": [
+      395
+    ]
+  },
+  {
+    "asin": "741750847918",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 404,
+    "task_ids": [
+      404
+    ]
+  },
+  {
+    "asin": "664453780778",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 428,
+    "task_ids": [
+      428
+    ]
+  },
+  {
+    "asin": "903409744038",
+    "price_affecting_axes": [
+      "颜色分类",
+      "规格"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 440,
+    "task_ids": [
+      440
+    ]
+  },
+  {
+    "asin": "869304589795",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 449,
+    "task_ids": [
+      449
+    ]
+  },
+  {
+    "asin": "827267988829",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 491,
+    "task_ids": [
+      491
+    ]
+  },
+  {
+    "asin": "939665541237",
+    "price_affecting_axes": [
+      "颜色分类",
+      "数量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 502,
+    "task_ids": [
+      502
+    ]
+  },
+  {
+    "asin": "565795168875",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 530,
+    "task_ids": [
+      530
+    ]
+  },
+  {
+    "asin": "779308166447",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 536,
+    "task_ids": [
+      536
+    ]
+  },
+  {
+    "asin": "934921641506",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用床垫尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 542,
+    "task_ids": [
+      542
+    ]
+  },
+  {
+    "asin": "773181849674",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 569,
+    "task_ids": [
+      569
+    ]
+  },
+  {
+    "asin": "847413315528",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 610,
+    "task_ids": [
+      610
+    ]
+  },
+  {
+    "asin": "943017702647",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 622,
+    "task_ids": [
+      622
+    ]
+  },
+  {
+    "asin": "726000379556",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 670,
+    "task_ids": [
+      670
+    ]
+  },
+  {
+    "asin": "897316095785",
+    "price_affecting_axes": [
+      "总净含量",
+      "口味"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 691,
+    "task_ids": [
+      691
+    ]
+  },
+  {
+    "asin": "828380828380",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 704,
+    "task_ids": [
+      704
+    ]
+  },
+  {
+    "asin": "895798965818",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 706,
+    "task_ids": [
+      706
+    ]
+  },
+  {
+    "asin": "834608032049",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 779,
+    "task_ids": [
+      779
+    ]
+  },
+  {
+    "asin": "717781507343",
+    "price_affecting_axes": [
+      "口味",
+      "购买规格"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 802,
+    "task_ids": [
+      802
+    ]
+  },
+  {
+    "asin": "867496477840",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 810,
+    "task_ids": [
+      810
+    ]
+  },
+  {
+    "asin": "912155453863",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 814,
+    "task_ids": [
+      814
+    ]
+  },
+  {
+    "asin": "909467045459",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 821,
+    "task_ids": [
+      821
+    ]
+  },
+  {
+    "asin": "892535551877",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 837,
+    "task_ids": [
+      837
+    ]
+  },
+  {
+    "asin": "941583455443",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 845,
+    "task_ids": [
+      845
+    ]
+  },
+  {
+    "asin": "942104152835",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 863,
+    "task_ids": [
+      863
+    ]
+  },
+  {
+    "asin": "898088441874",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 912,
+    "task_ids": [
+      912
+    ]
+  },
+  {
+    "asin": "930134025378",
+    "price_affecting_axes": [
+      "轴体名称",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 922,
+    "task_ids": [
+      922
+    ]
+  },
+  {
+    "asin": "827785224845",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 933,
+    "task_ids": [
+      933
+    ]
+  },
+  {
+    "asin": "933058211337",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 935,
+    "task_ids": [
+      935
+    ]
+  },
+  {
+    "asin": "557781367726",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 941,
+    "task_ids": [
+      941
+    ]
+  },
+  {
+    "asin": "907901909926",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 971,
+    "task_ids": [
+      971
+    ]
+  },
+  {
+    "asin": "706570511823",
+    "price_affecting_axes": [
+      "颜色分类",
+      "通讯串口"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1088,
+    "task_ids": [
+      1088
+    ]
+  },
+  {
+    "asin": "851178280850",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1122,
+    "task_ids": [
+      1122
+    ]
+  },
+  {
+    "asin": "940877542057",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1123,
+    "task_ids": [
+      1123
+    ]
+  },
+  {
+    "asin": "920951573324",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1129,
+    "task_ids": [
+      1129
+    ]
+  },
+  {
+    "asin": "787731546368",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1153,
+    "task_ids": [
+      1153
+    ]
+  },
+  {
+    "asin": "843795777326",
+    "price_affecting_axes": [
+      "尺码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1177,
+    "task_ids": [
+      1177
+    ]
+  },
+  {
+    "asin": "924953919454",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用床垫尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1195,
+    "task_ids": [
+      1195
+    ]
+  },
+  {
+    "asin": "657488356140",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1207,
+    "task_ids": [
+      1207
+    ]
+  },
+  {
+    "asin": "872814967526",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1240,
+    "task_ids": [
+      1240
+    ]
+  },
+  {
+    "asin": "633802537567",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1252,
+    "task_ids": [
+      1252
+    ]
+  },
+  {
+    "asin": "847032450814",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1254,
+    "task_ids": [
+      1254
+    ]
+  },
+  {
+    "asin": "730771138437",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1261,
+    "task_ids": [
+      1261
+    ]
+  },
+  {
+    "asin": "936974174328",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1273,
+    "task_ids": [
+      1273
+    ]
+  },
+  {
+    "asin": "827041670930",
+    "price_affecting_axes": [
+      "规格描述",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1275,
+    "task_ids": [
+      1275
+    ]
+  },
+  {
+    "asin": "815736465360",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1280,
+    "task_ids": [
+      1280
+    ]
+  },
+  {
+    "asin": "600633779899",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1281,
+    "task_ids": [
+      1281
+    ]
+  },
+  {
+    "asin": "869170358727",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1303,
+    "task_ids": [
+      1303
+    ]
+  },
+  {
+    "asin": "903310508865",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1336,
+    "task_ids": [
+      1336
+    ]
+  },
+  {
+    "asin": "703160403219",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1354,
+    "task_ids": [
+      1354
+    ]
+  },
+  {
+    "asin": "914013457893",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1366,
+    "task_ids": [
+      1366
+    ]
+  },
+  {
+    "asin": "735849499549",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1367,
+    "task_ids": [
+      1367
+    ]
+  },
+  {
+    "asin": "717944917337",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1381,
+    "task_ids": [
+      1381
+    ]
+  },
+  {
+    "asin": "631173419274",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1394,
+    "task_ids": [
+      1394
+    ]
+  },
+  {
+    "asin": "773602170810",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1400,
+    "task_ids": [
+      1400
+    ]
+  },
+  {
+    "asin": "864465548282",
+    "price_affecting_axes": [
+      "种球周长（很重要的种球特征）",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1402,
+    "task_ids": [
+      1402
+    ]
+  },
+  {
+    "asin": "746817001667",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1440,
+    "task_ids": [
+      1440
+    ]
+  },
+  {
+    "asin": "820492957306",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1446,
+    "task_ids": [
+      1446
+    ]
+  },
+  {
+    "asin": "913669426928",
+    "price_affecting_axes": [
+      "款式",
+      "戒指圈口"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1467,
+    "task_ids": [
+      1467
+    ]
+  },
+  {
+    "asin": "740660024687",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1521,
+    "task_ids": [
+      1521
+    ]
+  },
+  {
+    "asin": "910754158221",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1622,
+    "task_ids": [
+      1622
+    ]
+  },
+  {
+    "asin": "945045181186",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1670,
+    "task_ids": [
+      1670
+    ]
+  },
+  {
+    "asin": "895516447505",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1691,
+    "task_ids": [
+      1691
+    ]
+  },
+  {
+    "asin": "548170770026",
+    "price_affecting_axes": [
+      "颜色分类",
+      "配饰"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1769,
+    "task_ids": [
+      1769
+    ]
+  },
+  {
+    "asin": "834608132515",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 1858,
+    "task_ids": [
+      1858
+    ]
+  },
+  {
+    "asin": "920110416169",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2022,
+    "task_ids": [
+      2022
+    ]
+  },
+  {
+    "asin": "918225070351",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2085,
+    "task_ids": [
+      2085
+    ]
+  },
+  {
+    "asin": "816989758321",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2176,
+    "task_ids": [
+      2176
+    ]
+  },
+  {
+    "asin": "837961558962",
+    "price_affecting_axes": [
+      "轴体名称",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2272,
+    "task_ids": [
+      2272
+    ]
+  },
+  {
+    "asin": "846848553000",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2285,
+    "task_ids": [
+      2285
+    ]
+  },
+  {
+    "asin": "749823538017",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2389,
+    "task_ids": [
+      2389
+    ]
+  },
+  {
+    "asin": "671070549024",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2391,
+    "task_ids": [
+      2391
+    ]
+  },
+  {
+    "asin": "840600932072",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2424,
+    "task_ids": [
+      2424
+    ]
+  },
+  {
+    "asin": "632705125005",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2491,
+    "task_ids": [
+      2491
+    ]
+  },
+  {
+    "asin": "567793854041",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2492,
+    "task_ids": [
+      2492
+    ]
+  },
+  {
+    "asin": "742224740928",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2521,
+    "task_ids": [
+      2521
+    ]
+  },
+  {
+    "asin": "916597152503",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2665,
+    "task_ids": [
+      2665
+    ]
+  },
+  {
+    "asin": "680799898745",
+    "price_affecting_axes": [
+      "颜色分类",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2688,
+    "task_ids": [
+      2688
+    ]
+  },
+  {
+    "asin": "768951199134",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2735,
+    "task_ids": [
+      2735
+    ]
+  },
+  {
+    "asin": "721504325819",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2755,
+    "task_ids": [
+      2755
+    ]
+  },
+  {
+    "asin": "851350236221",
+    "price_affecting_axes": [
+      "颜色分类",
+      "规格"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2776,
+    "task_ids": [
+      2776
+    ]
+  },
+  {
+    "asin": "934652199873",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2823,
+    "task_ids": [
+      2823
+    ]
+  },
+  {
+    "asin": "942463520524",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2829,
+    "task_ids": [
+      2829
+    ]
+  },
+  {
+    "asin": "615713325039",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 2997,
+    "task_ids": [
+      2997
+    ]
+  },
+  {
+    "asin": "773465869157",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3037,
+    "task_ids": [
+      3037
+    ]
+  },
+  {
+    "asin": "830770135152",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3062,
+    "task_ids": [
+      3062
+    ]
+  },
+  {
+    "asin": "739915395656",
+    "price_affecting_axes": [
+      "分类",
+      "刀身长度"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3070,
+    "task_ids": [
+      3070
+    ]
+  },
+  {
+    "asin": "900654632082",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3093,
+    "task_ids": [
+      3093
+    ]
+  },
+  {
+    "asin": "666847439983",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3154,
+    "task_ids": [
+      3154
+    ]
+  },
+  {
+    "asin": "941038135245",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3178,
+    "task_ids": [
+      3178
+    ]
+  },
+  {
+    "asin": "541277918545",
+    "price_affecting_axes": [
+      "容量",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3292,
+    "task_ids": [
+      3292
+    ]
+  },
+  {
+    "asin": "881803526641",
+    "price_affecting_axes": [
+      "轴体名称",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3308,
+    "task_ids": [
+      3308
+    ]
+  },
+  {
+    "asin": "806081652091",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3397,
+    "task_ids": [
+      3397
+    ]
+  },
+  {
+    "asin": "915934415800",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3427,
+    "task_ids": [
+      3427
+    ]
+  },
+  {
+    "asin": "876084047947",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3468,
+    "task_ids": [
+      3468
+    ]
+  },
+  {
+    "asin": "686597731471",
+    "price_affecting_axes": [
+      "颜色分类",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3576,
+    "task_ids": [
+      3576
+    ]
+  },
+  {
+    "asin": "834608052671",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3633,
+    "task_ids": [
+      3633
+    ]
+  },
+  {
+    "asin": "810585989464",
+    "price_affecting_axes": [
+      "尺码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3665,
+    "task_ids": [
+      3665
+    ]
+  },
+  {
+    "asin": "902179702976",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3680,
+    "task_ids": [
+      3680
+    ]
+  },
+  {
+    "asin": "43621902041",
+    "price_affecting_axes": [
+      "容量",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3710,
+    "task_ids": [
+      3710
+    ]
+  },
+  {
+    "asin": "778255216113",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3744,
+    "task_ids": [
+      3744
+    ]
+  },
+  {
+    "asin": "737014817266",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3800,
+    "task_ids": [
+      3800
+    ]
+  },
+  {
+    "asin": "887788709839",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3825,
+    "task_ids": [
+      3825
+    ]
+  },
+  {
+    "asin": "931035004446",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3900,
+    "task_ids": [
+      3900
+    ]
+  },
+  {
+    "asin": "523342647986",
+    "price_affecting_axes": [
+      "颜色分类",
+      "电压分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3917,
+    "task_ids": [
+      3917
+    ]
+  },
+  {
+    "asin": "860590248810",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3924,
+    "task_ids": [
+      3924
+    ]
+  },
+  {
+    "asin": "654933234429",
+    "price_affecting_axes": [
+      "颜色分类",
+      "钓竿长度"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3930,
+    "task_ids": [
+      3930
+    ]
+  },
+  {
+    "asin": "609793560139",
+    "price_affecting_axes": [
+      "颜色分类",
+      "规格"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 3971,
+    "task_ids": [
+      3971
+    ]
+  },
+  {
+    "asin": "726582199320",
+    "price_affecting_axes": [
+      "尺码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4042,
+    "task_ids": [
+      4042
+    ]
+  },
+  {
+    "asin": "861582433087",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4052,
+    "task_ids": [
+      4052
+    ]
+  },
+  {
+    "asin": "716305273575",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4066,
+    "task_ids": [
+      4066
+    ]
+  },
+  {
+    "asin": "793487318269",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4079,
+    "task_ids": [
+      4079
+    ]
+  },
+  {
+    "asin": "803427371779",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4103,
+    "task_ids": [
+      4103
+    ]
+  },
+  {
+    "asin": "756506189239",
+    "price_affecting_axes": [
+      "颜色分类",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4145,
+    "task_ids": [
+      4145
+    ]
+  },
+  {
+    "asin": "871913345007",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4170,
+    "task_ids": [
+      4170
+    ]
+  },
+  {
+    "asin": "45735876340",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4191,
+    "task_ids": [
+      4191
+    ]
+  },
+  {
+    "asin": "765142540484",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4228,
+    "task_ids": [
+      4228
+    ]
+  },
+  {
+    "asin": "809457787339",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4247,
+    "task_ids": [
+      4247
+    ]
+  },
+  {
+    "asin": "854344279776",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4265,
+    "task_ids": [
+      4265
+    ]
+  },
+  {
+    "asin": "922042702786",
+    "price_affecting_axes": [
+      "分类",
+      "刀身长度"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4269,
+    "task_ids": [
+      4269
+    ]
+  },
+  {
+    "asin": "899232845508",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4339,
+    "task_ids": [
+      4339
+    ]
+  },
+  {
+    "asin": "765579512356",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4415,
+    "task_ids": [
+      4415
+    ]
+  },
+  {
+    "asin": "902802665379",
+    "price_affecting_axes": [
+      "颜色分类",
+      "种地类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4527,
+    "task_ids": [
+      4527
+    ]
+  },
+  {
+    "asin": "684657442878",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4536,
+    "task_ids": [
+      4536
+    ]
+  },
+  {
+    "asin": "830352090904",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4725,
+    "task_ids": [
+      4725
+    ]
+  },
+  {
+    "asin": "830999580085",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4730,
+    "task_ids": [
+      4730
+    ]
+  },
+  {
+    "asin": "755814003302",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4733,
+    "task_ids": [
+      4733
+    ]
+  },
+  {
+    "asin": "844813517777",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4736,
+    "task_ids": [
+      4736
+    ]
+  },
+  {
+    "asin": "805092575134",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4741,
+    "task_ids": [
+      4741
+    ]
+  },
+  {
+    "asin": "827341469577",
+    "price_affecting_axes": [
+      "尺码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4841,
+    "task_ids": [
+      4841
+    ]
+  },
+  {
+    "asin": "824772963051",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4886,
+    "task_ids": [
+      4886
+    ]
+  },
+  {
+    "asin": "569681995126",
+    "price_affecting_axes": [
+      "颜色分类",
+      "电压"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4897,
+    "task_ids": [
+      4897
+    ]
+  },
+  {
+    "asin": "801208817861",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4962,
+    "task_ids": [
+      4962
+    ]
+  },
+  {
+    "asin": "863541520164",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 4977,
+    "task_ids": [
+      4977
+    ]
+  },
+  {
+    "asin": "540559116387",
+    "price_affecting_axes": [
+      "品名",
+      "数量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5020,
+    "task_ids": [
+      5020
+    ]
+  },
+  {
+    "asin": "772361444114",
+    "price_affecting_axes": [
+      "规格描述",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5225,
+    "task_ids": [
+      5225
+    ]
+  },
+  {
+    "asin": "547990532150",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5232,
+    "task_ids": [
+      5232
+    ]
+  },
+  {
+    "asin": "927865149795",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5275,
+    "task_ids": [
+      5275
+    ]
+  },
+  {
+    "asin": "531159161498",
+    "price_affecting_axes": [
+      "颜色分类",
+      "钓竿长度"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5361,
+    "task_ids": [
+      5361
+    ]
+  },
+  {
+    "asin": "860470403272",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5384,
+    "task_ids": [
+      5384
+    ]
+  },
+  {
+    "asin": "930441541492",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5442,
+    "task_ids": [
+      5442
+    ]
+  },
+  {
+    "asin": "928539878290",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用床垫尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5464,
+    "task_ids": [
+      5464
+    ]
+  },
+  {
+    "asin": "825540013189",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5508,
+    "task_ids": [
+      5508
+    ]
+  },
+  {
+    "asin": "749380739806",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5517,
+    "task_ids": [
+      5517
+    ]
+  },
+  {
+    "asin": "732416214407",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5599,
+    "task_ids": [
+      5599
+    ]
+  },
+  {
+    "asin": "888515846742",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5600,
+    "task_ids": [
+      5600
+    ]
+  },
+  {
+    "asin": "721238933997",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5671,
+    "task_ids": [
+      5671
+    ]
+  },
+  {
+    "asin": "833425772279",
+    "price_affecting_axes": [
+      "颜色分类",
+      "规格"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5723,
+    "task_ids": [
+      5723
+    ]
+  },
+  {
+    "asin": "774499684173",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5796,
+    "task_ids": [
+      5796
+    ]
+  },
+  {
+    "asin": "718344629166",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5853,
+    "task_ids": [
+      5853
+    ]
+  },
+  {
+    "asin": "943134972223",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5862,
+    "task_ids": [
+      5862
+    ]
+  },
+  {
+    "asin": "819420832708",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5883,
+    "task_ids": [
+      5883
+    ]
+  },
+  {
+    "asin": "669707882512",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5885,
+    "task_ids": [
+      5885
+    ]
+  },
+  {
+    "asin": "909762345717",
+    "price_affecting_axes": [
+      "颜色分类",
+      "盒况"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 5966,
+    "task_ids": [
+      5966
+    ]
+  },
+  {
+    "asin": "885662518419",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6012,
+    "task_ids": [
+      6012
+    ]
+  },
+  {
+    "asin": "804835141417",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6023,
+    "task_ids": [
+      6023
+    ]
+  },
+  {
+    "asin": "814967930611",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6057,
+    "task_ids": [
+      6057
+    ]
+  },
+  {
+    "asin": "940389180450",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6066,
+    "task_ids": [
+      6066
+    ]
+  },
+  {
+    "asin": "920497890031",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6072,
+    "task_ids": [
+      6072
+    ]
+  },
+  {
+    "asin": "924015804118",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6141,
+    "task_ids": [
+      6141
+    ]
+  },
+  {
+    "asin": "651081134562",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6210,
+    "task_ids": [
+      6210
+    ]
+  },
+  {
+    "asin": "934993908796",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6228,
+    "task_ids": [
+      6228
+    ]
+  },
+  {
+    "asin": "889216778322",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6344,
+    "task_ids": [
+      6344
+    ]
+  },
+  {
+    "asin": "814872777199",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6379,
+    "task_ids": [
+      6379
+    ]
+  },
+  {
+    "asin": "925976703508",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6397,
+    "task_ids": [
+      6397
+    ]
+  },
+  {
+    "asin": "892545552817",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6411,
+    "task_ids": [
+      6411
+    ]
+  },
+  {
+    "asin": "913183904204",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6412,
+    "task_ids": [
+      6412
+    ]
+  },
+  {
+    "asin": "939667107382",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6428,
+    "task_ids": [
+      6428
+    ]
+  },
+  {
+    "asin": "554185678924",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6524,
+    "task_ids": [
+      6524
+    ]
+  },
+  {
+    "asin": "889392575987",
+    "price_affecting_axes": [
+      "颜色分类",
+      "直径"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6534,
+    "task_ids": [
+      6534
+    ]
+  },
+  {
+    "asin": "823620756203",
+    "price_affecting_axes": [
+      "颜色分类",
+      "规格"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6544,
+    "task_ids": [
+      6544
+    ]
+  },
+  {
+    "asin": "771633168722",
+    "price_affecting_axes": [
+      "净含量",
+      "规格类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6580,
+    "task_ids": [
+      6580
+    ]
+  },
+  {
+    "asin": "734045052687",
+    "price_affecting_axes": [
+      "口味",
+      "购买规格"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6582,
+    "task_ids": [
+      6582
+    ]
+  },
+  {
+    "asin": "789837361509",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6620,
+    "task_ids": [
+      6620
+    ]
+  },
+  {
+    "asin": "744287635188",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6629,
+    "task_ids": [
+      6629
+    ]
+  },
+  {
+    "asin": "537720099370",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6654,
+    "task_ids": [
+      6654
+    ]
+  },
+  {
+    "asin": "722778878767",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6686,
+    "task_ids": [
+      6686
+    ]
+  },
+  {
+    "asin": "933456567805",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6689,
+    "task_ids": [
+      6689
+    ]
+  },
+  {
+    "asin": "941101793540",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6695,
+    "task_ids": [
+      6695
+    ]
+  },
+  {
+    "asin": "731916639133",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6698,
+    "task_ids": [
+      6698
+    ]
+  },
+  {
+    "asin": "658384403895",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6699,
+    "task_ids": [
+      6699
+    ]
+  },
+  {
+    "asin": "757696595102",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6723,
+    "task_ids": [
+      6723
+    ]
+  },
+  {
+    "asin": "39424958784",
+    "price_affecting_axes": [
+      "颜色分类",
+      "规格"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6725,
+    "task_ids": [
+      6725
+    ]
+  },
+  {
+    "asin": "38157104987",
+    "price_affecting_axes": [
+      "容量",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6750,
+    "task_ids": [
+      6750
+    ]
+  },
+  {
+    "asin": "893630945345",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6775,
+    "task_ids": [
+      6775
+    ]
+  },
+  {
+    "asin": "681545012731",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6788,
+    "task_ids": [
+      6788
+    ]
+  },
+  {
+    "asin": "843706981662",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用床垫尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6816,
+    "task_ids": [
+      6816
+    ]
+  },
+  {
+    "asin": "819197835450",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6817,
+    "task_ids": [
+      6817
+    ]
+  },
+  {
+    "asin": "860006174376",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6861,
+    "task_ids": [
+      6861
+    ]
+  },
+  {
+    "asin": "790703519610",
+    "price_affecting_axes": [
+      "颜色分类",
+      "型号"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6919,
+    "task_ids": [
+      6919
+    ]
+  },
+  {
+    "asin": "765966016292",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 6922,
+    "task_ids": [
+      6922
+    ]
+  },
+  {
+    "asin": "650796590169",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7082,
+    "task_ids": [
+      7082
+    ]
+  },
+  {
+    "asin": "867535758331",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7101,
+    "task_ids": [
+      7101
+    ]
+  },
+  {
+    "asin": "795365510318",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7109,
+    "task_ids": [
+      7109
+    ]
+  },
+  {
+    "asin": "938124094034",
+    "price_affecting_axes": [
+      "重量",
+      "手镯圈口"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7224,
+    "task_ids": [
+      7224
+    ]
+  },
+  {
+    "asin": "795618937846",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7274,
+    "task_ids": [
+      7274
+    ]
+  },
+  {
+    "asin": "602087885320",
+    "price_affecting_axes": [
+      "型号",
+      "材质"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7291,
+    "task_ids": [
+      7291
+    ]
+  },
+  {
+    "asin": "893942868700",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7316,
+    "task_ids": [
+      7316
+    ]
+  },
+  {
+    "asin": "794199279656",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7347,
+    "task_ids": [
+      7347
+    ]
+  },
+  {
+    "asin": "755723484356",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7348,
+    "task_ids": [
+      7348
+    ]
+  },
+  {
+    "asin": "935164643275",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7360,
+    "task_ids": [
+      7360
+    ]
+  },
+  {
+    "asin": "937661078491",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7429,
+    "task_ids": [
+      7429
+    ]
+  },
+  {
+    "asin": "803627762439",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7431,
+    "task_ids": [
+      7431
+    ]
+  },
+  {
+    "asin": "674413627835",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7541,
+    "task_ids": [
+      7541
+    ]
+  },
+  {
+    "asin": "789875240150",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7597,
+    "task_ids": [
+      7597
+    ]
+  },
+  {
+    "asin": "793031328365",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7631,
+    "task_ids": [
+      7631
+    ]
+  },
+  {
+    "asin": "834197050868",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7694,
+    "task_ids": [
+      7694
+    ]
+  },
+  {
+    "asin": "541660023889",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7714,
+    "task_ids": [
+      7714
+    ]
+  },
+  {
+    "asin": "886344063322",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7719,
+    "task_ids": [
+      7719
+    ]
+  },
+  {
+    "asin": "696307581463",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7825,
+    "task_ids": [
+      7825
+    ]
+  },
+  {
+    "asin": "860434801923",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7875,
+    "task_ids": [
+      7875
+    ]
+  },
+  {
+    "asin": "744543444668",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7903,
+    "task_ids": [
+      7903
+    ]
+  },
+  {
+    "asin": "641138468407",
+    "price_affecting_axes": [
+      "香味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 7930,
+    "task_ids": [
+      7930
+    ]
+  },
+  {
+    "asin": "911304156800",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8062,
+    "task_ids": [
+      8062
+    ]
+  },
+  {
+    "asin": "573588031095",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8106,
+    "task_ids": [
+      8106
+    ]
+  },
+  {
+    "asin": "638337797668",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8159,
+    "task_ids": [
+      8159
+    ]
+  },
+  {
+    "asin": "811480398949",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8247,
+    "task_ids": [
+      8247
+    ]
+  },
+  {
+    "asin": "725492293880",
+    "price_affecting_axes": [
+      "尺码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8289,
+    "task_ids": [
+      8289
+    ]
+  },
+  {
+    "asin": "895929648322",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8303,
+    "task_ids": [
+      8303
+    ]
+  },
+  {
+    "asin": "872003199496",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8457,
+    "task_ids": [
+      8457
+    ]
+  },
+  {
+    "asin": "803540875509",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8595,
+    "task_ids": [
+      8595
+    ]
+  },
+  {
+    "asin": "910796090110",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8609,
+    "task_ids": [
+      8609
+    ]
+  },
+  {
+    "asin": "689841896531",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8648,
+    "task_ids": [
+      8648
+    ]
+  },
+  {
+    "asin": "860608651681",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8672,
+    "task_ids": [
+      8672
+    ]
+  },
+  {
+    "asin": "597627155659",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8735,
+    "task_ids": [
+      8735
+    ]
+  },
+  {
+    "asin": "862187972093",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8736,
+    "task_ids": [
+      8736
+    ]
+  },
+  {
+    "asin": "908898648086",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8745,
+    "task_ids": [
+      8745
+    ]
+  },
+  {
+    "asin": "864947236081",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用床垫尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8779,
+    "task_ids": [
+      8779
+    ]
+  },
+  {
+    "asin": "931509537033",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8829,
+    "task_ids": [
+      8829
+    ]
+  },
+  {
+    "asin": "715326775754",
+    "price_affecting_axes": [
+      "颜色分类",
+      "功率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8836,
+    "task_ids": [
+      8836
+    ]
+  },
+  {
+    "asin": "597596298767",
+    "price_affecting_axes": [
+      "颜色分类",
+      "购买规格"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8902,
+    "task_ids": [
+      8902
+    ]
+  },
+  {
+    "asin": "722698520492",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8929,
+    "task_ids": [
+      8929
+    ]
+  },
+  {
+    "asin": "915995089228",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 8939,
+    "task_ids": [
+      8939
+    ]
+  },
+  {
+    "asin": "797424714024",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9049,
+    "task_ids": [
+      9049
+    ]
+  },
+  {
+    "asin": "866001791271",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9075,
+    "task_ids": [
+      9075
+    ]
+  },
+  {
+    "asin": "941964014285",
+    "price_affecting_axes": [
+      "尺码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9104,
+    "task_ids": [
+      9104
+    ]
+  },
+  {
+    "asin": "858945150012",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9258,
+    "task_ids": [
+      9258
+    ]
+  },
+  {
+    "asin": "734426174120",
+    "price_affecting_axes": [
+      "颜色分类",
+      "数量选择"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9305,
+    "task_ids": [
+      9305
+    ]
+  },
+  {
+    "asin": "906535783992",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9384,
+    "task_ids": [
+      9384
+    ]
+  },
+  {
+    "asin": "940082652109",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9387,
+    "task_ids": [
+      9387
+    ]
+  },
+  {
+    "asin": "583882830149",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9474,
+    "task_ids": [
+      9474
+    ]
+  },
+  {
+    "asin": "941766010655",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9475,
+    "task_ids": [
+      9475
+    ]
+  },
+  {
+    "asin": "770244977452",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用床垫尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9531,
+    "task_ids": [
+      9531
+    ]
+  },
+  {
+    "asin": "782049671968",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9537,
+    "task_ids": [
+      9537
+    ]
+  },
+  {
+    "asin": "907725137899",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9573,
+    "task_ids": [
+      9573
+    ]
+  },
+  {
+    "asin": "927891886140",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9719,
+    "task_ids": [
+      9719
+    ]
+  },
+  {
+    "asin": "907299574772",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9729,
+    "task_ids": [
+      9729
+    ]
+  },
+  {
+    "asin": "788272904312",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9731,
+    "task_ids": [
+      9731
+    ]
+  },
+  {
+    "asin": "601194834630",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9776,
+    "task_ids": [
+      9776
+    ]
+  },
+  {
+    "asin": "821395082637",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9805,
+    "task_ids": [
+      9805
+    ]
+  },
+  {
+    "asin": "869508961517",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9849,
+    "task_ids": [
+      9849
+    ]
+  },
+  {
+    "asin": "684040603561",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9885,
+    "task_ids": [
+      9885
+    ]
+  },
+  {
+    "asin": "20185053190",
+    "price_affecting_axes": [
+      "颜色分类",
+      "功率选择"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9887,
+    "task_ids": [
+      9887
+    ]
+  },
+  {
+    "asin": "941681744914",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 9940,
+    "task_ids": [
+      9940
+    ]
+  },
+  {
+    "asin": "829643082204",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10004,
+    "task_ids": [
+      10004
+    ]
+  },
+  {
+    "asin": "769934402092",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10061,
+    "task_ids": [
+      10061
+    ]
+  },
+  {
+    "asin": "897223877599",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10072,
+    "task_ids": [
+      10072
+    ]
+  },
+  {
+    "asin": "892172995705",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10123,
+    "task_ids": [
+      10123
+    ]
+  },
+  {
+    "asin": "703660003148",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10175,
+    "task_ids": [
+      10175
+    ]
+  },
+  {
+    "asin": "704051438562",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10220,
+    "task_ids": [
+      10220
+    ]
+  },
+  {
+    "asin": "934976650920",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10266,
+    "task_ids": [
+      10266
+    ]
+  },
+  {
+    "asin": "681783199335",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10282,
+    "task_ids": [
+      10282
+    ]
+  },
+  {
+    "asin": "900695572137",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10293,
+    "task_ids": [
+      10293
+    ]
+  },
+  {
+    "asin": "772452013802",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10347,
+    "task_ids": [
+      10347
+    ]
+  },
+  {
+    "asin": "865443040128",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10462,
+    "task_ids": [
+      10462
+    ]
+  },
+  {
+    "asin": "919056856488",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10579,
+    "task_ids": [
+      10579
+    ]
+  },
+  {
+    "asin": "795618897678",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10611,
+    "task_ids": [
+      10611
+    ]
+  },
+  {
+    "asin": "862526169200",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10631,
+    "task_ids": [
+      10631
+    ]
+  },
+  {
+    "asin": "734053934511",
+    "price_affecting_axes": [
+      "黄金克重",
+      "戒指圈口"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10653,
+    "task_ids": [
+      10653
+    ]
+  },
+  {
+    "asin": "926315133162",
+    "price_affecting_axes": [
+      "容量",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10765,
+    "task_ids": [
+      10765
+    ]
+  },
+  {
+    "asin": "922380634486",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10774,
+    "task_ids": [
+      10774
+    ]
+  },
+  {
+    "asin": "690135367661",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10778,
+    "task_ids": [
+      10778
+    ]
+  },
+  {
+    "asin": "902526791535",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10801,
+    "task_ids": [
+      10801
+    ]
+  },
+  {
+    "asin": "567956883022",
+    "price_affecting_axes": [
+      "款式",
+      "数量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10843,
+    "task_ids": [
+      10843
+    ]
+  },
+  {
+    "asin": "779525695202",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 10922,
+    "task_ids": [
+      10922
+    ]
+  },
+  {
+    "asin": "673535135084",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11027,
+    "task_ids": [
+      11027
+    ]
+  },
+  {
+    "asin": "918261731924",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11041,
+    "task_ids": [
+      11041
+    ]
+  },
+  {
+    "asin": "907602323789",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11079,
+    "task_ids": [
+      11079
+    ]
+  },
+  {
+    "asin": "743830828902",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用床垫尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11082,
+    "task_ids": [
+      11082
+    ]
+  },
+  {
+    "asin": "681174770703",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11126,
+    "task_ids": [
+      11126
+    ]
+  },
+  {
+    "asin": "883445762594",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11138,
+    "task_ids": [
+      11138
+    ]
+  },
+  {
+    "asin": "531265482540",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11170,
+    "task_ids": [
+      11170
+    ]
+  },
+  {
+    "asin": "889370802846",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11190,
+    "task_ids": [
+      11190
+    ]
+  },
+  {
+    "asin": "718190883696",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11192,
+    "task_ids": [
+      11192
+    ]
+  },
+  {
+    "asin": "760168570842",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11206,
+    "task_ids": [
+      11206
+    ]
+  },
+  {
+    "asin": "836636499244",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11219,
+    "task_ids": [
+      11219
+    ]
+  },
+  {
+    "asin": "639278595896",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11254,
+    "task_ids": [
+      11254
+    ]
+  },
+  {
+    "asin": "833635993484",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11263,
+    "task_ids": [
+      11263
+    ]
+  },
+  {
+    "asin": "914655138045",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重",
+      "戒指圈口"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11273,
+    "task_ids": [
+      11273
+    ]
+  },
+  {
+    "asin": "922699103101",
+    "price_affecting_axes": [
+      "尺码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11400,
+    "task_ids": [
+      11400
+    ]
+  },
+  {
+    "asin": "939854276319",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11493,
+    "task_ids": [
+      11493
+    ]
+  },
+  {
+    "asin": "842020608532",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11515,
+    "task_ids": [
+      11515
+    ]
+  },
+  {
+    "asin": "899820805496",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11563,
+    "task_ids": [
+      11563
+    ]
+  },
+  {
+    "asin": "850351893863",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11613,
+    "task_ids": [
+      11613
+    ]
+  },
+  {
+    "asin": "917563687678",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11635,
+    "task_ids": [
+      11635
+    ]
+  },
+  {
+    "asin": "13542276102",
+    "price_affecting_axes": [
+      "颜色分类",
+      "长度"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11728,
+    "task_ids": [
+      11728
+    ]
+  },
+  {
+    "asin": "809675199349",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11747,
+    "task_ids": [
+      11747
+    ]
+  },
+  {
+    "asin": "944647488475",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11773,
+    "task_ids": [
+      11773
+    ]
+  },
+  {
+    "asin": "647382748878",
+    "price_affecting_axes": [
+      "数量",
+      "型号"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11862,
+    "task_ids": [
+      11862
+    ]
+  },
+  {
+    "asin": "886991828915",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11867,
+    "task_ids": [
+      11867
+    ]
+  },
+  {
+    "asin": "813392159513",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11958,
+    "task_ids": [
+      11958
+    ]
+  },
+  {
+    "asin": "739729154601",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 11970,
+    "task_ids": [
+      11970
+    ]
+  },
+  {
+    "asin": "858448748785",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12033,
+    "task_ids": [
+      12033
+    ]
+  },
+  {
+    "asin": "597060591228",
+    "price_affecting_axes": [
+      "颜色分类",
+      "数量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12112,
+    "task_ids": [
+      12112
+    ]
+  },
+  {
+    "asin": "711520794478",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12117,
+    "task_ids": [
+      12117
+    ]
+  },
+  {
+    "asin": "790064160908",
+    "price_affecting_axes": [
+      "尺码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12140,
+    "task_ids": [
+      12140
+    ]
+  },
+  {
+    "asin": "802907708932",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12206,
+    "task_ids": [
+      12206
+    ]
+  },
+  {
+    "asin": "836735304283",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12212,
+    "task_ids": [
+      12212
+    ]
+  },
+  {
+    "asin": "931080512888",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12242,
+    "task_ids": [
+      12242
+    ]
+  },
+  {
+    "asin": "879293961442",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12250,
+    "task_ids": [
+      12250
+    ]
+  },
+  {
+    "asin": "741935892220",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12303,
+    "task_ids": [
+      12303
+    ]
+  },
+  {
+    "asin": "845718555792",
+    "price_affecting_axes": [
+      "净含量",
+      "规格类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12356,
+    "task_ids": [
+      12356
+    ]
+  },
+  {
+    "asin": "898823814773",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12430,
+    "task_ids": [
+      12430
+    ]
+  },
+  {
+    "asin": "918975967888",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12491,
+    "task_ids": [
+      12491
+    ]
+  },
+  {
+    "asin": "745361037044",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12550,
+    "task_ids": [
+      12550
+    ]
+  },
+  {
+    "asin": "40400070348",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12560,
+    "task_ids": [
+      12560
+    ]
+  },
+  {
+    "asin": "909254540959",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12656,
+    "task_ids": [
+      12656
+    ]
+  },
+  {
+    "asin": "776112673272",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12695,
+    "task_ids": [
+      12695
+    ]
+  },
+  {
+    "asin": "848414205916",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12710,
+    "task_ids": [
+      12710
+    ]
+  },
+  {
+    "asin": "910365184887",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12759,
+    "task_ids": [
+      12759
+    ]
+  },
+  {
+    "asin": "845812724050",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12825,
+    "task_ids": [
+      12825
+    ]
+  },
+  {
+    "asin": "706423612039",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12841,
+    "task_ids": [
+      12841
+    ]
+  },
+  {
+    "asin": "839210091388",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12857,
+    "task_ids": [
+      12857
+    ]
+  },
+  {
+    "asin": "672612750708",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12913,
+    "task_ids": [
+      12913
+    ]
+  },
+  {
+    "asin": "925300203588",
+    "price_affecting_axes": [
+      "颜色分类",
+      "款式"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 12934,
+    "task_ids": [
+      12934
+    ]
+  },
+  {
+    "asin": "831199078354",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13027,
+    "task_ids": [
+      13027
+    ]
+  },
+  {
+    "asin": "900651365945",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13077,
+    "task_ids": [
+      13077
+    ]
+  },
+  {
+    "asin": "649814693823",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13144,
+    "task_ids": [
+      13144
+    ]
+  },
+  {
+    "asin": "846706980614",
+    "price_affecting_axes": [
+      "颜色分类",
+      "年份"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13161,
+    "task_ids": [
+      13161
+    ]
+  },
+  {
+    "asin": "915718121078",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13168,
+    "task_ids": [
+      13168
+    ]
+  },
+  {
+    "asin": "852174638834",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13216,
+    "task_ids": [
+      13216
+    ]
+  },
+  {
+    "asin": "940846167492",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13231,
+    "task_ids": [
+      13231
+    ]
+  },
+  {
+    "asin": "707782716363",
+    "price_affecting_axes": [
+      "容量",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13305,
+    "task_ids": [
+      13305
+    ]
+  },
+  {
+    "asin": "577764663401",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13308,
+    "task_ids": [
+      13308
+    ]
+  },
+  {
+    "asin": "712911524461",
+    "price_affecting_axes": [
+      "尺码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13373,
+    "task_ids": [
+      13373
+    ]
+  },
+  {
+    "asin": "878960686114",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13389,
+    "task_ids": [
+      13389
+    ]
+  },
+  {
+    "asin": "921341588526",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13409,
+    "task_ids": [
+      13409
+    ]
+  },
+  {
+    "asin": "898633625934",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13480,
+    "task_ids": [
+      13480
+    ]
+  },
+  {
+    "asin": "892213467297",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13490,
+    "task_ids": [
+      13490
+    ]
+  },
+  {
+    "asin": "816586231869",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13532,
+    "task_ids": [
+      13532
+    ]
+  },
+  {
+    "asin": "634098462235",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13582,
+    "task_ids": [
+      13582
+    ]
+  },
+  {
+    "asin": "940645255243",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13588,
+    "task_ids": [
+      13588
+    ]
+  },
+  {
+    "asin": "589305938274",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13599,
+    "task_ids": [
+      13599
+    ]
+  },
+  {
+    "asin": "661552932151",
+    "price_affecting_axes": [
+      "净含量",
+      "规格类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13653,
+    "task_ids": [
+      13653
+    ]
+  },
+  {
+    "asin": "922747591623",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13719,
+    "task_ids": [
+      13719
+    ]
+  },
+  {
+    "asin": "691155847312",
+    "price_affecting_axes": [
+      "颜色分类",
+      "型号"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13747,
+    "task_ids": [
+      13747
+    ]
+  },
+  {
+    "asin": "823843099289",
+    "price_affecting_axes": [
+      "总净含量",
+      "口味"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13778,
+    "task_ids": [
+      13778
+    ]
+  },
+  {
+    "asin": "738735183651",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13823,
+    "task_ids": [
+      13823
+    ]
+  },
+  {
+    "asin": "921793268235",
+    "price_affecting_axes": [
+      "轴体名称",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13843,
+    "task_ids": [
+      13843
+    ]
+  },
+  {
+    "asin": "926354405516",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13848,
+    "task_ids": [
+      13848
+    ]
+  },
+  {
+    "asin": "576703819475",
+    "price_affecting_axes": [
+      "颜色分类",
+      "钓竿长度"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13853,
+    "task_ids": [
+      13853
+    ]
+  },
+  {
+    "asin": "42831310266",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13881,
+    "task_ids": [
+      13881
+    ]
+  },
+  {
+    "asin": "819592437512",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13946,
+    "task_ids": [
+      13946
+    ]
+  },
+  {
+    "asin": "939286453929",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 13988,
+    "task_ids": [
+      13988
+    ]
+  },
+  {
+    "asin": "730698168853",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14016,
+    "task_ids": [
+      14016
+    ]
+  },
+  {
+    "asin": "916135556431",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14149,
+    "task_ids": [
+      14149
+    ]
+  },
+  {
+    "asin": "833993103615",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14151,
+    "task_ids": [
+      14151
+    ]
+  },
+  {
+    "asin": "843140391356",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14158,
+    "task_ids": [
+      14158
+    ]
+  },
+  {
+    "asin": "805424757792",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14165,
+    "task_ids": [
+      14165
+    ]
+  },
+  {
+    "asin": "897323377188",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14222,
+    "task_ids": [
+      14222
+    ]
+  },
+  {
+    "asin": "738511164916",
+    "price_affecting_axes": [
+      "轴体名称",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14237,
+    "task_ids": [
+      14237
+    ]
+  },
+  {
+    "asin": "43600119874",
+    "price_affecting_axes": [
+      "容量",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14242,
+    "task_ids": [
+      14242
+    ]
+  },
+  {
+    "asin": "804767787210",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14289,
+    "task_ids": [
+      14289
+    ]
+  },
+  {
+    "asin": "841163070651",
+    "price_affecting_axes": [
+      "颜色分类",
+      "高度"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14316,
+    "task_ids": [
+      14316
+    ]
+  },
+  {
+    "asin": "738924667421",
+    "price_affecting_axes": [
+      "轴体名称",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14341,
+    "task_ids": [
+      14341
+    ]
+  },
+  {
+    "asin": "856215814467",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14452,
+    "task_ids": [
+      14452
+    ]
+  },
+  {
+    "asin": "846188425815",
+    "price_affecting_axes": [
+      "颜色分类",
+      "是否芯片款"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14552,
+    "task_ids": [
+      14552
+    ]
+  },
+  {
+    "asin": "818000487392",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14568,
+    "task_ids": [
+      14568
+    ]
+  },
+  {
+    "asin": "697110279636",
+    "price_affecting_axes": [
+      "容量",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14578,
+    "task_ids": [
+      14578
+    ]
+  },
+  {
+    "asin": "937555357075",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14584,
+    "task_ids": [
+      14584
+    ]
+  },
+  {
+    "asin": "861704053841",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14587,
+    "task_ids": [
+      14587
+    ]
+  },
+  {
+    "asin": "730807675128",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14591,
+    "task_ids": [
+      14591
+    ]
+  },
+  {
+    "asin": "679712057057",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14613,
+    "task_ids": [
+      14613
+    ]
+  },
+  {
+    "asin": "43068084636",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用床垫尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14622,
+    "task_ids": [
+      14622
+    ]
+  },
+  {
+    "asin": "936141029804",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14689,
+    "task_ids": [
+      14689
+    ]
+  },
+  {
+    "asin": "579245177237",
+    "price_affecting_axes": [
+      "容量",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14696,
+    "task_ids": [
+      14696
+    ]
+  },
+  {
+    "asin": "817060664888",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14710,
+    "task_ids": [
+      14710
+    ]
+  },
+  {
+    "asin": "935100774875",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14714,
+    "task_ids": [
+      14714
+    ]
+  },
+  {
+    "asin": "885587127461",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14731,
+    "task_ids": [
+      14731
+    ]
+  },
+  {
+    "asin": "928014285960",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用床垫尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14745,
+    "task_ids": [
+      14745
+    ]
+  },
+  {
+    "asin": "712023884105",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14760,
+    "task_ids": [
+      14760
+    ]
+  },
+  {
+    "asin": "922397306066",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14765,
+    "task_ids": [
+      14765
+    ]
+  },
+  {
+    "asin": "738647141893",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用床垫尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14785,
+    "task_ids": [
+      14785
+    ]
+  },
+  {
+    "asin": "659571250999",
+    "price_affecting_axes": [
+      "总净含量",
+      "口味"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14788,
+    "task_ids": [
+      14788
+    ]
+  },
+  {
+    "asin": "665077907703",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14812,
+    "task_ids": [
+      14812
+    ]
+  },
+  {
+    "asin": "18934441962",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14827,
+    "task_ids": [
+      14827
+    ]
+  },
+  {
+    "asin": "644729638245",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14866,
+    "task_ids": [
+      14866
+    ]
+  },
+  {
+    "asin": "941477046500",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14872,
+    "task_ids": [
+      14872
+    ]
+  },
+  {
+    "asin": "776504162422",
+    "price_affecting_axes": [
+      "总净含量",
+      "口味"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14942,
+    "task_ids": [
+      14942
+    ]
+  },
+  {
+    "asin": "685903443412",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14950,
+    "task_ids": [
+      14950
+    ]
+  },
+  {
+    "asin": "938801299225",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用床垫尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14971,
+    "task_ids": [
+      14971
+    ]
+  },
+  {
+    "asin": "874942186785",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14972,
+    "task_ids": [
+      14972
+    ]
+  },
+  {
+    "asin": "671725615695",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14981,
+    "task_ids": [
+      14981
+    ]
+  },
+  {
+    "asin": "940178904477",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 14989,
+    "task_ids": [
+      14989
+    ]
+  },
+  {
+    "asin": "921858756704",
+    "price_affecting_axes": [
+      "颜色分类",
+      "款式"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15039,
+    "task_ids": [
+      15039
+    ]
+  },
+  {
+    "asin": "639083885791",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15148,
+    "task_ids": [
+      15148
+    ]
+  },
+  {
+    "asin": "845628940925",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15153,
+    "task_ids": [
+      15153
+    ]
+  },
+  {
+    "asin": "938115154347",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15182,
+    "task_ids": [
+      15182
+    ]
+  },
+  {
+    "asin": "920539828187",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15204,
+    "task_ids": [
+      15204
+    ]
+  },
+  {
+    "asin": "579949045094",
+    "price_affecting_axes": [
+      "款式",
+      "重量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15235,
+    "task_ids": [
+      15235
+    ]
+  },
+  {
+    "asin": "623158365155",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15260,
+    "task_ids": [
+      15260
+    ]
+  },
+  {
+    "asin": "619922089440",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15309,
+    "task_ids": [
+      15309
+    ]
+  },
+  {
+    "asin": "848380397106",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15338,
+    "task_ids": [
+      15338
+    ]
+  },
+  {
+    "asin": "829342506879",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15341,
+    "task_ids": [
+      15341
+    ]
+  },
+  {
+    "asin": "729588953933",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15348,
+    "task_ids": [
+      15348
+    ]
+  },
+  {
+    "asin": "899926684380",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15375,
+    "task_ids": [
+      15375
+    ]
+  },
+  {
+    "asin": "714901709254",
+    "price_affecting_axes": [
+      "分类",
+      "刀身长度"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15384,
+    "task_ids": [
+      15384
+    ]
+  },
+  {
+    "asin": "623312105098",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15405,
+    "task_ids": [
+      15405
+    ]
+  },
+  {
+    "asin": "817985530305",
+    "price_affecting_axes": [
+      "颜色分类",
+      "长度"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15433,
+    "task_ids": [
+      15433
+    ]
+  },
+  {
+    "asin": "887953517401",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15453,
+    "task_ids": [
+      15453
+    ]
+  },
+  {
+    "asin": "638848904874",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15470,
+    "task_ids": [
+      15470
+    ]
+  },
+  {
+    "asin": "906533385416",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15501,
+    "task_ids": [
+      15501
+    ]
+  },
+  {
+    "asin": "43012125707",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15595,
+    "task_ids": [
+      15595
+    ]
+  },
+  {
+    "asin": "803311266045",
+    "price_affecting_axes": [
+      "规格描述",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15619,
+    "task_ids": [
+      15619
+    ]
+  },
+  {
+    "asin": "875310847305",
+    "price_affecting_axes": [
+      "大小",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15668,
+    "task_ids": [
+      15668
+    ]
+  },
+  {
+    "asin": "657280264958",
+    "price_affecting_axes": [
+      "尺码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15670,
+    "task_ids": [
+      15670
+    ]
+  },
+  {
+    "asin": "621669089652",
+    "price_affecting_axes": [
+      "食品口味",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15745,
+    "task_ids": [
+      15745
+    ]
+  },
+  {
+    "asin": "915813763017",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15755,
+    "task_ids": [
+      15755
+    ]
+  },
+  {
+    "asin": "692187723946",
+    "price_affecting_axes": [
+      "床垫尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15861,
+    "task_ids": [
+      15861
+    ]
+  },
+  {
+    "asin": "626937137735",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐类型"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15915,
+    "task_ids": [
+      15915
+    ]
+  },
+  {
+    "asin": "921371246490",
+    "price_affecting_axes": [
+      "颜色分类",
+      "功率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 15920,
+    "task_ids": [
+      15920
+    ]
+  },
+  {
+    "asin": "777491676393",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16020,
+    "task_ids": [
+      16020
+    ]
+  },
+  {
+    "asin": "936324106079",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16075,
+    "task_ids": [
+      16075
+    ]
+  },
+  {
+    "asin": "733234375707",
+    "price_affecting_axes": [
+      "口味",
+      "购买规格"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16106,
+    "task_ids": [
+      16106
+    ]
+  },
+  {
+    "asin": "942199988081",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16148,
+    "task_ids": [
+      16148
+    ]
+  },
+  {
+    "asin": "942909388313",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16168,
+    "task_ids": [
+      16168
+    ]
+  },
+  {
+    "asin": "743229079712",
+    "price_affecting_axes": [
+      "颜色分类",
+      "支付方式"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16198,
+    "task_ids": [
+      16198
+    ]
+  },
+  {
+    "asin": "763603202153",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16297,
+    "task_ids": [
+      16297
+    ]
+  },
+  {
+    "asin": "917652083240",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16379,
+    "task_ids": [
+      16379
+    ]
+  },
+  {
+    "asin": "595944947744",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16413,
+    "task_ids": [
+      16413
+    ]
+  },
+  {
+    "asin": "623516920836",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16430,
+    "task_ids": [
+      16430
+    ]
+  },
+  {
+    "asin": "923445400256",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16447,
+    "task_ids": [
+      16447
+    ]
+  },
+  {
+    "asin": "840789818191",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16454,
+    "task_ids": [
+      16454
+    ]
+  },
+  {
+    "asin": "890190785781",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16470,
+    "task_ids": [
+      16470
+    ]
+  },
+  {
+    "asin": "943328450699",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16488,
+    "task_ids": [
+      16488
+    ]
+  },
+  {
+    "asin": "800778130261",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16494,
+    "task_ids": [
+      16494
+    ]
+  },
+  {
+    "asin": "828323576368",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16563,
+    "task_ids": [
+      16563
+    ]
+  },
+  {
+    "asin": "844448115389",
+    "price_affecting_axes": [
+      "颜色分类",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16593,
+    "task_ids": [
+      16593
+    ]
+  },
+  {
+    "asin": "741432044009",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16597,
+    "task_ids": [
+      16597
+    ]
+  },
+  {
+    "asin": "890584096404",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16688,
+    "task_ids": [
+      16688
+    ]
+  },
+  {
+    "asin": "623019568740",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16766,
+    "task_ids": [
+      16766
+    ]
+  },
+  {
+    "asin": "942052244338",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16787,
+    "task_ids": [
+      16787
+    ]
+  },
+  {
+    "asin": "600324466932",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16791,
+    "task_ids": [
+      16791
+    ]
+  },
+  {
+    "asin": "877950090536",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16820,
+    "task_ids": [
+      16820
+    ]
+  },
+  {
+    "asin": "729114694565",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16834,
+    "task_ids": [
+      16834
+    ]
+  },
+  {
+    "asin": "903574993582",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16839,
+    "task_ids": [
+      16839
+    ]
+  },
+  {
+    "asin": "931137479380",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16877,
+    "task_ids": [
+      16877
+    ]
+  },
+  {
+    "asin": "751251977470",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16946,
+    "task_ids": [
+      16946
+    ]
+  },
+  {
+    "asin": "603730609522",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16956,
+    "task_ids": [
+      16956
+    ]
+  },
+  {
+    "asin": "653222077351",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16987,
+    "task_ids": [
+      16987
+    ]
+  },
+  {
+    "asin": "884027118835",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 16999,
+    "task_ids": [
+      16999
+    ]
+  },
+  {
+    "asin": "726936222023",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17026,
+    "task_ids": [
+      17026
+    ]
+  },
+  {
+    "asin": "858704756720",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17035,
+    "task_ids": [
+      17035
+    ]
+  },
+  {
+    "asin": "884222486990",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17081,
+    "task_ids": [
+      17081
+    ]
+  },
+  {
+    "asin": "739024598553",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17105,
+    "task_ids": [
+      17105
+    ]
+  },
+  {
+    "asin": "894069800896",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17110,
+    "task_ids": [
+      17110
+    ]
+  },
+  {
+    "asin": "906618612861",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17186,
+    "task_ids": [
+      17186
+    ]
+  },
+  {
+    "asin": "924224658464",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17210,
+    "task_ids": [
+      17210
+    ]
+  },
+  {
+    "asin": "846330618860",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17236,
+    "task_ids": [
+      17236
+    ]
+  },
+  {
+    "asin": "738725934024",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17238,
+    "task_ids": [
+      17238
+    ]
+  },
+  {
+    "asin": "898043073062",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17288,
+    "task_ids": [
+      17288
+    ]
+  },
+  {
+    "asin": "761237102006",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17299,
+    "task_ids": [
+      17299
+    ]
+  },
+  {
+    "asin": "715087615490",
+    "price_affecting_axes": [
+      "适用车系",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17349,
+    "task_ids": [
+      17349
+    ]
+  },
+  {
+    "asin": "572908228702",
+    "price_affecting_axes": [
+      "颜色分类",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17362,
+    "task_ids": [
+      17362
+    ]
+  },
+  {
+    "asin": "915142922861",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17363,
+    "task_ids": [
+      17363
+    ]
+  },
+  {
+    "asin": "595388820982",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17371,
+    "task_ids": [
+      17371
+    ]
+  },
+  {
+    "asin": "863488198224",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17375,
+    "task_ids": [
+      17375
+    ]
+  },
+  {
+    "asin": "943502633423",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17378,
+    "task_ids": [
+      17378
+    ]
+  },
+  {
+    "asin": "573991030337",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17382,
+    "task_ids": [
+      17382
+    ]
+  },
+  {
+    "asin": "897279419457",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17519,
+    "task_ids": [
+      17519
+    ]
+  },
+  {
+    "asin": "771672231405",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17530,
+    "task_ids": [
+      17530
+    ]
+  },
+  {
+    "asin": "861122959591",
+    "price_affecting_axes": [
+      "鞋码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17607,
+    "task_ids": [
+      17607
+    ]
+  },
+  {
+    "asin": "928471807992",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17621,
+    "task_ids": [
+      17621
+    ]
+  },
+  {
+    "asin": "736295507731",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17623,
+    "task_ids": [
+      17623
+    ]
+  },
+  {
+    "asin": "736629686558",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17669,
+    "task_ids": [
+      17669
+    ]
+  },
+  {
+    "asin": "920339878207",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17707,
+    "task_ids": [
+      17707
+    ]
+  },
+  {
+    "asin": "737387087754",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17717,
+    "task_ids": [
+      17717
+    ]
+  },
+  {
+    "asin": "645037928156",
+    "price_affecting_axes": [
+      "颜色分类",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17765,
+    "task_ids": [
+      17765
+    ]
+  },
+  {
+    "asin": "671656814878",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17791,
+    "task_ids": [
+      17791
+    ]
+  },
+  {
+    "asin": "844737478046",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17811,
+    "task_ids": [
+      17811
+    ]
+  },
+  {
+    "asin": "810019373707",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17818,
+    "task_ids": [
+      17818
+    ]
+  },
+  {
+    "asin": "626523145673",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17840,
+    "task_ids": [
+      17840
+    ]
+  },
+  {
+    "asin": "685216298632",
+    "price_affecting_axes": [
+      "适用车系",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17843,
+    "task_ids": [
+      17843
+    ]
+  },
+  {
+    "asin": "930010610288",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17874,
+    "task_ids": [
+      17874
+    ]
+  },
+  {
+    "asin": "859625648592",
+    "price_affecting_axes": [
+      "颜色分类",
+      "规格"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17881,
+    "task_ids": [
+      17881
+    ]
+  },
+  {
+    "asin": "824843024066",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17897,
+    "task_ids": [
+      17897
+    ]
+  },
+  {
+    "asin": "940020982087",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17913,
+    "task_ids": [
+      17913
+    ]
+  },
+  {
+    "asin": "42698821837",
+    "price_affecting_axes": [
+      "件数",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17939,
+    "task_ids": [
+      17939
+    ]
+  },
+  {
+    "asin": "773393058086",
+    "price_affecting_axes": [
+      "颜色分类",
+      "电池容量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17948,
+    "task_ids": [
+      17948
+    ]
+  },
+  {
+    "asin": "926834276950",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17961,
+    "task_ids": [
+      17961
+    ]
+  },
+  {
+    "asin": "931292910814",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17968,
+    "task_ids": [
+      17968
+    ]
+  },
+  {
+    "asin": "907403454415",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17976,
+    "task_ids": [
+      17976
+    ]
+  },
+  {
+    "asin": "652245583559",
+    "price_affecting_axes": [
+      "件数",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 17988,
+    "task_ids": [
+      17988
+    ]
+  },
+  {
+    "asin": "868252943443",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18103,
+    "task_ids": [
+      18103
+    ]
+  },
+  {
+    "asin": "900684539351",
+    "price_affecting_axes": [
+      "颜色分类",
+      "电池容量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18147,
+    "task_ids": [
+      18147
+    ]
+  },
+  {
+    "asin": "756776100731",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18169,
+    "task_ids": [
+      18169
+    ]
+  },
+  {
+    "asin": "825172487199",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18198,
+    "task_ids": [
+      18198
+    ]
+  },
+  {
+    "asin": "638470725938",
+    "price_affecting_axes": [
+      "颜色分类",
+      "电池容量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18322,
+    "task_ids": [
+      18322
+    ]
+  },
+  {
+    "asin": "852280479583",
+    "price_affecting_axes": [
+      "手链长度",
+      "款式"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18323,
+    "task_ids": [
+      18323
+    ]
+  },
+  {
+    "asin": "669089533513",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18365,
+    "task_ids": [
+      18365
+    ]
+  },
+  {
+    "asin": "695677064272",
+    "price_affecting_axes": [
+      "颜色分类",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18380,
+    "task_ids": [
+      18380
+    ]
+  },
+  {
+    "asin": "646364609118",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18381,
+    "task_ids": [
+      18381
+    ]
+  },
+  {
+    "asin": "810598260960",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18423,
+    "task_ids": [
+      18423
+    ]
+  },
+  {
+    "asin": "889322662090",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18442,
+    "task_ids": [
+      18442
+    ]
+  },
+  {
+    "asin": "911928736039",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18462,
+    "task_ids": [
+      18462
+    ]
+  },
+  {
+    "asin": "869689117889",
+    "price_affecting_axes": [
+      "颜色分类",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18478,
+    "task_ids": [
+      18478
+    ]
+  },
+  {
+    "asin": "852644414950",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18483,
+    "task_ids": [
+      18483
+    ]
+  },
+  {
+    "asin": "801327274210",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18577,
+    "task_ids": [
+      18577
+    ]
+  },
+  {
+    "asin": "901059100552",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18586,
+    "task_ids": [
+      18586
+    ]
+  },
+  {
+    "asin": "921402749788",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18605,
+    "task_ids": [
+      18605
+    ]
+  },
+  {
+    "asin": "733862275251",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18661,
+    "task_ids": [
+      18661
+    ]
+  },
+  {
+    "asin": "675370303868",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18663,
+    "task_ids": [
+      18663
+    ]
+  },
+  {
+    "asin": "793880310024",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18734,
+    "task_ids": [
+      18734
+    ]
+  },
+  {
+    "asin": "892633312977",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18750,
+    "task_ids": [
+      18750
+    ]
+  },
+  {
+    "asin": "792268994809",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18754,
+    "task_ids": [
+      18754
+    ]
+  },
+  {
+    "asin": "937922740588",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18771,
+    "task_ids": [
+      18771
+    ]
+  },
+  {
+    "asin": "840459699297",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18801,
+    "task_ids": [
+      18801
+    ]
+  },
+  {
+    "asin": "818061462192",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18816,
+    "task_ids": [
+      18816
+    ]
+  },
+  {
+    "asin": "827242851169",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18822,
+    "task_ids": [
+      18822
+    ]
+  },
+  {
+    "asin": "927430993798",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18838,
+    "task_ids": [
+      18838
+    ]
+  },
+  {
+    "asin": "731399301915",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 18982,
+    "task_ids": [
+      18982
+    ]
+  },
+  {
+    "asin": "869250909733",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19013,
+    "task_ids": [
+      19013
+    ]
+  },
+  {
+    "asin": "933649360740",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19020,
+    "task_ids": [
+      19020
+    ]
+  },
+  {
+    "asin": "892364175242",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19027,
+    "task_ids": [
+      19027
+    ]
+  },
+  {
+    "asin": "805529983499",
+    "price_affecting_axes": [
+      "颜色分类",
+      "型号"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19037,
+    "task_ids": [
+      19037
+    ]
+  },
+  {
+    "asin": "815503010010",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19049,
+    "task_ids": [
+      19049
+    ]
+  },
+  {
+    "asin": "827405228901",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19053,
+    "task_ids": [
+      19053
+    ]
+  },
+  {
+    "asin": "920136322745",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19061,
+    "task_ids": [
+      19061
+    ]
+  },
+  {
+    "asin": "809796850012",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19082,
+    "task_ids": [
+      19082
+    ]
+  },
+  {
+    "asin": "791276804006",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19114,
+    "task_ids": [
+      19114
+    ]
+  },
+  {
+    "asin": "935959131777",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19132,
+    "task_ids": [
+      19132
+    ]
+  },
+  {
+    "asin": "909317676939",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19136,
+    "task_ids": [
+      19136
+    ]
+  },
+  {
+    "asin": "822870872454",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19209,
+    "task_ids": [
+      19209
+    ]
+  },
+  {
+    "asin": "892574083542",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19215,
+    "task_ids": [
+      19215
+    ]
+  },
+  {
+    "asin": "628668038015",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19232,
+    "task_ids": [
+      19232
+    ]
+  },
+  {
+    "asin": "618959291973",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19302,
+    "task_ids": [
+      19302
+    ]
+  },
+  {
+    "asin": "848442306816",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19383,
+    "task_ids": [
+      19383
+    ]
+  },
+  {
+    "asin": "780810734557",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19485,
+    "task_ids": [
+      19485
+    ]
+  },
+  {
+    "asin": "713389906350",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19510,
+    "task_ids": [
+      19510
+    ]
+  },
+  {
+    "asin": "599790765548",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19546,
+    "task_ids": [
+      19546
+    ]
+  },
+  {
+    "asin": "893189701434",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19548,
+    "task_ids": [
+      19548
+    ]
+  },
+  {
+    "asin": "743743999625",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19575,
+    "task_ids": [
+      19575
+    ]
+  },
+  {
+    "asin": "858150890272",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19578,
+    "task_ids": [
+      19578
+    ]
+  },
+  {
+    "asin": "904281175258",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19608,
+    "task_ids": [
+      19608
+    ]
+  },
+  {
+    "asin": "677271222772",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19625,
+    "task_ids": [
+      19625
+    ]
+  },
+  {
+    "asin": "645222850319",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19662,
+    "task_ids": [
+      19662
+    ]
+  },
+  {
+    "asin": "733792300579",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19681,
+    "task_ids": [
+      19681
+    ]
+  },
+  {
+    "asin": "854009696633",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19694,
+    "task_ids": [
+      19694
+    ]
+  },
+  {
+    "asin": "923855431258",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19754,
+    "task_ids": [
+      19754
+    ]
+  },
+  {
+    "asin": "911792193624",
+    "price_affecting_axes": [
+      "款式",
+      "黄金克重"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19773,
+    "task_ids": [
+      19773
+    ]
+  },
+  {
+    "asin": "658016536034",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19781,
+    "task_ids": [
+      19781
+    ]
+  },
+  {
+    "asin": "822060074227",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19804,
+    "task_ids": [
+      19804
+    ]
+  },
+  {
+    "asin": "543444119592",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19867,
+    "task_ids": [
+      19867
+    ]
+  },
+  {
+    "asin": "938113307023",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套装"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19894,
+    "task_ids": [
+      19894
+    ]
+  },
+  {
+    "asin": "587955187982",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19906,
+    "task_ids": [
+      19906
+    ]
+  },
+  {
+    "asin": "679444545750",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19929,
+    "task_ids": [
+      19929
+    ]
+  },
+  {
+    "asin": "657794450267",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19944,
+    "task_ids": [
+      19944
+    ]
+  },
+  {
+    "asin": "655377499078",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19949,
+    "task_ids": [
+      19949
+    ]
+  },
+  {
+    "asin": "761694805962",
+    "price_affecting_axes": [
+      "颜色分类",
+      "电池容量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19967,
+    "task_ids": [
+      19967
+    ]
+  },
+  {
+    "asin": "764643798280",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 19980,
+    "task_ids": [
+      19980
+    ]
+  },
+  {
+    "asin": "724730357555",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20028,
+    "task_ids": [
+      20028
+    ]
+  },
+  {
+    "asin": "654451798947",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20037,
+    "task_ids": [
+      20037
+    ]
+  },
+  {
+    "asin": "636616464612",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20050,
+    "task_ids": [
+      20050
+    ]
+  },
+  {
+    "asin": "711447761942",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20066,
+    "task_ids": [
+      20066
+    ]
+  },
+  {
+    "asin": "925794319495",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20071,
+    "task_ids": [
+      20071
+    ]
+  },
+  {
+    "asin": "604577451011",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20097,
+    "task_ids": [
+      20097
+    ]
+  },
+  {
+    "asin": "924738364355",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20130,
+    "task_ids": [
+      20130
+    ]
+  },
+  {
+    "asin": "796635751786",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20152,
+    "task_ids": [
+      20152
+    ]
+  },
+  {
+    "asin": "884419717158",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20171,
+    "task_ids": [
+      20171
+    ]
+  },
+  {
+    "asin": "849718703145",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20199,
+    "task_ids": [
+      20199
+    ]
+  },
+  {
+    "asin": "727462882047",
+    "price_affecting_axes": [
+      "适配车型",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20296,
+    "task_ids": [
+      20296
+    ]
+  },
+  {
+    "asin": "612152850635",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20345,
+    "task_ids": [
+      20345
+    ]
+  },
+  {
+    "asin": "924527595857",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20384,
+    "task_ids": [
+      20384
+    ]
+  },
+  {
+    "asin": "838498164992",
+    "price_affecting_axes": [
+      "口味",
+      "种类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20403,
+    "task_ids": [
+      20403
+    ]
+  },
+  {
+    "asin": "930497888869",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20412,
+    "task_ids": [
+      20412
+    ]
+  },
+  {
+    "asin": "725742396120",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20451,
+    "task_ids": [
+      20451
+    ]
+  },
+  {
+    "asin": "685047079168",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20460,
+    "task_ids": [
+      20460
+    ]
+  },
+  {
+    "asin": "678418473991",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20504,
+    "task_ids": [
+      20504
+    ]
+  },
+  {
+    "asin": "933473813457",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20571,
+    "task_ids": [
+      20571
+    ]
+  },
+  {
+    "asin": "894588221734",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20582,
+    "task_ids": [
+      20582
+    ]
+  },
+  {
+    "asin": "898495139504",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20587,
+    "task_ids": [
+      20587
+    ]
+  },
+  {
+    "asin": "894796796876",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20589,
+    "task_ids": [
+      20589
+    ]
+  },
+  {
+    "asin": "669191584382",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20599,
+    "task_ids": [
+      20599
+    ]
+  },
+  {
+    "asin": "664510821577",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20682,
+    "task_ids": [
+      20682
+    ]
+  },
+  {
+    "asin": "735121687141",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20698,
+    "task_ids": [
+      20698
+    ]
+  },
+  {
+    "asin": "932971970547",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20752,
+    "task_ids": [
+      20752
+    ]
+  },
+  {
+    "asin": "847428110120",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20760,
+    "task_ids": [
+      20760
+    ]
+  },
+  {
+    "asin": "829009514321",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20806,
+    "task_ids": [
+      20806
+    ]
+  },
+  {
+    "asin": "815996379306",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20820,
+    "task_ids": [
+      20820
+    ]
+  },
+  {
+    "asin": "631246740201",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20826,
+    "task_ids": [
+      20826
+    ]
+  },
+  {
+    "asin": "897194246457",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20894,
+    "task_ids": [
+      20894
+    ]
+  },
+  {
+    "asin": "768939917196",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20895,
+    "task_ids": [
+      20895
+    ]
+  },
+  {
+    "asin": "576051779560",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20950,
+    "task_ids": [
+      20950
+    ]
+  },
+  {
+    "asin": "945432612954",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20953,
+    "task_ids": [
+      20953
+    ]
+  },
+  {
+    "asin": "775904617567",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 20968,
+    "task_ids": [
+      20968
+    ]
+  },
+  {
+    "asin": "615427904649",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21002,
+    "task_ids": [
+      21002
+    ]
+  },
+  {
+    "asin": "935694171215",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21030,
+    "task_ids": [
+      21030
+    ]
+  },
+  {
+    "asin": "879020981930",
+    "price_affecting_axes": [
+      "颜色",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21036,
+    "task_ids": [
+      21036
+    ]
+  },
+  {
+    "asin": "922269171999",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21091,
+    "task_ids": [
+      21091
+    ]
+  },
+  {
+    "asin": "684254433679",
+    "price_affecting_axes": [
+      "颜色分类",
+      "净含量"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21114,
+    "task_ids": [
+      21114
+    ]
+  },
+  {
+    "asin": "560511867643",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21119,
+    "task_ids": [
+      21119
+    ]
+  },
+  {
+    "asin": "919075421349",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21122,
+    "task_ids": [
+      21122
+    ]
+  },
+  {
+    "asin": "791393113234",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21204,
+    "task_ids": [
+      21204
+    ]
+  },
+  {
+    "asin": "728932678243",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21248,
+    "task_ids": [
+      21248
+    ]
+  },
+  {
+    "asin": "714887086473",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21251,
+    "task_ids": [
+      21251
+    ]
+  },
+  {
+    "asin": "807313184416",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21354,
+    "task_ids": [
+      21354
+    ]
+  },
+  {
+    "asin": "800175663082",
+    "price_affecting_axes": [
+      "鞋码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21428,
+    "task_ids": [
+      21428
+    ]
+  },
+  {
+    "asin": "884171055983",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21511,
+    "task_ids": [
+      21511
+    ]
+  },
+  {
+    "asin": "852824974381",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21523,
+    "task_ids": [
+      21523
+    ]
+  },
+  {
+    "asin": "919070185333",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21552,
+    "task_ids": [
+      21552
+    ]
+  },
+  {
+    "asin": "795026531653",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21560,
+    "task_ids": [
+      21560
+    ]
+  },
+  {
+    "asin": "876604416624",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21576,
+    "task_ids": [
+      21576
+    ]
+  },
+  {
+    "asin": "858395932351",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21590,
+    "task_ids": [
+      21590
+    ]
+  },
+  {
+    "asin": "886149531454",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21595,
+    "task_ids": [
+      21595
+    ]
+  },
+  {
+    "asin": "701483826177",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21662,
+    "task_ids": [
+      21662
+    ]
+  },
+  {
+    "asin": "918597022733",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21679,
+    "task_ids": [
+      21679
+    ]
+  },
+  {
+    "asin": "696607249076",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21697,
+    "task_ids": [
+      21697
+    ]
+  },
+  {
+    "asin": "926337510364",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21719,
+    "task_ids": [
+      21719
+    ]
+  },
+  {
+    "asin": "783101674368",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21724,
+    "task_ids": [
+      21724
+    ]
+  },
+  {
+    "asin": "944875916496",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21749,
+    "task_ids": [
+      21749
+    ]
+  },
+  {
+    "asin": "637181051634",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21751,
+    "task_ids": [
+      21751
+    ]
+  },
+  {
+    "asin": "824957256418",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21777,
+    "task_ids": [
+      21777
+    ]
+  },
+  {
+    "asin": "895230869703",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21811,
+    "task_ids": [
+      21811
+    ]
+  },
+  {
+    "asin": "883245282654",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21855,
+    "task_ids": [
+      21855
+    ]
+  },
+  {
+    "asin": "834974930053",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21895,
+    "task_ids": [
+      21895
+    ]
+  },
+  {
+    "asin": "812072542006",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21948,
+    "task_ids": [
+      21948
+    ]
+  },
+  {
+    "asin": "827350845488",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21964,
+    "task_ids": [
+      21964
+    ]
+  },
+  {
+    "asin": "891666600697",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 21982,
+    "task_ids": [
+      21982
+    ]
+  },
+  {
+    "asin": "742074067968",
+    "price_affecting_axes": [
+      "手链长度",
+      "款式"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22022,
+    "task_ids": [
+      22022
+    ]
+  },
+  {
+    "asin": "798236294464",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22048,
+    "task_ids": [
+      22048
+    ]
+  },
+  {
+    "asin": "791497372057",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22060,
+    "task_ids": [
+      22060
+    ]
+  },
+  {
+    "asin": "908884530557",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22066,
+    "task_ids": [
+      22066
+    ]
+  },
+  {
+    "asin": "896139501652",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22106,
+    "task_ids": [
+      22106
+    ]
+  },
+  {
+    "asin": "735416492643",
+    "price_affecting_axes": [
+      "颜色",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22128,
+    "task_ids": [
+      22128
+    ]
+  },
+  {
+    "asin": "942128209647",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22141,
+    "task_ids": [
+      22141
+    ]
+  },
+  {
+    "asin": "764293127814",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22160,
+    "task_ids": [
+      22160
+    ]
+  },
+  {
+    "asin": "892732900612",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22169,
+    "task_ids": [
+      22169
+    ]
+  },
+  {
+    "asin": "903542125754",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22235,
+    "task_ids": [
+      22235
+    ]
+  },
+  {
+    "asin": "830587342565",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22257,
+    "task_ids": [
+      22257
+    ]
+  },
+  {
+    "asin": "846469488362",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22287,
+    "task_ids": [
+      22287
+    ]
+  },
+  {
+    "asin": "793902351531",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22382,
+    "task_ids": [
+      22382
+    ]
+  },
+  {
+    "asin": "604655263385",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22423,
+    "task_ids": [
+      22423
+    ]
+  },
+  {
+    "asin": "919084681072",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22444,
+    "task_ids": [
+      22444
+    ]
+  },
+  {
+    "asin": "776995261132",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22512,
+    "task_ids": [
+      22512
+    ]
+  },
+  {
+    "asin": "875894894020",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22523,
+    "task_ids": [
+      22523
+    ]
+  },
+  {
+    "asin": "678034430638",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22543,
+    "task_ids": [
+      22543
+    ]
+  },
+  {
+    "asin": "845588459506",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22560,
+    "task_ids": [
+      22560
+    ]
+  },
+  {
+    "asin": "863297187055",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22574,
+    "task_ids": [
+      22574
+    ]
+  },
+  {
+    "asin": "942580112537",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22659,
+    "task_ids": [
+      22659
+    ]
+  },
+  {
+    "asin": "626197826464",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22704,
+    "task_ids": [
+      22704
+    ]
+  },
+  {
+    "asin": "917545439165",
+    "price_affecting_axes": [
+      "颜色分类",
+      "颜色数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22711,
+    "task_ids": [
+      22711
+    ]
+  },
+  {
+    "asin": "843347044426",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22746,
+    "task_ids": [
+      22746
+    ]
+  },
+  {
+    "asin": "811716526760",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22752,
+    "task_ids": [
+      22752
+    ]
+  },
+  {
+    "asin": "570791273598",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22755,
+    "task_ids": [
+      22755
+    ]
+  },
+  {
+    "asin": "837557476468",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22780,
+    "task_ids": [
+      22780
+    ]
+  },
+  {
+    "asin": "793469071587",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22805,
+    "task_ids": [
+      22805
+    ]
+  },
+  {
+    "asin": "924594601521",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22820,
+    "task_ids": [
+      22820
+    ]
+  },
+  {
+    "asin": "889205154915",
+    "price_affecting_axes": [
+      "颜色",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22822,
+    "task_ids": [
+      22822
+    ]
+  },
+  {
+    "asin": "751920090829",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22845,
+    "task_ids": [
+      22845
+    ]
+  },
+  {
+    "asin": "816751578422",
+    "price_affecting_axes": [
+      "参考身高",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22913,
+    "task_ids": [
+      22913
+    ]
+  },
+  {
+    "asin": "935434528797",
+    "price_affecting_axes": [
+      "颜色分类",
+      "镜片折射率"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22926,
+    "task_ids": [
+      22926
+    ]
+  },
+  {
+    "asin": "930553891377",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 22971,
+    "task_ids": [
+      22971
+    ]
+  },
+  {
+    "asin": "898816867309",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23048,
+    "task_ids": [
+      23048
+    ]
+  },
+  {
+    "asin": "944210138979",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23062,
+    "task_ids": [
+      23062
+    ]
+  },
+  {
+    "asin": "917005927175",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23184,
+    "task_ids": [
+      23184
+    ]
+  },
+  {
+    "asin": "865530457671",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23186,
+    "task_ids": [
+      23186
+    ]
+  },
+  {
+    "asin": "907974635898",
+    "price_affecting_axes": [
+      "颜色分类",
+      "参考身高"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23219,
+    "task_ids": [
+      23219
+    ]
+  },
+  {
+    "asin": "905268793995",
+    "price_affecting_axes": [
+      "尺码",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23241,
+    "task_ids": [
+      23241
+    ]
+  },
+  {
+    "asin": "684872922720",
+    "price_affecting_axes": [
+      "颜色分类",
+      "地毯尺寸"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23305,
+    "task_ids": [
+      23305
+    ]
+  },
+  {
+    "asin": "902518713052",
+    "price_affecting_axes": [
+      "颜色分类",
+      "套餐"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23311,
+    "task_ids": [
+      23311
+    ]
+  },
+  {
+    "asin": "907970889474",
+    "price_affecting_axes": [
+      "颜色分类",
+      "适用人数"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23327,
+    "task_ids": [
+      23327
+    ]
+  },
+  {
+    "asin": "652599518264",
+    "price_affecting_axes": [
+      "尺寸",
+      "颜色分类"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23339,
+    "task_ids": [
+      23339
+    ]
+  },
+  {
+    "asin": "598936825676",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23392,
+    "task_ids": [
+      23392
+    ]
+  },
+  {
+    "asin": "931351803734",
+    "price_affecting_axes": [
+      "颜色分类",
+      "尺码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23401,
+    "task_ids": [
+      23401
+    ]
+  },
+  {
+    "asin": "712732846500",
+    "price_affecting_axes": [
+      "颜色分类",
+      "鞋码"
+    ],
+    "reason": "multiple_price_affecting_axes",
+    "source_product_index": 23419,
+    "task_ids": [
+      23419
+    ]
+  }
+]

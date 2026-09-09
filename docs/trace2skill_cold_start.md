@@ -7,6 +7,8 @@
 3. 成功/失败 cards 分通道批量聚类、去重，再把两路 cluster summaries 交给 Holistic Initial Skill Compiler。
 4. 输出最多 16 个 canonical draft chunks。它们仍是 pre-validation draft，不能作为 active skill；后续 Gate A 在 val 上估计贡献并筛选 active skill，Gate B 再在 test 上评估 equipped agent。
 
+> 本次发布的 S₀ 直接读取 `artifacts/cold-start/selected_skillbank.json`。其历史恢复来源见 [provenance.md](provenance.md)。以下描述重新构造与校准技能的实现流程，不表示历史 S₀ 已重新通过完整校准。
+
 ## 运行
 
 先启动 ShopSimulator 服务；失败分析必须使用实时环境，不能只读离线日志猜根因。当前正式配置通过阿里云百炼的 OpenAI-compatible endpoint 调用 `qwen3.5-plus`，Success Analyst、Failure Analyst、Consolidator 和 Compiler 使用同一个模型；API key 从 `.env` 中的 `BAILIAN_API_KEY` 读取：
@@ -33,9 +35,9 @@ python scripts\run_shopsimrl.py trace2skill compile configs\trace2skill_cold_sta
 
 ## 后续验证与测试
 
-当前实验固定使用 `runs/qwen35-4b-train-0830/trace2skill-cold-start/initial_skill_draft.json` 中的 16 个 chunks，配置中的 active skill budget 为 `K_init=10`。
+历史冷启动构造使用 `runs/qwen35-4b-train-0830/trace2skill-cold-start/initial_skill_draft.json` 中的 16 个 chunks，配置中的 active skill budget 为 `K_init=10`。
 
-先完成或复用同 checkpoint 的 bare val，再执行 Gate A，随后用通用 evaluator 运行 equipped test，最后离线比较 equipped 与已有 bare test run：
+新建 Gate A 时先复制并编辑归档模板，使 draft、bare run 与 checkpoint 一致；完成后将 equipped 配置的 `skills.path` 改为该新 gate 的 selection。正式发布的四格 test 配置则直接读取 `artifacts/` 中已冻结的技能，不依赖重新运行 Gate A。示例：
 
 ```powershell
 python scripts\run_shopsimrl.py run configs\qwen35_4b_val.yaml
@@ -47,11 +49,11 @@ python scripts\run_shopsimrl.py plan configs\qwen35_4b_test_trace2skill_equipped
 python scripts\run_shopsimrl.py run configs\qwen35_4b_test_trace2skill_equipped.yaml
 
 python scripts\compare_shopsimrl_runs.py `
-  runs\qwen35-4b-test-0830 `
-  runs\qwen35-4b-test-trace2skill-paired-equipped
+  runs\qwen35-4b-test-base-free `
+  runs\qwen35-4b-test-base-s0
 ```
 
-Equipped YAML 依赖 Gate A 已经生成 `selected_skillbank.json`，因此其 `plan` / `run` 不能在 Gate A 之前执行。Gate A 和通用 evaluator 都使用 append-only traces 与 `resume` 语义；Gate A 未达到 100% coverage 时状态为 `incomplete`，不会冻结 selection。
+新技能的 equipped YAML 依赖该 Gate A 生成的 `selected_skillbank.json`；仓库当前发布配置读取现有 `artifacts/cold-start/`，可以直接 plan。Gate A 和通用 evaluator 都使用 append-only traces 与 `resume` 语义；Gate A 未达到 100% coverage 时状态为 `incomplete`，不会冻结 selection。
 
 确认 `bare_run_dir` 中的 bare val 已完整后，需要过夜串行时可运行（脚本不另跑 bare）：
 
@@ -81,7 +83,7 @@ Gate A 至少产出 mask assignment、原始 val traces、16-chunk contribution 
 - `proposal_ledger.jsonl`：写入 `selected`、`non_positive` 或 `budget_excluded` 结果的 Gate A ledger 快照；
 - `gate_a_manifest.json`：冻结输入、mask、估计器、模型/环境配置和产物 hash。
 
-方法及校验细节见 [paired_validation.md](./paired_validation.md)。`gate_a.bare_run_dir` 必填；当前新产物写入 `gate-a-paired`，equipped 配置也使用新 run 名，避免覆盖旧带截距实验。缺失/未完成/错配 baseline 会在模型调用前报错；gate 不会回退到旧估计器。训练阶段使用同一实现，复用该 checkpoint 已报告 bare score 的 traces。
+方法及校验细节见 [paired_validation.md](./paired_validation.md)。`gate_a.bare_run_dir` 必填；新 Gate A 应使用独立输出目录，例如 `gate-a-paired`，避免覆盖旧带截距实验；不能根据目录名推断其已经完成。缺失/未完成/错配 baseline 会在模型调用前报错；gate 不会回退到旧估计器。训练阶段使用同一实现，复用该 checkpoint 已报告 bare score 的 traces。
 
 Mask 使用固定 seed 对 `(split, task_id, sample_id, chunk_id)` 做独立伪随机 Bernoulli 分配，因而并发完成顺序和断点续跑不会改变 treatment。分析前还会逐条核验 trace 中实际 `selected_skills` 与冻结 assignment 一致，并要求 `reward == r_strict`。
 
@@ -89,7 +91,7 @@ Mask 使用固定 seed 对 `(split, task_id, sample_id, chunk_id)` 做独立伪�
 
 - 在冻结的 400-task test split 上，每个任务始终注入 Gate A 选出的完整 skill，不再随机 mask，也不按任务检索不同子集；
 - 使用 `configs/qwen35_4b_test_trace2skill_equipped.yaml` 通过原始 `run` 接口执行。该配置按既有 bare run 的 manifest 冻结模型、prompt、persona、工具协议、解码参数、`max_steps`、环境与 reward 设置，只改变实验名和 SkillBank 注入；
-- 裸模型对照固定为 `runs/qwen35-4b-test-0830`：400/400 tasks 完成，`reward_mean`/`r_strict=0.506125`，`r_success=0.4825`；
+- 当前本地协议的裸模型对照为 `runs/qwen35-4b-test-base-free`：400/400，strict=0.542167、success=0.5175。历史 `test-0830` 使用另一份配置，不能混入当前比较；
 - 报告 equipped agent 的绝对指标及其相对裸模型的 task-aligned 差值。主指标为 `reward`/`r_strict` 与 `r_success`，辅指标包括其他 `r_*` 分量、步数、invalid action/protocol error rate 和 token 成本；正式比较使用 task-level paired bootstrap confidence interval；
 - Test 只做一次冻结后的泛化评估。不得根据 Gate B 结果改 chunk、改 `K_init` 或回到同一 test split 反复筛选；如果发现除 skill 外的配置不一致，应先修正实验对齐，必要时重跑裸基线。
 

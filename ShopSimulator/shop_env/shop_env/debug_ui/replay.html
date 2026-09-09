@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="ShopSimRL 实验轨迹总览与 Agent 交互回放">
+    <title>ShopSimRL · Experiment Replay</title>
+    <link rel="stylesheet" href="/debug-ui/styles.css">
+    <link rel="stylesheet" href="/debug-ui/replay.css">
+  </head>
+  <body>
+    <div class="page-shell replay-shell">
+      <nav class="product-nav" aria-label="调试工具">
+        <a href="/debug-ui">Agent View</a>
+        <a class="active" href="/replay-ui">Experiment Replay</a>
+      </nav>
+
+      <header class="hero replay-hero">
+        <div>
+          <p class="eyebrow">EXPERIMENT OBSERVATORY</p>
+          <h1>ShopSimRL <span>Replay</span></h1>
+          <p class="hero-copy">从 run artifact 快速定位整体表现、失败模式，并逐步回放 Agent 的 observation、thinking、tool call 与环境反馈。</p>
+        </div>
+        <div class="replay-state" aria-live="polite">
+          <span class="status-dot" id="loadDot"></span>
+          <div>
+            <strong id="loadLabel">等待选择实验</strong>
+            <small id="loadMeta">manifest · summary · traces</small>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="panel run-loader">
+          <form id="runForm" class="run-form">
+            <label>
+              <span>Run directory</span>
+              <input
+                id="runPath"
+                name="runPath"
+                list="recentRuns"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="runs\qwen35-4b-test-0830"
+                required
+              >
+              <datalist id="recentRuns"></datalist>
+            </label>
+            <button class="button button-primary" id="loadRun" type="submit">载入实验</button>
+            <button class="button button-quiet" id="refreshRun" type="button" disabled>刷新</button>
+          </form>
+          <p class="form-message" id="runMessage" role="status">可输入 experiment 名称、runs 下的相对路径或 runs 内的绝对路径。</p>
+        </section>
+
+        <section id="emptyState" class="empty-dashboard panel">
+          <p class="section-kicker">READY</p>
+          <h2>选择一批实验轨迹</h2>
+          <p>加载后会显示覆盖率、奖励、成功率、终止原因、错误分布和每个 task 的可检索索引。</p>
+        </section>
+
+        <div id="dashboard" hidden>
+          <section class="run-heading panel">
+            <div>
+              <p class="section-kicker">ACTIVE RUN</p>
+              <h2 id="runName">—</h2>
+              <code id="runLocation">—</code>
+            </div>
+            <div class="artifact-strip" id="artifactStrip"></div>
+          </section>
+
+          <section class="progress-panel panel">
+            <div class="progress-copy">
+              <div>
+                <span id="progressLabel">0 / 0 EPISODES</span>
+                <strong id="progressPercent">0%</strong>
+              </div>
+              <small id="traceDiagnostics">等待轨迹索引</small>
+            </div>
+            <div class="progress-track" aria-hidden="true"><i id="progressFill"></i></div>
+          </section>
+
+          <section class="metric-grid" id="metricGrid"></section>
+
+          <div class="analysis-grid">
+            <section class="panel distribution-panel">
+              <div class="section-heading compact">
+                <div>
+                  <p class="section-kicker">OUTCOMES</p>
+                  <h2>终止原因</h2>
+                </div>
+              </div>
+              <div class="distribution-list" id="terminationChart"></div>
+            </section>
+
+            <section class="panel distribution-panel">
+              <div class="section-heading compact">
+                <div>
+                  <p class="section-kicker">FAILURES</p>
+                  <h2>错误类型与阶段</h2>
+                </div>
+              </div>
+              <div class="distribution-list" id="errorChart"></div>
+            </section>
+
+            <section class="panel config-panel">
+              <div class="section-heading compact">
+                <div>
+                  <p class="section-kicker">MANIFEST</p>
+                  <h2>实验配置</h2>
+                </div>
+              </div>
+              <dl class="config-list" id="configList"></dl>
+              <details class="json-disclosure">
+                <summary>完整 manifest</summary>
+                <pre id="manifestRaw">{}</pre>
+              </details>
+              <details class="json-disclosure">
+                <summary>落盘 summary</summary>
+                <pre id="summaryRaw">未生成 summary.json</pre>
+              </details>
+            </section>
+          </div>
+
+          <section class="panel episode-panel">
+            <div class="section-heading episode-heading">
+              <div>
+                <p class="section-kicker">EPISODE INDEX</p>
+                <h2>任务轨迹</h2>
+              </div>
+              <span class="result-count" id="resultCount">0 episodes</span>
+            </div>
+
+            <form class="filter-bar" id="filterForm">
+              <label class="search-field">
+                <span>搜索</span>
+                <input id="episodeSearch" type="search" placeholder="task ID、episode、任务描述或错误">
+              </label>
+              <label>
+                <span>状态</span>
+                <select id="statusFilter">
+                  <option value="">全部</option>
+                  <option value="completed">Completed</option>
+                  <option value="failed">Failed</option>
+                </select>
+              </label>
+              <label>
+                <span>终止原因</span>
+                <select id="terminationFilter"><option value="">全部</option></select>
+              </label>
+              <label>
+                <span>排序</span>
+                <select id="sortEpisodes">
+                  <option value="task">Task ID</option>
+                  <option value="reward-asc">Reward ↑</option>
+                  <option value="reward-desc">Reward ↓</option>
+                  <option value="steps-desc">Steps ↓</option>
+                  <option value="duration-desc">Duration ↓</option>
+                </select>
+              </label>
+            </form>
+
+            <div class="episode-table-wrap">
+              <table class="episode-table">
+                <thead>
+                  <tr>
+                    <th>Episode</th>
+                    <th>Status</th>
+                    <th>Reward</th>
+                    <th>Termination / Error</th>
+                    <th>Steps</th>
+                    <th>Tokens</th>
+                    <th>Duration</th>
+                  </tr>
+                </thead>
+                <tbody id="episodeRows"></tbody>
+              </table>
+            </div>
+            <div class="table-empty" id="tableEmpty" hidden>没有符合当前筛选条件的轨迹。</div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <dialog class="episode-dialog" id="episodeDialog">
+      <article class="episode-detail">
+        <header class="detail-header">
+          <div>
+            <p class="section-kicker">AGENT REPLAY</p>
+            <h2 id="detailTitle">Episode</h2>
+            <p id="detailSubtitle">—</p>
+          </div>
+          <button class="dialog-close" id="closeDialog" type="button" aria-label="关闭回放">×</button>
+        </header>
+        <div id="detailLoading" class="detail-loading">正在读取完整轨迹…</div>
+        <div id="detailBody" hidden>
+          <section class="detail-metrics" id="detailMetrics"></section>
+          <section class="detail-context">
+            <div>
+              <p class="section-kicker">TASK</p>
+              <h3>任务与初始观察</h3>
+              <p class="task-instruction" id="detailInstruction">—</p>
+              <details open>
+                <summary>初始 observation</summary>
+                <pre id="detailInitialObservation"></pre>
+              </details>
+            </div>
+            <details>
+              <summary>用户 Persona</summary>
+              <pre id="detailPersona">{}</pre>
+            </details>
+          </section>
+
+          <section class="timeline-section">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">TIMELINE</p>
+                <h3>Agent 交互记录</h3>
+              </div>
+            </div>
+            <ol class="replay-timeline" id="replayTimeline"></ol>
+          </section>
+
+          <section class="final-section" id="finalSection"></section>
+
+          <section class="raw-trace-section">
+            <details>
+              <summary>Conversation messages</summary>
+              <div class="conversation-list" id="conversationList"></div>
+            </details>
+            <details>
+              <summary>完整 episode JSON</summary>
+              <pre id="episodeRaw"></pre>
+            </details>
+          </section>
+
+          <section class="outcome-comparison" id="outcomeComparison" aria-labelledby="outcomeComparisonTitle">
+            <div class="outcome-comparison-loading">正在整理目标商品与实际购买结果…</div>
+          </section>
+        </div>
+      </article>
+    </dialog>
+
+    <script src="/debug-ui/replay.js" defer></script>
+  </body>
+</html>

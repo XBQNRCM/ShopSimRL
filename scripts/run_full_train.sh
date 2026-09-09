@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 4-GPU DP training: 100 rollout steps, gate (bare + masked val) every 20.
+# 4-GPU training: 80 rollout steps, gate (bare + masked val) every 20.
 # Keeps only the latest Megatron checkpoint.
 # Resume after a finished slime round (ckpt saved, val/gate not run), e.g.:
 #   RESUME_ROUND=1 bash scripts/run_full_train.sh
@@ -49,7 +49,7 @@ export LOG_PROBS_CHUNK_SIZE="${LOG_PROBS_CHUNK_SIZE:-1024}"
 export SAVE_INTERVAL="${SAVE_INTERVAL:-10000}"
 export USE_WANDB="${USE_WANDB:-1}"
 export WANDB_PROJECT="${WANDB_PROJECT:-shopsimrl}"
-export WANDB_GROUP="${WANDB_GROUP:-qwen35-4b-train-100}"
+export WANDB_GROUP="${WANDB_GROUP:-qwen35-4b-train-80}"
 export WANDB_MODE="${WANDB_MODE:-online}"
 export WANDB_DIR="${WANDB_DIR:-${PROJECT_ROOT}/runs/wandb}"
 export HF_CHECKPOINT="${HF_CHECKPOINT:-/root/autodl-tmp/models/Qwen3.5-4B}"
@@ -59,7 +59,7 @@ export MEGATRON_PATH="${MEGATRON_PATH:-/root/Megatron-LM}"
 export SHOPSIM_ENV_SLOTS="${SHOPSIM_ENV_SLOTS:-48}"
 export SHOPSIM_PORT="${SHOPSIM_PORT:-5700}"
 STEPS_PER_ROUND="${STEPS_PER_ROUND:-20}"
-NUM_ROUNDS="${NUM_ROUNDS:-5}"
+NUM_ROUNDS="${NUM_ROUNDS:-4}"
 RESUME_ROUND="${RESUME_ROUND:-0}"
 SGLANG_PORT="${SGLANG_PORT:-30000}"
 SHOPSIM_HEALTH="http://127.0.0.1:${SHOPSIM_PORT}/healthz"

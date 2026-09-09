@@ -1,0 +1,4 @@
+-r shop_env/requirements.txt
+openai>=1.0,<3
+PyYAML>=6.0
+requests>=2.28

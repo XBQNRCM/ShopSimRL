@@ -1,0 +1,35 @@
+{
+  "base_free": {
+    "attempt_status_counts": {
+      "failed": 21,
+      "completed": 400
+    },
+    "completed_unique": 400,
+    "trace_sha256": "c65c65d742095511d988464a51622f2d77590de33652c63edfca96e1f05bef54",
+    "summary_recomputed": true
+  },
+  "base_s0": {
+    "attempt_status_counts": {
+      "completed": 400
+    },
+    "completed_unique": 400,
+    "trace_sha256": "bdd518deda2e2ed17793c70c4b34bdc2581647fe65e7f47c4445be98b0d85fd9",
+    "summary_recomputed": true
+  },
+  "iter80_free": {
+    "attempt_status_counts": {
+      "completed": 400
+    },
+    "completed_unique": 400,
+    "trace_sha256": "b48048e3bb50c929bab984ce892015ab25fdb3d30d0ec1886efd9e294e0ec41c",
+    "summary_recomputed": true
+  },
+  "iter80_st": {
+    "attempt_status_counts": {
+      "completed": 400
+    },
+    "completed_unique": 400,
+    "trace_sha256": "ca7aa50cce79cac046e06eb868c80ab15fb05dd0735748cc84a3fbdcdfc59ea2",
+    "summary_recomputed": true
+  }
+}

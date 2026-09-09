@@ -17,6 +17,10 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 
+# Static project-page build
+_site/
+.DS_Store
+
 # Released excerpts must be trackable
 !artifacts/
 !artifacts/**

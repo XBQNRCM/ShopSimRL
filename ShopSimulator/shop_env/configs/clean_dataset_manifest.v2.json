@@ -1,0 +1,39 @@
+{
+  "active_task_count": 22726,
+  "annotation_version": "qwen-persona-price-upper-v3",
+  "api_url": "https://api.siliconflow.cn/v1/chat/completions",
+  "cleaned_product_count": 22726,
+  "excluded_product_count": 695,
+  "excluded_task_count": 695,
+  "exclusions_sha256": "6ab0621015920a7c9ec2503d9264e892918ca4c43beb6c8b7f2bf7332499563f",
+  "model": "Qwen/Qwen3.5-27B",
+  "output_archive": "fine_items_eval_train_all.cleaned.v2.json.gz",
+  "output_archive_sha256": "e57a81c2f37c13d706adb31c758f58a33587d1c4f80a2f34148956901b07cc64",
+  "output_data_sha256": "00d5285b6aca5ade54465e1522821c869c1d5ff5cae6385cea3889a46bb26975",
+  "persona_annotation_kind_counts": {
+    "ambiguous": 2,
+    "approximate_upper": 2752,
+    "hard_upper": 1578,
+    "lower_only": 17,
+    "no_budget": 123,
+    "non_total_price": 52,
+    "runtime_regex_fallback": 2
+  },
+  "persona_llm_task_count": 4524,
+  "persona_price_audit_sha256": "bfa0b4289aec1ccf410c44bd5fa0b5c39d4a8466d701783ba3fca5f4263492ac",
+  "persona_runtime_regex_task_count": 2,
+  "persona_runtime_regex_task_ids": [
+    3446,
+    4436
+  ],
+  "persona_task_count": 4526,
+  "prompt_sha256": "7e7735f697beb0fc3f99f6606e028a88f64008ad62c6204ca141f37d19bf5540",
+  "schema_version": "shopsimulator-cleaned-v2",
+  "source_archive": "fine_items_eval_train_all.raw.json.gz",
+  "source_archive_sha256": "f51c33217061479f9c95a1068621fcd38e4883ae3d2f6a1627037bea934f2125",
+  "source_product_count": 23421,
+  "source_task_count": 23421,
+  "standard_regex_task_count": 18200,
+  "task_splits_sha256": "7dde253e9cdcb2b7d1e7802fb172437717955f018c7408905bdb8a475bfefe60",
+  "variant_price_version": "variant-price-paper-v2"
+}

@@ -1,6 +1,8 @@
 # 基于 slime 的训练链路
 
-当前实现把 proposal 中的快、慢两层时间尺度分开：slime 负责同一 checkpoint 内的 GRPO rollout/update；Trace2Skill failure analysis 与 randomized validation 在一个有限训练 round 结束后运行。两条链路共享冻结、带哈希的 curriculum / candidate-pool / assignment 状态，不修改 slime 核心代码。
+当前实现把 proposal 中的快、慢两层时间尺度分开：slime 负责同一 checkpoint 内的 GRPO rollout/update；Trace2Skill failure analysis 与 randomized validation 在一个有限训练 round 结束后运行。两条链路共享冻结、带哈希的 curriculum / candidate-pool / assignment 状态，通过 slime 的扩展点接入。
+
+本次已发布实验为四轮、80 个 rollout step，最终 checkpoint 为 Iter80；结果与局限见 [实验报告](experiment_report.md)。以下操作面向新的训练运行，历史运行目录不应覆盖。
 
 ## 1. 数据与初始 curriculum
 
@@ -12,35 +14,23 @@ python scripts\run_shopsimrl.py training prepare-data `
   train data\shopsim_train.jsonl
 ```
 
-冷启动使用最新 paired-delta validation 入选的 10 条 chunk。仓库发布副本在 `artifacts/cold-start/`（`run_full_train.sh` 与 `configs/slime_shopsimrl.yaml` 默认读取这里）。当前工作区的历史 `gate-a` 是旧的 masked-only 带截距估计（7 条入选），不能作为本次初始化。最新 selection 的 ID、完整文本和系数已从 positive run 的全部 422 条 context 记录中核对恢复，保存至 `paired-delta-recovered/selected_skillbank.json` 和 `selected_skill.md`；记录的文本同时与冷启动 draft 核对一致。恢复脚本只读取已冻结的 skill context，不读取 test reward/success 来重选：
+本次运行使用已发布的 10-chunk S₀：`artifacts/cold-start/selected_skillbank.json`，与 `artifacts/cold-start/curriculum.json` 配套。默认 q=0.20、rho 范围 [0.20, 0.90]；首轮离线检查可以直接使用这对冻结输入。S₀ 来自历史冻结上下文恢复，未使用测试 reward 重新选择，也没有伪装为新完成的 Gate A，见 [来源说明](provenance.md)。
+
+需要为新实验改变 q/rho 时，显式冻结新的 curriculum 并同步配置路径：
 
 ```powershell
-python scripts\archive\recover_paired_skillbank.py `
-  --comparison runs\qwen35-4b-test-paired-delta-positive-vs-negative\comparison.json `
-  --positive-run runs\qwen35-4b-test-paired-delta-positive `
-  --draft-skillbank runs\qwen35-4b-train-0830\trace2skill-cold-start\initial_skillbank.json `
-  --output-dir runs\qwen35-4b-train-0830\trace2skill-cold-start\paired-delta-recovered
+python scripts/run_shopsimrl.py training build-curriculum `
+  artifacts/cold-start/selected_skillbank.json `
+  runs/new-experiment/curriculum.json `
+  --round-id round-000 --skill-free-probability 0.20 `
+  --rho-min 0.20 --rho-max 0.90
 ```
 
-`recovery_manifest.json` 保留原 run 的 SkillBank identity 和恢复产物的新 hash；它不是重新运行的 gate manifest。本地没有配置中 `qwen35-4b-val-thinking-tools-v1` 的 bare validation，已有 `qwen35-4b-val` 的 model identity 也不匹配历史 masked run，因此没有绕过校验重拟合，也没有把恢复目录伪装成 `gate-a-paired` 的完整实验产物。
-
-随后从这份 active SkillBank 冻结第一轮 curriculum（pre-validation draft 不能用于训练）：
-
-```powershell
-python scripts\run_shopsimrl.py training build-curriculum `
-  runs\qwen35-4b-train-0830\trace2skill-cold-start\paired-delta-recovered\selected_skillbank.json `
-  runs\qwen35-4b-train-0830\trace2skill-cold-start\paired-delta-recovered\curriculum.json `
-  --round-id round-000 `
-  --skill-free-probability 0.20 `
-  --rho-min 0.20 `
-  --rho-max 0.90
-```
-
-`q`、`rho_min`、`rho_max` 是显式实验参数。Proposal 没有规定唯一的 q controller，因此代码不把某个未经验证的自动控制器写死。默认 rho 映射是记录在 state 中的 clipped linear mapping；不传 `--contribution-scale` 时，本轮最大正贡献映射到 `rho_max`。Gate 仍独占 chunk admission/retirement 权限，curriculum builder 不会重新接纳非正贡献内容。
+默认 rho 映射为 clipped linear mapping；不传 `--contribution-scale` 时，本轮最大正贡献映射到 `rho_max`。本次 q 固定不变，没有运行自动 q controller。Gate 独占 chunk admission/retirement 权限，curriculum builder 不会重新接纳非正贡献内容。
 
 每个 curriculum JSON 同时嵌入 active chunks、contribution、rho、q、来源 SkillBank hash 与映射参数。rollout worker 会校验 `state_id`，文件内容被修改但 hash 未更新时直接失败。
 
-2026-09-03 的链路检查已生成上述首轮输入：3726 个冻结 train task、10 个 chunks，q=0.20、rho 范围 [0.20, 0.90]。这组参数沿用本文示例，用于后续 smoke 准备，正式算法讨论后可以重新冻结。`data/` 和 `runs/` 被 Git 忽略，换训练机器时需要同步这些产物或运行上述命令重建；不能只同步代码。
+`training prepare-data` 生成 3726 个冻结 train task。`data/` 和 `runs/` 被 Git 忽略，换机器时需要重建任务数据，并配置模型权重与服务；发布的初始 SkillBank/curriculum 已随仓库提供。
 
 ## 2. slime rollout 与 GRPO 语义
 
@@ -171,7 +161,7 @@ Gate 完成后输出 `mask_assignments.json`、通用 evaluator traces/summary�
 
 用新 gate 的 `selected_skillbank.json` 显式选择下一轮 q/rho 参数并构建新的 curriculum，然后让 slime 从对应 checkpoint 继续一个有限 round。
 
-注意 slime 的 `NUM_ROLLOUT` 是累计结束位置，不是本轮增量。正式 100-step 跑法是 5 段、每段 20 step：`NUM_ROLLOUT` 依次为 21、41、…、101（转换后的 ckpt 从 `start_rollout_id=1` 起）。每段结束后从已保存 checkpoint 继续，并更新 SkillBank / curriculum / `round_id` 与评测的 checkpoint identity。仍填上一段的结束值会使循环为空。`run_shopsimrl_slime.sh` 打开 `--override-opt-param-scheduler`，允许后一段用更大的 `NUM_ROLLOUT` 覆盖 checkpoint 里的 scheduler 总步数。
+注意 slime 的 `NUM_ROLLOUT` 是累计结束位置，不是本轮增量。当前默认及本次完整主实验为 4 段、每段 20 step：`NUM_ROLLOUT` 依次为 21、41、61、81（转换后的 ckpt 从 `start_rollout_id=1` 起）。早期脚本默认五轮、100 step；若要重用这一计划可显式设置 `NUM_ROUNDS=5`。每段结束后从已保存 checkpoint 继续，并更新 SkillBank / curriculum / `round_id` 与评测的 checkpoint identity。仍填上一段的结束值会使循环为空。`run_shopsimrl_slime.sh` 打开 `--override-opt-param-scheduler`，允许后一段用更大的 `NUM_ROLLOUT` 覆盖 checkpoint 里的 scheduler 总步数。
 
 完整循环为：
 

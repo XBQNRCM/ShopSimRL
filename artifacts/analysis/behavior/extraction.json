@@ -1,0 +1,52 @@
+{
+  "schema_version": "shopsimrl-behavior-extraction-v1",
+  "train_files": 20480,
+  "train_turns": 110997,
+  "train_manifest_sha256": "e61784f7d981008acbb4e3a4e00b30fc3bf44a44fd2423836529752b795572dd",
+  "tokenizer": {
+    "source": "https://huggingface.co/Qwen/Qwen3.5-4B/resolve/main/tokenizer.json",
+    "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+    "tokenizers_version": "0.20.1",
+    "add_special_tokens": false,
+    "basis": "re-encoding saved raw_output, NOT original sampled token IDs",
+    "matches_training_tokenizer_hash": "unverified; historical tokenizer hash not recorded"
+  },
+  "eval_sources": {
+    "val_base": {
+      "source": "runs/qwen35-4b-val-base-free/traces.jsonl",
+      "sha256": "4ce37ba2e4babf418a0d9958786b6348f6af9d93fc01514970b55d8ed9e6e8e4"
+    },
+    "val_20": {
+      "source": "runs/round-000-bare-val/traces.jsonl",
+      "sha256": "1d332ffde24c40ab1b8b0a7162c61a6ff9fc47a9cc9217586def2aed67ecc7ee"
+    },
+    "val_40": {
+      "source": "runs/round-001-bare-val/traces.jsonl",
+      "sha256": "80fb5c17753a89861683c6f696e345dcb1cb79217fc5729bfc32c296cc40ffd3"
+    },
+    "val_60": {
+      "source": "runs/round-002-bare-val/traces.jsonl",
+      "sha256": "5760c541078a97225b9f3a70cb3b6e903e851f37f6e8745e788ceeef5d3d5fa0"
+    },
+    "val_80": {
+      "source": "runs/round-003-bare-val/traces.jsonl",
+      "sha256": "f3a187152a0a766436be8600f33418606a87f0743ddec1f190a285df34bc8df3"
+    },
+    "test_base_free": {
+      "source": "runs/qwen35-4b-test-base-free/traces.jsonl",
+      "sha256": "c65c65d742095511d988464a51622f2d77590de33652c63edfca96e1f05bef54"
+    },
+    "test_base_s0": {
+      "source": "runs/qwen35-4b-test-base-s0/traces.jsonl",
+      "sha256": "bdd518deda2e2ed17793c70c4b34bdc2581647fe65e7f47c4445be98b0d85fd9"
+    },
+    "test_iter80_free": {
+      "source": "runs/qwen35-4b-test-iter80-free/traces.jsonl",
+      "sha256": "b48048e3bb50c929bab984ce892015ab25fdb3d30d0ec1886efd9e294e0ec41c"
+    },
+    "test_iter80_st": {
+      "source": "runs/qwen35-4b-test-iter80-st/traces.jsonl",
+      "sha256": "ca7aa50cce79cac046e06eb868c80ab15fb05dd0735748cc84a3fbdcdfc59ea2"
+    }
+  }
+}

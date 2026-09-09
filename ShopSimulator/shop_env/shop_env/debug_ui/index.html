@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="ShopSimulator Agent 视角环境调试界面">
+    <title>ShopSimulator · Agent View</title>
+    <link rel="stylesheet" href="/debug-ui/styles.css">
+  </head>
+  <body>
+    <div class="page-shell">
+      <nav class="product-nav" aria-label="调试工具">
+        <a class="active" href="/debug-ui">Agent View</a>
+        <a href="/replay-ui">Experiment Replay</a>
+      </nav>
+
+      <header class="hero">
+        <div>
+          <p class="eyebrow">ENVIRONMENT INSPECTOR</p>
+          <h1>ShopSimulator <span>Agent View</span></h1>
+          <p class="hero-copy">像 Agent 一样操作环境，逐步核对 observation、可用动作与最终奖励。</p>
+        </div>
+        <div class="service-status" aria-live="polite">
+          <span class="status-dot" id="healthDot"></span>
+          <div>
+            <strong id="healthLabel">正在连接环境</strong>
+            <small id="healthMeta">127.0.0.1</small>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="setup-card panel">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">01 / SESSION</p>
+              <h2>启动任务</h2>
+            </div>
+            <span class="session-badge" id="sessionBadge">未启动</span>
+          </div>
+          <form id="resetForm" class="setup-form">
+            <label>
+              <span>Task ID</span>
+              <input id="taskId" name="taskId" type="number" min="0" value="1400" required>
+            </label>
+            <label>
+              <span>任务呈现</span>
+              <select id="taskMode" name="taskMode">
+                <option value="persona" selected>Persona</option>
+                <option value="standard">Standard</option>
+              </select>
+            </label>
+            <label>
+              <span>交互模式</span>
+              <select id="interactionMode" name="interactionMode">
+                <option value="single_turn" selected>Single turn · 30</option>
+                <option value="multi_turn">Multi turn · 40</option>
+              </select>
+            </label>
+            <div class="setup-actions">
+              <button class="button button-primary" id="startButton" type="submit">启动 / 重置</button>
+              <button class="button button-quiet" id="releaseButton" type="button" disabled>释放槽位</button>
+            </div>
+          </form>
+          <p class="form-message" id="formMessage" role="status"></p>
+        </section>
+
+        <div class="workspace-grid">
+          <div class="primary-column">
+            <section class="panel observation-panel">
+              <div class="section-heading compact">
+                <div>
+                  <p class="section-kicker">02 / OBSERVATION</p>
+                  <h2>Agent 当前所见</h2>
+                </div>
+                <span class="turn-counter" id="turnCounter">RESET</span>
+              </div>
+
+              <div class="context-grid" id="contextGrid" hidden>
+                <div>
+                  <span class="data-label">可见任务</span>
+                  <p id="visibleInstruction"></p>
+                </div>
+                <details>
+                  <summary>用户 Persona</summary>
+                  <pre id="personaOutput"></pre>
+                </details>
+              </div>
+
+              <div class="observation-window">
+                <div class="window-bar">
+                  <span>canonical observation · rendered from observation_state</span>
+                  <button class="text-button" id="copyObservation" type="button">复制</button>
+                </div>
+                <pre id="observationOutput">启动任务后，这里将原样显示环境返回给 Agent 的 observation。</pre>
+              </div>
+
+              <details class="json-disclosure">
+                <summary>结构化 observation_state</summary>
+                <pre id="stateOutput">{}</pre>
+              </details>
+            </section>
+
+            <section class="panel action-panel">
+              <div class="section-heading compact">
+                <div>
+                  <p class="section-kicker">03 / ACTION</p>
+                  <h2>执行 Agent 动作</h2>
+                </div>
+                <span class="protocol-label">search[…] · click[…]</span>
+              </div>
+              <form id="actionForm" class="command-form">
+                <span class="prompt-mark" aria-hidden="true">›</span>
+                <input
+                  id="actionInput"
+                  type="text"
+                  autocomplete="off"
+                  spellcheck="false"
+                  placeholder="例如：search[大漏斗]"
+                  aria-label="Agent 动作"
+                  disabled
+                >
+                <button class="button button-primary" id="sendButton" type="submit" disabled>执行</button>
+              </form>
+              <p class="command-hint">手动输入可检查动作解析；下方快捷动作使用环境返回的精确值。</p>
+              <div class="available-actions" id="availableActions">
+                <span class="empty-hint">暂无可用动作</span>
+              </div>
+            </section>
+
+            <section class="panel raw-panel">
+              <details>
+                <summary>
+                  <span>当前 API 原始结果</span>
+                  <small>未经 UI 改写</small>
+                </summary>
+                <pre id="rawOutput">{}</pre>
+              </details>
+            </section>
+          </div>
+
+          <aside class="secondary-column">
+            <section class="panel reward-panel" id="rewardPanel" hidden>
+              <div class="reward-hero">
+                <div>
+                  <p class="section-kicker">FINAL / REWARD</p>
+                  <h2>购买结果</h2>
+                </div>
+                <div class="reward-score">
+                  <span>PRIMARY</span>
+                  <strong id="primaryReward">0</strong>
+                </div>
+              </div>
+              <div class="purchase-match" id="purchaseMatch"></div>
+              <dl class="reward-grid" id="rewardGrid"></dl>
+              <details class="json-disclosure reward-json">
+                <summary>完整 reward_detail</summary>
+                <pre id="rewardRaw"></pre>
+              </details>
+            </section>
+
+            <section class="panel trajectory-panel">
+              <div class="section-heading compact">
+                <div>
+                  <p class="section-kicker">TRACE</p>
+                  <h2>本轮轨迹</h2>
+                </div>
+                <button class="text-button" id="clearTrace" type="button">清空显示</button>
+              </div>
+              <ol class="trace-list" id="traceList">
+                <li class="trace-empty">启动任务后记录每次环境调用。</li>
+              </ol>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script src="/debug-ui/app.js" defer></script>
+  </body>
+</html>

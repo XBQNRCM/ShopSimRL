@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@4.0.3/css/font-awesome.min.css	">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="icon" href="data:,">
+  </head>
+  <body>
+    <div class="container py-5">
+      <div class="row top-buffer">
+        <div class="col-sm-6">
+          <div id="instruction-text" class="text-center">
+           <h4>Instruction:<br>{{ instruction_text }}</h4>
+          <!-- <h4>Instruction:<br>{{product_info.instruction_text}}</h4> -->
+          </div>
+        </div>
+      </div>
+      <div class="row top-buffer">
+        <form method="post" action="{{url_for('index', session_id=session_id)}}">
+          <button type="submit" class="btn btn-success">Back to Search</button>
+        </form>
+      </div>
+      <div class="row top-buffer">
+        <form method="post" action="{{url_for('search_results', session_id=session_id, keywords=keywords, page=page)}}">
+          <button type="submit" class="btn btn-primary">&lt; Prev</button>
+        </form>
+      </div>
+      <div class="row top-buffer">
+        <div class="col-md-4 mb-4 mb-md-0">
+          <div class="row top-buffer">
+            <img id="product-image" src="{{product_info.MainImage}}" class="item-page-img">
+          </div>
+          {% for option_name, option_contents in product_info.options.items() %}
+            <div class="row top-buffer">
+              <h4>{{ option_name }}</h4>
+              <div class="radio-toolbar">
+                {% for option_content in option_contents %}
+                  {% set current_options = options.copy() %}
+                  {% set _ = current_options.update({option_name: option_content}) %}
+                  {% set url = url_for('item_page', session_id=session_id, asin=asin, keywords=keywords, page=page, options=current_options) %}
+                  <button class="attr-option-btn">
+                    <input type="radio" id="radio_{{ option_name }}{{ loop.index0 }}" name="{{ option_name }}" value="{{ option_content }}" data-url="{{ url }}"{% if options.get(option_name) == option_content %} checked{% endif %}>
+                    <label for="radio_{{ option_name }}{{ loop.index0 }}">{{ option_content }}</label>
+                  </button>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="col-md-6">
+          <h2>{{product_info.Title}}</h2>
+          <h4 id="product-price">价格: {{ selected_price if selected_price is not none else product_info.Price }}</h4>
+          <h4>店铺: {{product_info.shop_name}}</h4>
+          {% if options %}
+          <div id="selected-options">
+            <h4>已选择规格</h4>
+            <ul>
+              {% for option_name, option_value in options.items() %}
+              <li>{{ option_name }}：{{ option_value }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          {% if missing_option_axes %}
+          <div id="missing-option-axes">
+            <h4>尚未选择规格轴</h4>
+            <p>{{ missing_option_axes | join('、') }}</p>
+          </div>
+          {% endif %}
+          <!-- <h4 id="product-price">价格: {{price}}</h4> -->
+<!--          <h4>Rating: {{product_info.Rating}}</h4>>-->
+          {% if show_attrs %}
+          <div class="row top-buffer">
+            <div class="col-sm-3" name="attributes">
+              <form method="post" action="{{ url_for('item_sub_page', session_id=session_id, asin=asin, keywords=keywords, page=page, sub_page='Attributes', options=options) }}">
+                <button class="btn btn-primary" type="submit">Attributes</button>
+              </form>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <div class="col-sm-2">
+          <div class="row top-buffer">
+            {% if options_complete %}
+            <form method="post" action="{{url_for('done', session_id=session_id, asin=asin, options=options )}}">
+              <button type="submit" class="btn btn-lg purchase">Buy Now</button>
+            </form>
+            {% else %}
+            <p>请选择全部规格后购买</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    $(document).ready(function() {
+      $('input:radio').each(function() {
+        // reload with updated options
+        this.addEventListener("click", function() {
+          window.location.href = this.dataset.url;
+        });
+
+      });
+    });
+  </script>
+</html>

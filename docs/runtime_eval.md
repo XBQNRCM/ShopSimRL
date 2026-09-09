@@ -1,7 +1,7 @@
-# ShopSimRL 代码规划：Agent Runtime 与评测流水线
+# Agent Runtime 与评测流水线
 
-> 状态：v0.1，首版基础设施已落地
-> 对应研究设计：`docs/proposal.md` v0.2
+> 状态：已实现；本文保留初始架构说明，最终实验入口与结果见 [文档导航](README.md) 和 [实验报告](experiment_report.md)
+> 对应研究设计：[proposal.md](proposal.md)
 > 当前范围：ShopSimulator single-turn / personalization、随机轨迹采样、离线 trace 分析、Skill 接入和 checkpoint 评测
 
 ## 1. 结论与现状判断
@@ -91,7 +91,7 @@ configs/
   archive/          # SiliconFlow 0830 与未使用模板
 
 docs/
-  code_plan.md
+  runtime_eval.md
 
 tests/
   test_runtime.py
@@ -99,7 +99,7 @@ tests/
   test_tasks_and_skills.py
 ```
 
-后续模块在证据和需求出现后再增加，建议名称如下：
+以下为早期可选目录规划；当前训练与分析已经分别实现在 `slime_runtime.py`、`training_analysis.py`、`online_validation.py` 等平铺模块中，不需要创建这些目录即可运行：
 
 ```text
 shopsimrl/analysis/       # 规则标签、错误 taxonomy、trace 查询与导出

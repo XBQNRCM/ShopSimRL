@@ -6,6 +6,8 @@
 > - 核心产物：共同演化的一对 `(final model checkpoint, final skill)`
 > - 本文边界：聚焦问题定义、方法机制与文献定位；不展开工程实现、训练配置、实验方案或消融设计。
 
+> 实验实现对照：本次结果见 [experiment_report.md](experiment_report.md)。实际 q 固定为 0.20，failure frontier 使用 all-wrong 判定；本文更一般的前沿或自适应控制讨论属于方法设计空间，不是已完成实验的设置。
+
 ## 0. 核心想法
 
 本项目研究一种 **skill 与模型共同演化** 的 agentic RL 范式。它不把 ShopSimulator 中的不同商品类目视为不同技能，而把整个“个性化购物”视为一个任务族，并为这个任务族维护一个统一的 skill。真正需要动态选择、评估和更新的，不是多个彼此近似的 skill 文件，而是同一个 skill 内部承担不同程序性作用的 **skill chunks**。

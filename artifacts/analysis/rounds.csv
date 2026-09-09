@@ -1,0 +1,5 @@
+round,step,q,input_chunks,selected_chunks,candidate_count,eligible_cards,analyzed_cards,group_count,generated_episodes,all_wrong_groups,trainer_episodes,gate_refit_max_error
+0,20,0.2,10,7,6,61,87,640,5120,104,2560,1.5092094240998222e-16
+1,40,0.2,7,5,6,22,56,640,5120,57,2560,1.8735013540549517e-16
+2,60,0.2,5,8,6,20,53,640,5120,54,2560,6.591949208711867e-17
+3,80,0.2,8,8,4,11,39,640,5120,39,2560,1.3183898417423734e-16

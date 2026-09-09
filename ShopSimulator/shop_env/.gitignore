@@ -1,0 +1,16 @@
+# Generated from the bundled compressed product corpus.
+data/*.json
+data/*.preparing
+!data/*.json.gz
+
+# Reproducible local search artifacts.
+search_engine/
+
+# Runtime and Python artifacts.
+**/__pycache__/
+*.py[cod]
+*.log
+*.install.log
+.pytest_cache/
+data/price_annotations.*.jsonl
+shop_env/logs/

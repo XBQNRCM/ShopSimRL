@@ -98,8 +98,8 @@ bash scripts/run_shopsimrl_slime.sh
 | `rollout/shopsim/rho_min` | active chunks 中最小 rho |
 | `rollout/shopsim/rho_mean` | active chunks 的 rho 算术均值 |
 | `rollout/shopsim/rho_max` | active chunks 中最大 rho |
-| `rollout/shopsim/skill_free_group_rate` | 当前接受 groups 中实际命中 skill-free 的比例 |
-| `rollout/shopsim/assisted_empty_group_rate` | 当前接受 groups 中进入 assisted、但未命中任何 chunk 的比例 |
+| `rollout/shopsim/skill_free_group_rate` | 全部已完成生成 groups 中实际命中 skill-free 的比例 |
+| `rollout/shopsim/assisted_empty_group_rate` | 全部已完成生成 groups 中进入 assisted、但未命中任何 chunk 的比例 |
 | `rollout/shopsim/skills_per_assisted_group_mean` | 非 skill-free groups 中注入 chunk 数的均值；包含 assisted-empty |
 | `rollout/shopsim/chunk/<chunk-id>/target_rho` | 该 chunk 在 assisted 分支的目标 rho |
 | `rollout/shopsim/chunk/<chunk-id>/inclusion_rate` | 该 chunk 在当前 assisted groups 中的实际入选率 |
@@ -110,18 +110,18 @@ bash scripts/run_shopsimrl_slime.sh
 
 | 指标 | 定义 |
 |---|---|
-| `rollout/shopsim/all_wrong_group_rate` | 所有 sibling 都可评分且 `r_success=0` 的 group 比例 |
+| `rollout/shopsim/all_wrong_group_rate` | 在 siblings 全部可评分且 success 数值完整的 groups 中，所有 `r_success=0` 的比例 |
 | `rollout/shopsim/full_skill_retry_rate` | 实际触发 full-skill diagnostic retry 的 group 比例 |
 | `rollout/shopsim/full_skill_retry_success_rate` | 可评分 full-skill retries 中 `r_success=1` 的比例 |
 | `rollout/shopsim/internalization_deficit_rate` | triage 为 `model_internalization_deficit` 的 group 比例 |
 | `rollout/shopsim/pending_analysis_rate` | triage 为 `full_skill_failure_pending_analysis` 的 group 比例 |
-| `rollout/shopsim/runtime_error_group_rate` | 已接受 group 的 diagnostic retry 发生环境/runtime 错误的比例 |
+| `rollout/shopsim/runtime_error_group_rate` | 有 triage 记录的已完成生成 groups 中，标记环境/runtime 错误的比例 |
 | `rollout/shopsim/technical_group_drop_count` | 动态采样期间因训练 trajectory 不可评分而丢弃的 group 数 |
 | `rollout/shopsim/technical_group_drop_rate` | `drop_count / (accepted_groups + drop_count)` |
 | `rollout/shopsim/zero_std_group_drop_count` | 因 sibling reward 全部相同、advantage 恒为 0 而丢弃的 group 数 |
 | `rollout/shopsim/zero_std_group_drop_rate` | `drop_count / (accepted_groups + drop_count)` |
 
-训练 trajectory 本身出现技术错误时，整个 group 会被过滤并补采，所以不会进入前几个 outcome 均值；这类故障应看 `technical_group_drop_*`。`runtime_error_group_rate` 主要覆盖训练 siblings 正常、但额外 diagnostic retry 出错的情况。
+训练 trajectory 本身出现技术错误时，整个 group 会从 trainer 过滤并补采。全量生成监控仍包含其已生成 siblings：不可评分 trajectory 影响 `scored_rate`，但不进入 reward/success 均值；同组可评分 siblings 仍进入全量 outcome 均值。这类故障同时应看 `technical_group_drop_*`。`runtime_error_group_rate` 同时覆盖有 triage 的训练或 diagnostic retry 技术错误，不能只解释为 retry 错误。
 
 sibling reward 全部相同的 group 对 GRPO 没有梯度贡献。reward 的比较按 `rollout_id` 去重，fan-out 分段不算多个样本。`over_sampling_batch_size=32` 时第一波有富余，`remaining>16` 的 zero-std 会真丢；只在手里已经不够再采时才放行。所以 `zero_std_group_drop_rate` 是丢弃率而非 zero-std 发生率。波次、`remaining` 和凑批规则见 [dynamic_sampling_filter.md](dynamic_sampling_filter.md)。两个 drop 指标共用 **进入 trainer 的** accepted 分母，各自只计入自己的丢弃数。all-wrong group 在过滤前就已写出 trace 和 triage，Failure Analyst 不受影响。`reward_mean` / `success_rate` 在全部已完成生成上计算，不被筛选偏向 0.5。
 
@@ -228,7 +228,7 @@ wandb sync /persistent/path/wandb/wandb/offline-run-*
 优先检查以下信号：
 
 - `technical_group_drop_count > 0`：先查看相应训练 trace 的环境、parser 或模型服务错误；这些不是 policy failure；
-- `scored_rate < 1`：接受 batch 中混入不可评分样本，应视为链路错误；
+- `scored_rate < 1`：全量生成中存在不可评分轨迹，需检查技术错误及丢弃补采情况；不等于 trainer 已接受不可评分样本；
 - 实际 skill-free rate 长期偏离 q，或多个 chunk inclusion rate 长期偏离 rho：检查 curriculum identity、group key 和 mask 一致性；
 - `all_wrong_group_rate` 上升但 full-skill retry 大量成功：模型内化不足的证据增强；
 - pending analysis 上升且 eligible cards/candidates 始终为 0：检查 Analyst counterfactual trial、firewall 和 compiler 输出；

@@ -1,0 +1,2 @@
+# Frozen numerical exports include byte-level source hashes; never change their EOLs.
+artifacts/analysis/** -text
